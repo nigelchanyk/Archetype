@@ -1,0 +1,35 @@
+// Alpha_Joints_MAT genrated by blender2ogre 0.5.8
+
+material Alpha_Joints_MAT 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass Alpha_Joints_MAT
+        {
+            ambient 0.6520000100135803 0.756413996219635 0.800000011920929 1.0
+            diffuse 0.5216000157833101 0.6051312059928655 0.6400000190734865 1.0
+            specular 0.12362399697303772 0.35909751057624817 0.4544999897480011 1.0 5.0
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+        }
+    }
+}
