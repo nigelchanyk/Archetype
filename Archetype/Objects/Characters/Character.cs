@@ -21,27 +21,24 @@ namespace Archetype.Objects.Characters
 			Walk
 		}
 
-		public Vector3 EyeHeight { get; private set; }
+		public float EyePitch
+		{
+			get { return _eyePitch; }
+			set
+			{
+				_eyePitch = value.Clamp(-MathHelper.PiOver3, MathHelper.PiOver3);
+				_eyeNode.Orientation = MathHelper.CreateQuaternionFromYawPitchRoll(0, _eyePitch, 0);
+			}
+		}
 		public override Quaternion Orientation
 		{
 			get { return BodyNode.Orientation; }
 			set
 			{
-				BodyNode.Orientation = value;
 				Radian x, y, z;
-				BodyNode.Orientation.ToRotationMatrix().ToEulerAnglesXYZ(out x, out y, out z);
-				_yaw = y.ValueRadians;
-				_pitch = x.ValueRadians;
-				_roll = z.ValueRadians;
+				value.ToRotationMatrix().ToEulerAnglesXYZ(out x, out y, out z);
+				Yaw = x.ValueRadians;
 			}
-		}
-		public float Pitch
-		{
-			get { return _pitch; }
-		}
-		public float Roll
-		{
-			get { return _roll; }
 		}
 		public override Vector3 Position
 		{
@@ -63,6 +60,11 @@ namespace Archetype.Objects.Characters
 		public float Yaw
 		{
 			get { return _yaw; }
+			set
+			{
+				_yaw = value;
+				BodyNode.Orientation = MathHelper.CreateQuaternionFromYawPitchRoll(_yaw, 0, 0);
+			}
 		}
 
 		protected Entity[] BodyEntities { get; private set; }
@@ -74,8 +76,8 @@ namespace Archetype.Objects.Characters
 		protected abstract WalkHandler WalkHandler { get; set; }
 
 		private Dictionary<LowerBodyAnimationKind, AnimationState[]> _lowerAnimationMapper = new Dictionary<LowerBodyAnimationKind, AnimationState[]>();
-		private float _pitch = 0;
-		private float _roll = 0;
+		private float _eyePitch = 0;
+		private SceneNode _eyeNode;
 		private bool _visible = true;
 		private float _yaw = 0;
 
@@ -89,7 +91,15 @@ namespace Archetype.Objects.Characters
 			BuildAnimationMappers();
 			SimpleCollider = new UprightCylinderNode(BodyNode, Vector3.ZERO, 1.7f, 0.4f);
 			LowerBodyAnimation = LowerBodyAnimationKind.Idle;
-			EyeHeight = MathHelper.Up * 1.7f;
+			_eyeNode = BodyNode.CreateChildSceneNode(new Vector3(0, 1.7f, 0));
+		}
+
+		public void AttachCamera(Camera camera)
+		{
+			camera.DetachFromParent();
+			_eyeNode.AttachObject(camera);
+			camera.Position = Vector3.ZERO;
+			camera.Orientation = Quaternion.IDENTITY;
 		}
 
 		public void Jump()
@@ -107,14 +117,6 @@ namespace Archetype.Objects.Characters
 			BodyNode.LookAt(position, Node.TransformSpace.TS_PARENT);
 		}
 
-		public void SetYawPitchRoll(float yaw, float pitch, float roll)
-		{
-			_yaw = yaw;
-			_pitch = pitch;
-			_roll = roll;
-			BodyNode.Orientation = MathHelper.CreateQuaternionFromYawPitchRoll(yaw, pitch, roll);
-		}
-
 		public void Walk(Vector3 direction)
 		{
 			WalkHandler.SetNextMoveDirection(direction);
@@ -124,6 +126,8 @@ namespace Archetype.Objects.Characters
 		{
 			SimpleCollider.Dispose();
 			BodyNode.DetachAllObjects();
+			_eyeNode.DetachAllObjects();
+			_eyeNode.Dispose();
 			foreach (Entity bodyEntity in BodyEntities)
 				bodyEntity.Dispose();
 			BodyNode.Dispose();

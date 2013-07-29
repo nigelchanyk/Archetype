@@ -20,6 +20,7 @@ namespace Archetype.Controllers
 			Character.Visible = false;
 			Character.Position = new Vector3(3, 0, 5);
 			Character.LookAt(0, 0, 0);
+			Character.AttachCamera(world.Camera);
 		}
 
 		public override void Update(UpdateEvent evt)
@@ -31,9 +32,6 @@ namespace Archetype.Controllers
 			Rotate(evt);
 			Walk(evt);
 			Jump(evt);
-
-			Camera.Orientation = Character.Orientation;
-			Camera.Position = Character.Position + Character.EyeHeight;
 		}
 
 		private void Jump(UpdateEvent evt)
@@ -44,10 +42,8 @@ namespace Archetype.Controllers
 
 		private void Rotate(UpdateEvent evt)
 		{
-			float yaw = Character.Yaw - evt.Mouse.MouseState.X.rel * Configurations.Instance.Sensitivity * evt.ElapsedTime;
-			float pitch = Character.Pitch - evt.Mouse.MouseState.Y.rel * Configurations.Instance.Sensitivity * evt.ElapsedTime;
-			pitch = pitch.Clamp(-MathHelper.PiOver3, MathHelper.PiOver3);
-			Character.SetYawPitchRoll(yaw, pitch, 0);
+			Character.Yaw -= evt.Mouse.MouseState.X.rel * Configurations.Instance.Sensitivity * evt.ElapsedTime;
+			Character.EyePitch -= evt.Mouse.MouseState.Y.rel * Configurations.Instance.Sensitivity * evt.ElapsedTime;
 		}
 
 		private void Walk(UpdateEvent evt)
