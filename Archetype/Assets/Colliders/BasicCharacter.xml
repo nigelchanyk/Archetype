@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Armatures>
+  <Armature name="Hips">
+	<Armature name="Spine">
+	  <Collider type="box">
+		<Min x="-0.122" y="-0.122" z="-0.122" />
+		<Max x="0.122" y="0.122" z="0.122" />
+	  </Collider>
+	  <Armature name="Spine1">
+		<Collider type="box">
+		  <Min x="-0.110" y="-0.110" z="-0.110" />
+		  <Max x="0.110" y="0.110" z="0.110" />
+		</Collider>
+		<Armature name="Spine2">
+		  <Collider type="box">
+			<Min x="-0.100" y="-0.113" z="-0.100" />
+			<Max x="0.100" y="0.113" z="0.100" />
+		  </Collider>
+		  <Armature name="Neck">
+			<Collider type="box">
+			  <Min x="-0.052" y="-0.100" z="-0.052" />
+			  <Max x="0.052" y="0.100" z="0.052" />
+			</Collider>
+			<Armature name="Neck1">
+			  <Armature name="Head">
+				<Collider type="sphere" x="0" y="0.13" z="0" radius="0.13" />
+			  </Armature>
+			</Armature>
+		  </Armature>
+		  <Armature name="LeftShoulder">
+			<Armature name="LeftArm">
+			  <Armature name="LeftForeArm">
+				<Armature name="LeftHand">
+				  
+				</Armature>
+			  </Armature>
+			</Armature>
+		  </Armature>
+		  <Armature name="RightShoulder">
+			<Armature name="RightArm">
+			  <Armature name="RightForeArm">
+				<Armature name="RightHand">
+				  
+				</Armature>
+			  </Armature>
+			</Armature>
+		  </Armature>
+		</Armature>
+	  </Armature>
+	</Armature>
+	<Armature name="LeftUpLeg">
+	  <Armature name="LeftLeg">
+		<Armature name="LeftFoot">
+		  <Armature name="LeftToeBase">
+			
+		  </Armature>
+		</Armature>
+	  </Armature>
+	</Armature>
+	<Armature name="RightUpLeg">
+	  <Armature name="RightLeg">
+		<Armature name="RightFoot">
+		  <Armature name="RightToeBase">
+			
+		  </Armature>
+		</Armature>
+	  </Armature>
+	</Armature>
+  </Armature>
+</Armatures>

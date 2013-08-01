@@ -76,6 +76,8 @@
     <Compile Include="Logic\ActionHandlers\ActionHandler.cs" />
     <Compile Include="Logic\ActionHandlers\JumpHandler.cs" />
     <Compile Include="Logic\ActionHandlers\WalkHandler.cs" />
+    <Compile Include="Logic\WeaponHandlers\RangedWeaponHandler.cs" />
+    <Compile Include="Logic\WeaponHandlers\WeaponHandler.cs" />
     <Compile Include="Objects\Characters\Androids\Android.cs" />
     <Compile Include="Objects\Characters\Androids\Assaulter.cs" />
     <Compile Include="Objects\Characters\Character.cs" />
@@ -85,6 +87,8 @@
     <Compile Include="Objects\Primitives\SphereNode.cs" />
     <Compile Include="Objects\Primitives\UprightBoxNode.cs" />
     <Compile Include="Objects\Primitives\UprightCylinderNode.cs" />
+    <Compile Include="Objects\Weapons\RangedWeapon.cs" />
+    <Compile Include="Objects\Weapons\Weapon.cs" />
     <Compile Include="Objects\World.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,9 +96,12 @@
     <Compile Include="States\State.cs" />
     <Compile Include="States\WorldState.cs" />
     <Compile Include="Utilities\BinarySearch.cs" />
+    <Compile Include="Utilities\ColliderLoader.cs" />
+    <Compile Include="Utilities\ContainerHelper.cs" />
     <Compile Include="Utilities\MathHelper.cs" />
     <Compile Include="Utilities\SceneHelper.cs" />
     <Compile Include="Utilities\SceneLoader.cs" />
+    <Compile Include="Utilities\XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -173,6 +180,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="Assets\Colliders\BasicCharacter.xml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

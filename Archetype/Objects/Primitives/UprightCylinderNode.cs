@@ -22,5 +22,10 @@ namespace Archetype.Objects.Primitives
 		{
 			return PrimitiveNode.Intersects(box, this);
 		}
+
+		public override float? GetIntersectingDistance(Ray ray)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

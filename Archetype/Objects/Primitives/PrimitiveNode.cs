@@ -9,6 +9,32 @@ namespace Archetype.Objects.Primitives
 {
 	public abstract class PrimitiveNode : IDisposable
 	{
+		/// <summary>
+		/// Get the distance from the starting position of the ray in the box's space.
+		/// If there is no scale transformation between the box and the ray, the distance should be the same
+		/// as the distance in world space.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		protected static float? GetIntersectionDistance(BoxNode a, Ray b)
+		{
+			Ray bTransformed = b.TransformRay(a.Node);
+			Pair<bool, float> result = bTransformed.Intersects(a.ToMogreAxisAlignedBox());
+			if (result.first)
+				return result.second;
+			return null;
+		}
+
+		protected static float? Intersects(SphereNode a, Ray b)
+		{
+			Ray bTransformed = b.TransformRay(a.Node);
+			Pair<bool, float> result = bTransformed.Intersects(a.ToMogreSphere());
+			if (result.first)
+				return result.second;
+			return null;
+		}
+
 		protected static bool Intersects(BoxNode a, SphereNode b)
 		{
 			Vector3 bTransformedCenter;
@@ -16,24 +42,6 @@ namespace Archetype.Objects.Primitives
 			TransformSphere(b, a.Node, out bTransformedCenter, out bTransformedSquaredRadius);
 			Vector3 closest = bTransformedCenter.Clamp(a.Min, a.Max);
 			return closest.SquaredDistance(bTransformedCenter) < bTransformedSquaredRadius;
-		}
-
-		protected static Vector3? Intersects(BoxNode a, Ray b)
-		{
-			Ray bTransformed = b.TransformRay(a.Node);
-			Pair<bool, float> result = bTransformed.Intersects(a.ToMogreAxisAlignedBox());
-			if (result.first)
-				return bTransformed.GetPoint(result.second);
-			return null;
-		}
-
-		protected static Vector3? Intersects(SphereNode a, Ray b)
-		{
-			Ray bTransformed = b.TransformRay(a.Node);
-			Pair<bool, float> result = bTransformed.Intersects(a.ToMogreSphere());
-			if (result.first)
-				return bTransformed.GetPoint(result.second);
-			return null;
 		}
 
 		protected static bool Intersects(UprightBoxNode a, UprightCylinderNode b)
@@ -105,5 +113,7 @@ namespace Archetype.Objects.Primitives
 		{
 			Node.InvalidateCache();
 		}
+
+		public abstract float? GetIntersectingDistance(Ray ray);
 	}
 }

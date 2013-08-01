@@ -20,9 +20,9 @@ namespace Archetype.Objects.Primitives
 			this.Min = min;
 		}
 
-		public Vector3? Intersects(Ray ray)
+		public override float? GetIntersectingDistance(Ray ray)
 		{
-			return PrimitiveNode.Intersects(this, ray);
+			return PrimitiveNode.GetIntersectionDistance(this, ray);
 		}
 
 		public bool Intersects(SphereNode sphere)

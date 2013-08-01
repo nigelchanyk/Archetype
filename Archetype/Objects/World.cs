@@ -90,6 +90,21 @@ namespace Archetype.Objects
 			return _buildings.FirstOrDefault(building => building.Intersects(cylinder));
 		}
 
+		/// <summary>
+		/// Return the shortest intersecting building distance. (IMPORTANT: Ray must be in world space!!!)
+		/// </summary>
+		/// <param name="ray">Ray in world space</param>
+		/// <returns></returns>
+		public float? GetShortestIntersectingBuildingDistance(Ray ray)
+		{
+			return _buildings.MinOrNull(building => building.GetIntersectingDistance(ray));
+		}
+
+		public void InflictDamage(Character attacker, Ray ray, int baseDamage)
+		{
+			float? shortestIntersectingBuildingDistance = GetShortestIntersectingBuildingDistance(ray);
+		}
+
 		public bool IntersectBuildings(UprightCylinderNode cylinder)
 		{
 			return GetFirstIntersectingBuilding(cylinder) != null;

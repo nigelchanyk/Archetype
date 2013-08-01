@@ -69,6 +69,7 @@ namespace Archetype.Objects.Characters
 
 		protected Entity[] BodyEntities { get; private set; }
 		protected SceneNode BodyNode { get; private set; }
+		protected SphereNode BoundingSphere { get; private set; }
 		protected LowerBodyAnimationKind LowerBodyAnimation { get; set; }
 		protected UprightCylinderNode SimpleCollider { get; set; }
 
@@ -89,6 +90,7 @@ namespace Archetype.Objects.Characters
 			foreach (Entity bodyEntity in BodyEntities)
 				BodyNode.AttachObject(bodyEntity);
 			BuildAnimationMappers();
+			BoundingSphere = new SphereNode(BodyNode, new Vector3(0, 1, 0), 2);
 			SimpleCollider = new UprightCylinderNode(BodyNode, Vector3.ZERO, 1.7f, 0.4f);
 			LowerBodyAnimation = LowerBodyAnimationKind.Idle;
 			_eyeNode = BodyNode.CreateChildSceneNode(new Vector3(0, 1.7f, 0));
@@ -100,6 +102,18 @@ namespace Archetype.Objects.Characters
 			_eyeNode.AttachObject(camera);
 			camera.Position = Vector3.ZERO;
 			camera.Orientation = Quaternion.IDENTITY;
+		}
+
+		public float? Intersects(Ray ray)
+		{
+			// Simple test
+			float? result = BoundingSphere.GetIntersectingDistance(ray);
+			if (result == null)
+				return null;
+
+			// Precise test
+
+			return result;
 		}
 
 		public void Jump()

@@ -10,8 +10,8 @@ namespace Archetype.Objects.Primitives
 	{
 		public float Radius { get; private set; }
 
-		public SphereNode(Node parent, Vector3 position, Quaternion orientation, float radius)
-			: base(parent, position, orientation)
+		public SphereNode(Node parent, Vector3 position, float radius)
+			: base(parent, position, Quaternion.IDENTITY)
 		{
 			this.Radius = radius;
 		}
@@ -21,7 +21,7 @@ namespace Archetype.Objects.Primitives
 			return PrimitiveNode.Intersects(box, this);
 		}
 
-		public Vector3? Intersects(Ray ray)
+		public override float? GetIntersectingDistance(Ray ray)
 		{
 			return PrimitiveNode.Intersects(this, ray);
 		}
