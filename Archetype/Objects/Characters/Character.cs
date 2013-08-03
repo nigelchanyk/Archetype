@@ -68,6 +68,7 @@ namespace Archetype.Objects.Characters
 		}
 
 		protected Entity[] BodyEntities { get; private set; }
+		protected PrimitiveNode[] BodyColliders { get; private set; }
 		protected SceneNode BodyNode { get; private set; }
 		protected SphereNode BoundingSphere { get; private set; }
 		protected LowerBodyAnimationKind LowerBodyAnimation { get; set; }
@@ -82,13 +83,19 @@ namespace Archetype.Objects.Characters
 		private bool _visible = true;
 		private float _yaw = 0;
 
-		public Character(World world, string[] bodyEntityNames)
+		public Character(World world, string[] bodyEntityNames, string colliderName)
 			: base(world)
 		{
+			if (bodyEntityNames.Length == 0)
+				throw new ArgumentException("At least one body entity must be provided.");
+
 			BodyEntities = bodyEntityNames.Select(name => World.Scene.CreateEntity(name)).ToArray();
 			BodyNode = World.WorldNode.CreateChildSceneNode();
 			foreach (Entity bodyEntity in BodyEntities)
 				BodyNode.AttachObject(bodyEntity);
+
+			BodyColliders = ColliderLoader.ParseColliders(colliderName, BodyEntities[0], "Alpha_").ToArray();
+
 			BuildAnimationMappers();
 			BoundingSphere = new SphereNode(BodyNode, new Vector3(0, 1, 0), 2);
 			SimpleCollider = new UprightCylinderNode(BodyNode, Vector3.ZERO, 1.7f, 0.4f);
@@ -138,7 +145,6 @@ namespace Archetype.Objects.Characters
 
 		protected override void OnDispose()
 		{
-			SimpleCollider.Dispose();
 			BodyNode.DetachAllObjects();
 			_eyeNode.DetachAllObjects();
 			_eyeNode.Dispose();
@@ -216,14 +222,14 @@ namespace Archetype.Objects.Characters
 
 			// Collided with something
 			// From here, we work with the building's world to perform smooth partial movements.
-			originalPosition = BodyNode.Parent.ConvertToSpace(intersectedBuilding.Node, originalPosition);
-			Vector3 fullTranslation = BodyNode.ConvertToSpace(intersectedBuilding.Node, Vector3.ZERO);
+			originalPosition = BodyNode.Parent.ConvertToSpace(intersectedBuilding.ReferenceNode, originalPosition);
+			Vector3 fullTranslation = BodyNode.ConvertToSpace(intersectedBuilding.ReferenceNode, Vector3.ZERO);
 			Vector3 bestDelta = Vector3.ZERO;
 			foreach (Vector3 delta in (fullTranslation - originalPosition).CreatePartialVectorCombinations())
 			{
 				Vector3 currentBestDelta = BinarySearch.Iterate(originalPosition, originalPosition + delta, 3, pos =>
 				{
-					BodyNode.Position = intersectedBuilding.Node.ConvertToSpace(BodyNode.Parent, pos);
+					BodyNode.Position = intersectedBuilding.ReferenceNode.ConvertToSpace(BodyNode.Parent, pos);
 					SimpleCollider.InvalidateCache();
 					return !World.IntersectBuildings(SimpleCollider);
 				}) - originalPosition;
@@ -232,7 +238,7 @@ namespace Archetype.Objects.Characters
 					bestDelta = currentBestDelta;
 			}
 
-			Position = intersectedBuilding.Node.ConvertToSpace(BodyNode.Parent, originalPosition + bestDelta);
+			Position = intersectedBuilding.ReferenceNode.ConvertToSpace(BodyNode.Parent, originalPosition + bestDelta);
 		}
 	}
 }

@@ -17,7 +17,7 @@ namespace Archetype.Objects.Characters.Androids
 		};
 
 		public Android(World world)
-			: base(world, MaleBodyEntityNames)
+			: base(world, MaleBodyEntityNames, AssetCollections.AlphaColliders)
 		{
 
 		}

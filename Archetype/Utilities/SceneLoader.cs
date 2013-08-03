@@ -608,7 +608,7 @@ namespace Archetype.Utilities
 			string type = name.Substring(name.IndexOf('.') + 1);
 			// Expect standard box size to be 2 x 2 x 2
 			if (type == "upright.box")
-				World.AddBuildingCollisionMesh(new UprightBoxNode(pParent, position, orientation, -scale, scale));
+				World.AddBuildingCollisionMesh(new UprightBoxNode(pParent, -scale, scale));
 			else
 				throw new ArgumentException("Unknown collision type: " + name);
 		}

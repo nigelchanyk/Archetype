@@ -11,8 +11,8 @@ namespace Archetype.Objects.Primitives
 		public Vector3 Max { get; private set; }
 		public Vector3 Min { get; private set; }
 
-		public BoxNode(Node parent, Vector3 position, Quaternion orientation, Vector3 min, Vector3 max)
-			: base(parent, position, orientation)
+		public BoxNode(Node parent, Vector3 min, Vector3 max)
+			: base(parent)
 		{
 			if (min.x > max.x || min.y > max.y || min.z > max.z)
 				throw new ArgumentException("`min` contains at least one coordinate greater than `max`.");

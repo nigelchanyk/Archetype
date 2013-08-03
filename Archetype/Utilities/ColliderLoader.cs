@@ -13,7 +13,7 @@ namespace Archetype.Utilities
 		private static Dictionary<string, Armature> ColliderCache = new Dictionary<String, Armature>();
 
 		/// <summary>
-		/// Insert primitive nodes to corresponding armatures. This function also returns a list of primitive nodes created.
+		/// Match bones with colliders and create primitive nodes.
 		/// </summary>
 		/// <param name="colliderConfiguration">Filename of the collision configuration</param>
 		/// <param name="entity">Entity (model) loaded</param>
@@ -32,7 +32,7 @@ namespace Archetype.Utilities
 			if (cache.ContainsKey(colliderConfiguration))
 				return cache[colliderConfiguration];
 
-			XElement root = XElement.Load(colliderConfiguration);
+			XElement root = XElement.Load("Assets/Colliders/" + colliderConfiguration);
 			Armature rootArmature = new Armature(root);
 			cache.Add(colliderConfiguration, rootArmature);
 			return rootArmature;
@@ -55,12 +55,13 @@ namespace Archetype.Utilities
 			
 			public Armature(XElement element)
 			{
+				element = element.Element("Armature");
 				Name = element.Attribute("name").Value;
 				var collidersEnumerator = element.Elements("Collider");
 				Colliders = new IColliderTemplate[collidersEnumerator.Count()];
 				int i = 0;
 				foreach (XElement colliderElement in collidersEnumerator)
-					Colliders[i++] = CreateColliderTemplate(element);
+					Colliders[i++] = CreateColliderTemplate(colliderElement);
 
 				var childEnumerator = element.Elements("Armature");
 				Children = new Armature[childEnumerator.Count()];
@@ -97,13 +98,13 @@ namespace Archetype.Utilities
 			public BoxTemplate(XElement element)
 			{
 				Position = element.ParseXYZ(Vector3.ZERO);
-				Max = element.Element("Min").ParseXYZ(Vector3.ZERO);
-				Min = element.Element("Max").ParseXYZ(Vector3.ZERO);
+				Min = element.Element("Min").ParseXYZ(Vector3.ZERO);
+				Max = element.Element("Max").ParseXYZ(Vector3.ZERO);
 			}
 
 			public void InsertCollider(Node node, List<PrimitiveNode> result)
 			{
-				result.Add(new BoxNode(node, Vector3.ZERO, Quaternion.IDENTITY, Min, Max));
+				result.Add(new BoxNode(node, Min, Max));
 			}
 		}
 

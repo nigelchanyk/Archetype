@@ -8,8 +8,8 @@ namespace Archetype.Objects.Primitives
 {
 	public class UprightBoxNode : BoxNode
 	{
-		public UprightBoxNode(Node parent, Vector3 position, Quaternion orientation, Vector3 min, Vector3 max)
-			: base(parent, position, orientation, min, max)
+		public UprightBoxNode(Node referenceNode, Vector3 min, Vector3 max)
+			: base(referenceNode, min, max)
 		{
 		}
 

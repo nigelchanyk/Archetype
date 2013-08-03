@@ -8,11 +8,13 @@ namespace Archetype.Objects.Primitives
 {
 	public class SphereNode : PrimitiveNode
 	{
+		public Vector3 Position { get; private set; }
 		public float Radius { get; private set; }
 
 		public SphereNode(Node parent, Vector3 position, float radius)
-			: base(parent, position, Quaternion.IDENTITY)
+			: base(parent)
 		{
+			this.Position = position;
 			this.Radius = radius;
 		}
 
@@ -33,7 +35,7 @@ namespace Archetype.Objects.Primitives
 
 		public Sphere ToMogreSphere()
 		{
-			return new Sphere(Vector3.ZERO, Radius);
+			return new Sphere(Position, Radius);
 		}
 
 	}
