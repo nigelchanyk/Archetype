@@ -10,6 +10,7 @@ using Archetype.States;
 using Archetype.Utilities;
 using Archetype.Logic.ActionHandlers;
 using Archetype.Objects.Primitives;
+using Archetype.BattleSystems;
 
 namespace Archetype.Objects.Characters
 {
@@ -21,15 +22,21 @@ namespace Archetype.Objects.Characters
 			Walk
 		}
 
+		public bool Alive
+		{
+			get { return Health > 0; }
+		}
+		public BattlerRecord Record { get; set; }
 		public float EyePitch
 		{
 			get { return _eyePitch; }
 			set
 			{
 				_eyePitch = value.Clamp(-MathHelper.PiOver3, MathHelper.PiOver3);
-				_eyeNode.Orientation = MathHelper.CreateQuaternionFromYawPitchRoll(0, _eyePitch, 0);
+				EyeNode.Orientation = MathHelper.CreateQuaternionFromYawPitchRoll(0, _eyePitch, 0);
 			}
 		}
+		public int Health { get; set; }
 		public override Quaternion Orientation
 		{
 			get { return BodyNode.Orientation; }
@@ -77,9 +84,9 @@ namespace Archetype.Objects.Characters
 		protected abstract JumpHandler JumpHandler { get; set; }
 		protected abstract WalkHandler WalkHandler { get; set; }
 
-		private Dictionary<LowerBodyAnimationKind, AnimationState[]> _lowerAnimationMapper = new Dictionary<LowerBodyAnimationKind, AnimationState[]>();
+		private Dictionary<LowerBodyAnimationKind, AnimationState[]> LowerAnimationMapper = new Dictionary<LowerBodyAnimationKind, AnimationState[]>();
+		private SceneNode EyeNode;
 		private float _eyePitch = 0;
-		private SceneNode _eyeNode;
 		private bool _visible = true;
 		private float _yaw = 0;
 
@@ -100,18 +107,27 @@ namespace Archetype.Objects.Characters
 			BoundingSphere = new SphereNode(BodyNode, new Vector3(0, 1, 0), 2);
 			SimpleCollider = new UprightCylinderNode(BodyNode, Vector3.ZERO, 1.7f, 0.4f);
 			LowerBodyAnimation = LowerBodyAnimationKind.Idle;
-			_eyeNode = BodyNode.CreateChildSceneNode(new Vector3(0, 1.7f, 0));
+			EyeNode = BodyNode.CreateChildSceneNode(new Vector3(0, 1.7f, 0));
+			Health = 100;
 		}
 
 		public void AttachCamera(Camera camera)
 		{
 			camera.DetachFromParent();
-			_eyeNode.AttachObject(camera);
+			EyeNode.AttachObject(camera);
 			camera.Position = Vector3.ZERO;
 			camera.Orientation = Quaternion.IDENTITY;
 		}
 
-		public float? Intersects(Ray ray)
+		public void Attack(Vector3 direction, int baseDamage)
+		{
+			Ray ray = new Ray(EyeNode.ConvertLocalToWorldPosition(Vector3.ZERO), direction);
+			Character enemy = World.SelectEnemy(this, ray);
+			enemy.Health -= baseDamage;
+		}
+
+
+		public float? GetIntersectingDistance(Ray ray)
 		{
 			// Simple test
 			float? result = BoundingSphere.GetIntersectingDistance(ray);
@@ -146,8 +162,8 @@ namespace Archetype.Objects.Characters
 		protected override void OnDispose()
 		{
 			BodyNode.DetachAllObjects();
-			_eyeNode.DetachAllObjects();
-			_eyeNode.Dispose();
+			EyeNode.DetachAllObjects();
+			EyeNode.Dispose();
 			foreach (Entity bodyEntity in BodyEntities)
 				bodyEntity.Dispose();
 			BodyNode.Dispose();
@@ -168,13 +184,13 @@ namespace Archetype.Objects.Characters
 			foreach (LowerBodyAnimationKind kind in Enum.GetValues(typeof(LowerBodyAnimationKind)))
 			{
 				AnimationState[] animation = BodyEntities.Select(entity => entity.GetAnimationState(kind.ToString())).ToArray();
-				_lowerAnimationMapper.Add(kind, animation);
+				LowerAnimationMapper.Add(kind, animation);
 			}
 		}
 
 		private void UpdateAnimation(UpdateEvent evt)
 		{
-			foreach (var entry in _lowerAnimationMapper)
+			foreach (var entry in LowerAnimationMapper)
 			{
 				if (entry.Value.Length == 0)
 					continue;

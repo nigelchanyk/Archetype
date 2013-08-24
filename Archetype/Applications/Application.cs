@@ -21,9 +21,9 @@ namespace Archetype.Applications
 
 		public bool Exit { get; set; }
 
-		private State _newStateScheduled; // Nullable
-		private Stack<State> _stateStack = new Stack<State>();
-		private int _popStateCount = 0;
+		private State NewStateScheduled; // Nullable
+		private Stack<State> StateStack = new Stack<State>();
+		private int PopStateCount = 0;
 
 		public Application(string title)
 		{
@@ -34,14 +34,14 @@ namespace Archetype.Applications
 
 		public void SchedulePopState()
 		{
-			_popStateCount++;
+			PopStateCount++;
 		}
 
 		public void SchedulePushState(State newState)
 		{
-			if (_newStateScheduled != null)
+			if (NewStateScheduled != null)
 				throw new Exception("New state is already scheduled.");
-			_newStateScheduled = newState;
+			NewStateScheduled = newState;
 		}
 
 		public void ShowApplication()
@@ -90,18 +90,18 @@ namespace Archetype.Applications
 
 		private void ManageScheduledStateEvent(UpdateEvent evt)
 		{
-			while (_popStateCount > 0)
+			while (PopStateCount > 0)
 			{
-				State removed = _stateStack.Pop();
+				State removed = StateStack.Pop();
 				removed.Pause(evt);
-				_popStateCount--;
+				PopStateCount--;
 			}
-			if (_newStateScheduled != null)
+			if (NewStateScheduled != null)
 			{
-				_stateStack.Push(_newStateScheduled);
-				_newStateScheduled.ZOrder = _stateStack.Count;
-				_newStateScheduled.Resume(evt);
-				_newStateScheduled = null;
+				StateStack.Push(NewStateScheduled);
+				NewStateScheduled.ZOrder = StateStack.Count;
+				NewStateScheduled.Resume(evt);
+				NewStateScheduled = null;
 			}
 		}
 
@@ -120,16 +120,16 @@ namespace Archetype.Applications
 
 		private bool OnKeyPressed(KeyEvent evt)
 		{
-			if (_stateStack.Count > 0)
-				_stateStack.Peek().KeyPressed(evt);
+			if (StateStack.Count > 0)
+				StateStack.Peek().KeyPressed(evt);
 			return true;
 		}
 
 		private void Update(UpdateEvent evt)
 		{
 			ManageScheduledStateEvent(evt);
-			if (_stateStack.Count > 0)
-				_stateStack.Peek().Update(evt);
+			if (StateStack.Count > 0)
+				StateStack.Peek().Update(evt);
 		}
 
 	}

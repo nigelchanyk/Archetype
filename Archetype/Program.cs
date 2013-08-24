@@ -13,6 +13,7 @@ namespace Archetype
 	{
 		static void Main(string[] args)
 		{
+			StaticInitializer.Initialize();
 			try
 			{
 				Application app = new Game();

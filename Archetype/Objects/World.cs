@@ -10,18 +10,20 @@ using Archetype.States;
 using Archetype.Utilities;
 using Archetype.Events;
 using Archetype.Objects.Primitives;
+using Archetype.BattleSystems;
 
 namespace Archetype.Objects
 {
 	public class World : IDisposable
 	{
+		public BattleSystem BattleSystem { get; set; }
 		public Camera Camera { get; private set; }
 		public SceneManager Scene { get; private set; }
 		public SceneNode WorldNode { get { return Scene.RootSceneNode; } }
 
-		private List<UprightBoxNode> _buildings = new List<UprightBoxNode>();
-		private List<Character> _characters = new List<Character>();
-		private List<Light> _lights = new List<Light>();
+		private List<UprightBoxNode> Buildings = new List<UprightBoxNode>();
+		private List<Character> Characters = new List<Character>();
+		private List<Light> Lights = new List<Light>();
 
 		public World(Root root, string sceneFile)
 		{
@@ -36,19 +38,19 @@ namespace Archetype.Objects
 
 		public void AddBuildingCollisionMesh(UprightBoxNode box)
 		{
-			_buildings.Add(box);
+			Buildings.Add(box);
 		}
 
 		public Character CreateCharacter()
 		{
 			Character character = new Assaulter(this);
-			_characters.Add(character);
+			Characters.Add(character);
 			return character;
 		}
 
 		public void DestroyCharacter(Character character)
 		{
-			_characters.Remove(character);
+			Characters.Remove(character);
 			character.Dispose();
 		}
 
@@ -61,13 +63,13 @@ namespace Archetype.Objects
 		{
 			Light light = Scene.CreateLight();
 			light.Position = position;
-			_lights.Add(light);
+			Lights.Add(light);
 			return light;
 		}
 
 		public void Dispose()
 		{
-			_characters.ForEach(character => character.Dispose());
+			Characters.ForEach(character => character.Dispose());
 			WorldNode.Dispose();
 			Scene.DestroyAllAnimations();
 			Scene.DestroyAllAnimationStates();
@@ -82,12 +84,12 @@ namespace Archetype.Objects
 		public void DestroyLight(Light light)
 		{
 			Scene.DestroyLight(light);
-			_lights.Remove(light);
+			Lights.Remove(light);
 		}
 
 		public UprightBoxNode GetFirstIntersectingBuilding(UprightCylinderNode cylinder)
 		{
-			return _buildings.FirstOrDefault(building => building.Intersects(cylinder));
+			return Buildings.FirstOrDefault(building => building.Intersects(cylinder));
 		}
 
 		/// <summary>
@@ -97,7 +99,7 @@ namespace Archetype.Objects
 		/// <returns></returns>
 		public float? GetShortestIntersectingBuildingDistance(Ray ray)
 		{
-			return _buildings.MinOrNull(building => building.GetIntersectingDistance(ray));
+			return Buildings.MinOrNull(building => building.GetIntersectingDistance(ray));
 		}
 
 		public void InflictDamage(Character attacker, Ray ray, int baseDamage)
@@ -110,9 +112,35 @@ namespace Archetype.Objects
 			return GetFirstIntersectingBuilding(cylinder) != null;
 		}
 
+		public Character SelectEnemy(Character attacker, Ray ray)
+		{
+			if (BattleSystem == null)
+				return null;
+			float? characterIntersection = null;
+			Character closest = null;
+			foreach (Character enemy in BattleSystem.GetEnemiesAlive(attacker))
+			{
+				float? intersection = enemy.GetIntersectingDistance(ray);
+				if (intersection == null)
+					continue;
+				if (characterIntersection == null || characterIntersection.Value < intersection.Value)
+				{
+					characterIntersection = intersection;
+					closest = enemy;
+				}
+			}
+			if (characterIntersection == null)
+				return null;
+			float? buildingIntersection = Buildings.MinOrNull(x => x.GetIntersectingDistance(ray));
+			if (buildingIntersection != null && buildingIntersection.Value < characterIntersection.Value)
+				return null;
+
+			return closest;
+		}
+
 		public void Update(UpdateEvent evt)
 		{
-			_characters.ForEach(character => character.Update(evt));
+			Characters.ForEach(character => character.Update(evt));
 		}
 
 		private void InitializeCamera(Vector3 position, Vector3 lookAt)

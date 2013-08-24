@@ -7,26 +7,31 @@ using Mogre;
 using Archetype.Events;
 using Archetype.Objects;
 using Archetype.Utilities;
+using Archetype.Objects.Characters;
 
 namespace Archetype.Controllers
 {
 	public class Player : CameraController
 	{
+		public new Character Character
+		{
+			get { return base.Character; }
+			set
+			{
+				value.AttachCamera(World.Camera);
+				base.Character = value;
+			}
+		}
 
 		public Player(World world, bool cameraEnabled)
 			: base(world, cameraEnabled)
 		{
-			Character = world.CreateCharacter();
-			Character.Visible = false;
-			Character.Position = new Vector3(3, 0, 5);
-			Character.LookAt(0, 0, 0);
-			Character.AttachCamera(world.Camera);
 		}
 
 		public override void Update(UpdateEvent evt)
 		{
 			base.Update(evt);
-			if (!CameraEnabled)
+			if (!CameraEnabled || Character == null)
 				return;
 
 			Rotate(evt);

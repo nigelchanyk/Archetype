@@ -57,6 +57,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -67,6 +69,9 @@
     <Compile Include="Applications\Application.cs" />
     <Compile Include="Applications\Game.cs" />
     <Compile Include="Assets\AssetCollections.cs" />
+    <Compile Include="BattleSystems\BattleSystem.cs" />
+    <Compile Include="BattleSystems\BattlerRecord.cs" />
+    <Compile Include="BattleSystems\TeamBattle.cs" />
     <Compile Include="Configurations.cs" />
     <Compile Include="Controllers\CameraController.cs" />
     <Compile Include="Controllers\Controller.cs" />
@@ -92,13 +97,18 @@
     <Compile Include="Objects\World.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="States\GameConfigurationState.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\State.cs" />
     <Compile Include="States\WorldState.cs" />
+    <Compile Include="StaticInitializer.cs" />
+    <Compile Include="Utilities\Bijection.cs" />
     <Compile Include="Utilities\BinarySearch.cs" />
     <Compile Include="Utilities\ColliderLoader.cs" />
     <Compile Include="Utilities\ContainerHelper.cs" />
+    <Compile Include="Utilities\IndexedEnumerator.cs" />
     <Compile Include="Utilities\MathHelper.cs" />
+    <Compile Include="Utilities\Names.cs" />
     <Compile Include="Utilities\SceneHelper.cs" />
     <Compile Include="Utilities\SceneLoader.cs" />
     <Compile Include="Utilities\XmlHelper.cs" />
@@ -183,6 +193,21 @@
   <ItemGroup>
     <Content Include="Assets\Colliders\BasicCharacter.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Skins\Skins.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Skins\texture.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Skins\texture2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Skins\textureA.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StringResources\Names.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

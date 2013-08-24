@@ -11,8 +11,7 @@ namespace Archetype.Applications
 
         protected override void Initialize()
         {
-
-            SchedulePushState(new GameState(this));
+            SchedulePushState(new GameConfigurationState(this));
         }
 
     }

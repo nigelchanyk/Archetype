@@ -7,6 +7,11 @@ namespace Archetype.Utilities
 {
 	public static class ContainerHelper
 	{
+		public static IndexedEnumerator<T> IndexedEnumerator<T>(this IEnumerable<T> enumerable)
+		{
+			return new IndexedEnumerator<T>(enumerable);
+		}
+
 		public static Nullable<U> MinOrNull<T, U>(this IEnumerable<T> container, Func<T, U?> func) where U : struct, IComparable
 		{
 			U? min = null;
@@ -18,6 +23,12 @@ namespace Archetype.Utilities
 			}
 
 			return min;
+		}
+
+		public static IEnumerable<T> Slice<T>(this T[] array, int start, int end, int step = 1)
+		{
+			for (int i = start; i < end; i += step)
+				yield return array[i];
 		}
 	}
 }

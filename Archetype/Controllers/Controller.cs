@@ -11,7 +11,7 @@ namespace Archetype.Controllers
 {
 	public class Controller
 	{
-		protected Character Character { get; set; }
+		public Character Character { get; set; }
 		protected World World { get; private set; }
 
 		public Controller(World world)

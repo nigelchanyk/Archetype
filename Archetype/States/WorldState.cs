@@ -11,7 +11,7 @@ namespace Archetype.States
 	{
 		public World World { get; private set; }
 
-		private bool _addedToViewport = false;
+		private bool AddedToViewport = false;
 
 		public WorldState(Application application)
 			: base(application)
@@ -26,16 +26,16 @@ namespace Archetype.States
 
 		protected override void OnPause(Events.UpdateEvent evt)
 		{
-			if (!DrawWhenInactive && _addedToViewport)
+			if (!DrawWhenInactive && AddedToViewport)
 			{
 				Application.Window.RemoveViewport(ZOrder);
-				_addedToViewport = false;
+				AddedToViewport = false;
 			}
 		}
 
 		protected override void OnResume(Events.UpdateEvent evt)
 		{
-			if (!_addedToViewport)
+			if (!AddedToViewport)
 			{
 				Application.Window.AddViewport(World.Camera, ZOrder);
 			}

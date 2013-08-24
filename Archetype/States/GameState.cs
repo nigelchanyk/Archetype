@@ -7,22 +7,29 @@ using Mogre;
 using Archetype.Applications;
 using Archetype.Controllers;
 using Archetype.Events;
+using Archetype.BattleSystems;
 
 namespace Archetype.States
 {
 	public class GameState : WorldState
 	{
-		private Player _player;
+		private BattleSystem BattleSystem;
+		private Player Player;
 
-		public GameState(Application application)
+		public GameState(Application application, BattleSystem battleSystem, string playerName)
 			: base(application)
 		{
-			_player = new Player(World, true);
-			
+			this.BattleSystem = battleSystem;
+			BattleSystem.World = World;
+			World.BattleSystem = BattleSystem;
+			Player = new Player(World, true);
+			BattleSystem.Start();
+			Player.Character = BattleSystem.GetCharacterByName(playerName);
 		}
 
 		protected override void OnDispose()
 		{
+			base.OnDispose();
 		}
 
 		protected override void OnKeyPressed(MOIS.KeyEvent evt)
@@ -44,7 +51,7 @@ namespace Archetype.States
 		protected override void OnUpdate(UpdateEvent evt)
 		{
 			base.OnUpdate(evt);
-			_player.Update(evt);
+			Player.Update(evt);
 		}
 	}
 }
