@@ -17,7 +17,7 @@ namespace Archetype.States
 		private Player Player;
 
 		public GameState(Application application, BattleSystem battleSystem, string playerName)
-			: base(application)
+			: base(application, "test_scene")
 		{
 			this.BattleSystem = battleSystem;
 			BattleSystem.World = World;

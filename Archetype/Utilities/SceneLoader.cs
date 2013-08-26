@@ -42,6 +42,8 @@ namespace Archetype.Utilities
 			XmlDocument XMLDoc = null;
 			XmlElement XMLRoot;
 
+			if (!SceneName.ToLower().EndsWith(".scene"))
+				SceneName = SceneName + ".scene";
 			DataStreamPtr pStream = ResourceGroupManager.Singleton.OpenResource(SceneName, groupName);
 
 			String data = pStream.AsString;

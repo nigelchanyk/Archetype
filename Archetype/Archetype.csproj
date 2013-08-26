@@ -49,6 +49,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Miyagi">
+      <HintPath>lib\Miyagi.dll</HintPath>
+    </Reference>
+    <Reference Include="Miyagi.Backend.Mogre">
+      <HintPath>lib\Miyagi.Backend.Mogre.dll</HintPath>
+    </Reference>
+    <Reference Include="Miyagi.Plugin.Input.Mois">
+      <HintPath>lib\Miyagi.Plugin.Input.Mois.dll</HintPath>
+    </Reference>
     <Reference Include="Mogre, Version=1.7.1.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>lib\Mogre.dll</HintPath>
     </Reference>
@@ -68,6 +77,9 @@
   <ItemGroup>
     <Compile Include="Applications\Application.cs" />
     <Compile Include="Applications\Game.cs" />
+    <Compile Include="AssetManagers\CursorCollection.cs" />
+    <Compile Include="AssetManagers\FontCollection.cs" />
+    <Compile Include="AssetManagers\SkinCollection.cs" />
     <Compile Include="Assets\AssetCollections.cs" />
     <Compile Include="BattleSystems\BattleSystem.cs" />
     <Compile Include="BattleSystems\BattlerRecord.cs" />
@@ -102,6 +114,7 @@
     <Compile Include="States\State.cs" />
     <Compile Include="States\WorldState.cs" />
     <Compile Include="StaticInitializer.cs" />
+    <Compile Include="UserInterface\UserInterfaceLayer.cs" />
     <Compile Include="Utilities\Bijection.cs" />
     <Compile Include="Utilities\BinarySearch.cs" />
     <Compile Include="Utilities\ColliderLoader.cs" />
@@ -115,6 +128,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Assets\Fonts\bluehigh.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Assets\Materials\Alpha_Body_MAT.material">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -193,6 +209,21 @@
   <ItemGroup>
     <Content Include="Assets\Colliders\BasicCharacter.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\bluehigh.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\ImageFonts.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\TrueTypeFonts.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Skins\Cursor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Skins\CursorSkins.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Skins\Skins.xml">

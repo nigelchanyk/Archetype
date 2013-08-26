@@ -13,10 +13,10 @@ namespace Archetype.States
 
 		private bool AddedToViewport = false;
 
-		public WorldState(Application application)
+		public WorldState(Application application, string scene = null)
 			: base(application)
 		{
-			World = new World(Application.Root, "test_scene.scene");
+			World = new World(Application.Root, scene);
 		}
 
 		protected override void OnDispose()

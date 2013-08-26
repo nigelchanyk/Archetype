@@ -25,11 +25,14 @@ namespace Archetype.Objects
 		private List<Character> Characters = new List<Character>();
 		private List<Light> Lights = new List<Light>();
 
-		public World(Root root, string sceneFile)
+		public World(Root root, string sceneFile = null)
 		{
 			Scene = root.CreateSceneManager(SceneType.ST_GENERIC);
-			SceneLoader loader = new SceneLoader();
-			loader.ParseDotScene(sceneFile, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, Scene, WorldNode, this);
+			if (sceneFile != null)
+			{
+				SceneLoader loader = new SceneLoader();
+				loader.ParseDotScene(sceneFile, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, Scene, WorldNode, this);
+			}
 			Scene.AmbientLight = new ColourValue(0.5f, 0.5f, 0.5f);
 			InitializeCamera(new Vector3(0, 0, -5), Vector3.ZERO);
 			Light dirLight = CreateLight(new Vector3(100, 100, 100));
@@ -79,6 +82,7 @@ namespace Archetype.Objects
 			Scene.DestroyAllLights();
 			Scene.DestroyAllMovableObjects();
 			Scene.DestroyAllParticleSystems();
+			Scene.Dispose();
 		}
 
 		public void DestroyLight(Light light)

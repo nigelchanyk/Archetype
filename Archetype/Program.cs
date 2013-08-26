@@ -16,9 +16,11 @@ namespace Archetype
 			StaticInitializer.Initialize();
 			try
 			{
-				Application app = new Game();
-				app.ShowDisplayConfiguration();
-				app.ShowApplication();
+				using (Application app = new Game())
+				{
+					app.ShowDisplayConfiguration();
+					app.ShowApplication();
+				}
 			}
 			catch (SEHException)
 			{
