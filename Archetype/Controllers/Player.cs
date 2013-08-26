@@ -8,6 +8,7 @@ using Archetype.Events;
 using Archetype.Objects;
 using Archetype.Utilities;
 using Archetype.Objects.Characters;
+using Miyagi.Common.Data;
 
 namespace Archetype.Controllers
 {
@@ -23,8 +24,8 @@ namespace Archetype.Controllers
 			}
 		}
 
-		public Player(World world, bool cameraEnabled)
-			: base(world, cameraEnabled)
+		public Player(World world, Point windowCenter, bool cameraEnabled)
+			: base(world, windowCenter, cameraEnabled)
 		{
 		}
 
@@ -47,13 +48,13 @@ namespace Archetype.Controllers
 
 		private void Rotate(UpdateEvent evt)
 		{
-			Character.Yaw -= evt.Mouse.MouseState.X.rel * Configurations.Instance.Sensitivity * evt.ElapsedTime;
-			Character.EyePitch -= evt.Mouse.MouseState.Y.rel * Configurations.Instance.Sensitivity * evt.ElapsedTime;
+			Character.Yaw -= (evt.Mouse.MouseState.X.abs - WindowCenter.X) * Configurations.Instance.Sensitivity * evt.ElapsedTime;
+			Character.EyePitch -= (evt.Mouse.MouseState.Y.abs - WindowCenter.Y) * Configurations.Instance.Sensitivity * evt.ElapsedTime;
 		}
 
 		private void Walk(UpdateEvent evt)
 		{
-			Vector3 direction = Vector3.ZERO;
+			Mogre.Vector3 direction = Mogre.Vector3.ZERO;
 			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_W))
 				direction += MathHelper.Forward;
 			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_S))

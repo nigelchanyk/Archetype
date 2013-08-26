@@ -11,6 +11,7 @@ using Miyagi.UI.Controls;
 using Miyagi.Common.Data;
 using Mogre;
 using Miyagi.Backend.Mogre;
+using Miyagi.Common.Events;
 
 namespace Archetype.States
 {
@@ -48,6 +49,7 @@ namespace Archetype.States
 				Location = new Point(300, 300),
 				Skin = UserInterface.SkinCollection["ButtonSkin"]
 			};
+			StartButton.MouseClick += new EventHandler<MouseButtonEventArgs>(OnStartClick);
 			UserInterface.Controls.Add(StartButton);
 			UserInterface.SetCursor("CursorSkin");
 		}
@@ -55,5 +57,15 @@ namespace Archetype.States
 		protected override void OnUpdate(UpdateEvent evt)
 		{
 		}
+
+		private void OnStartClick(object sender, MouseButtonEventArgs evt)
+		{
+			TeamBattle battle = new TeamBattle();
+			battle.AddPlayer("Test", TeamBattle.Team.Red);
+			battle.AddBots(3, 4);
+			Application.SchedulePopState();
+			Application.SchedulePushState(new GameState(Application, battle, "Test"));
+		}
+
 	}
 }

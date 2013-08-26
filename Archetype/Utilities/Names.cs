@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
+using System.Text;
 
 namespace Archetype.Utilities
 {
 	public static class Names
 	{
 		private static readonly Random Randomizer = new Random();
-		private static List<string> NameList = new List<string>();
+		private static List<string> NameList;
 
 		public static void Initialize()
 		{
-			NameList.Clear();
-			using (StreamReader sr = new StreamReader("StringResources/Names.txt"))
-			{
-				NameList.Add(sr.ReadLine());
-			}
+			NameList = File.ReadLines("StringResources/Names.txt").ToList();
 		}
 
 		public static IEnumerable<string> Random(int count)

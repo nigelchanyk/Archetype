@@ -6,6 +6,7 @@ using System.Text;
 
 using Archetype.Events;
 using Archetype.Objects;
+using Miyagi.Common.Data;
 
 namespace Archetype.Controllers
 {
@@ -23,11 +24,13 @@ namespace Archetype.Controllers
 				throw new FieldAccessException("Camera is inaccessible when disabled.");
 			}
 		}
+		protected Point WindowCenter { get; private set; }
 
-		public CameraController(World world, bool cameraEnabled)
+		public CameraController(World world, Point windowCenter, bool cameraEnabled)
 			: base(world)
 		{
 			this.CameraEnabled = cameraEnabled;
+			this.WindowCenter = windowCenter;
 		}
 
 		public override void Update(UpdateEvent evt)

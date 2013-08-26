@@ -18,7 +18,7 @@ namespace Archetype
 
 		public Configurations()
 		{
-			Sensitivity = 0.3f;
+			Sensitivity = 1.2f;
 		}
 	}
 }

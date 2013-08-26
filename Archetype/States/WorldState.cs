@@ -21,6 +21,7 @@ namespace Archetype.States
 
 		protected override void OnDispose()
 		{
+			Application.Window.RemoveViewport(ZOrder);
 			World.Dispose();
 		}
 

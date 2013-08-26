@@ -22,9 +22,10 @@ namespace Archetype.States
 			this.BattleSystem = battleSystem;
 			BattleSystem.World = World;
 			World.BattleSystem = BattleSystem;
-			Player = new Player(World, true);
+			Player = new Player(World, Application.WindowCenter, true);
 			BattleSystem.Start();
 			Player.Character = BattleSystem.GetCharacterByName(playerName);
+			Player.Character.Position = new Vector3(10, 0, 10);
 		}
 
 		protected override void OnDispose()
@@ -32,7 +33,7 @@ namespace Archetype.States
 			base.OnDispose();
 		}
 
-		protected override void OnKeyPressed(MOIS.KeyEvent evt)
+		protected override void OnKeyPress(MOIS.KeyEvent evt)
 		{
 			if (evt.key == MOIS.KeyCode.KC_ESCAPE)
 				Application.Exit = true;
@@ -52,6 +53,7 @@ namespace Archetype.States
 		{
 			base.OnUpdate(evt);
 			Player.Update(evt);
+			Application.CenterCursor();
 		}
 	}
 }

@@ -11,6 +11,7 @@ using Miyagi.Common;
 using Archetype.AssetManagers;
 using Archetype.UserInterface;
 using Miyagi.Backend.Mogre;
+using Miyagi.Common.Data;
 
 namespace Archetype.Applications
 {
@@ -22,6 +23,7 @@ namespace Archetype.Applications
 		public Root Root { get; private set; }
 		public string Title { get; set; }
 		public RenderWindow Window { get; private set; }
+		public Point WindowCenter { get; private set; }
 
 		public bool Exit { get; set; }
 
@@ -40,6 +42,14 @@ namespace Archetype.Applications
 			Title = title;
 		}
 
+		public void CenterCursor()
+		{
+			var x = Mouse.MouseState.X;
+			var y = Mouse.MouseState.Y;
+			x.abs = WindowCenter.X;
+			y.abs = WindowCenter.Y;
+		}
+
 		public UserInterfaceLayer CreateUserInterfaceLayer()
 		{
 			UserInterfaceLayer gui = new UserInterfaceLayer(FontCollection, SkinCollection, CursorCollection);
@@ -49,8 +59,8 @@ namespace Archetype.Applications
 
 		public void DestroyUserInterfaceLayer(UserInterfaceLayer gui)
 		{
-			gui.Controls.Clear();
-			MiyagiSystem.GUIManager.GUIs.Remove(gui);
+			if (MiyagiSystem.GUIManager.Cursor != null)
+				MiyagiSystem.GUIManager.Cursor = null;
 			gui.Dispose();
 		}
 
@@ -82,6 +92,7 @@ namespace Archetype.Applications
 		public void ShowApplication()
 		{
 			Window = Root.Initialise(true, Title);
+			WindowCenter = new Point((int)Root.AutoCreatedWindow.Width / 2, (int)Root.AutoCreatedWindow.Height / 2);
 			TextureManager.Singleton.DefaultNumMipmaps = 5;
 			ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 			InitializeInput();
@@ -121,7 +132,8 @@ namespace Archetype.Applications
 			Input = MOIS.InputManager.CreateInputSystem((uint)handle);
 			Keyboard = (MOIS.Keyboard)Input.CreateInputObject(MOIS.Type.OISKeyboard, true);
 			Mouse = (MOIS.Mouse)Input.CreateInputObject(MOIS.Type.OISMouse, true);
-			Keyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(OnKeyPressed);
+			Keyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(OnKeyPress);
+			Mouse.MouseMoved += new MOIS.MouseListener.MouseMovedHandler(OnMouseMove);
 			MOIS.MouseState_NativePtr mouseState = Mouse.MouseState;
 			mouseState.width = (int)Root.AutoCreatedWindow.Width;
 			mouseState.height = (int)Root.AutoCreatedWindow.Height;
@@ -139,14 +151,21 @@ namespace Archetype.Applications
 
 		private void ManageScheduledStateEvent(UpdateEvent evt)
 		{
-			while (PopStateCount > 0)
+			if (PopStateCount > 0)
 			{
-				State removed = StateStack.Pop();
-				removed.Pause(evt);
-				PopStateCount--;
+				while (PopStateCount > 0)
+				{
+					StateStack.Pop().Dispose();
+					PopStateCount--;
+				}
+				if (StateStack.Count > 0)
+					StateStack.Peek().Resume(evt);
+
 			}
 			if (NewStateScheduled != null)
 			{
+				if (StateStack.Count > 0)
+					StateStack.Peek().Pause(evt);
 				StateStack.Push(NewStateScheduled);
 				NewStateScheduled.ZOrder = StateStack.Count;
 				NewStateScheduled.Resume(evt);
@@ -162,15 +181,23 @@ namespace Archetype.Applications
 
 			Keyboard.Capture();
 			Mouse.Capture();
+			Console.WriteLine(Mouse.MouseState.X.abs + " " + Mouse.MouseState.Y.abs);
 			Update(new UpdateEvent(Keyboard, Mouse, evt));
 
 			return !Exit;
 		}
 
-		private bool OnKeyPressed(KeyEvent evt)
+		private bool OnKeyPress(KeyEvent evt)
 		{
 			if (StateStack.Count > 0)
-				StateStack.Peek().KeyPressed(evt);
+				StateStack.Peek().KeyPress(evt);
+			return true;
+		}
+
+		private bool OnMouseMove(MouseEvent evt)
+		{
+			if (StateStack.Count > 0)
+				StateStack.Peek().MouseMove(evt);
 			return true;
 		}
 

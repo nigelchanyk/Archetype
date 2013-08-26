@@ -19,6 +19,7 @@ namespace Archetype.UserInterface
 			this.FontCollection = fontCollection;
 			this.SkinCollection = skinCollection;
 			this.CursorCollection = cursorCollection;
+			
 		}
 
 		public void SetCursor(string cursorName)

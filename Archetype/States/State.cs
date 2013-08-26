@@ -26,9 +26,14 @@ namespace Archetype.States
 			OnDispose();
 		}
 
-		public void KeyPressed(MOIS.KeyEvent evt)
+		public void KeyPress(MOIS.KeyEvent evt)
 		{
-			OnKeyPressed(evt);
+			OnKeyPress(evt);
+		}
+
+		public void MouseMove(MOIS.MouseEvent evt)
+		{
+			OnMouseMove(evt);
 		}
 
 		public void Resume(UpdateEvent evt)
@@ -47,7 +52,8 @@ namespace Archetype.States
 		}
 
 		protected virtual void OnDispose() {}
-		protected virtual void OnKeyPressed(MOIS.KeyEvent evt) {}
+		protected virtual void OnKeyPress(MOIS.KeyEvent evt) {}
+		protected virtual void OnMouseMove(MOIS.MouseEvent evt) {}
 		protected virtual void OnResume(UpdateEvent evt) {}
 		protected virtual void OnPause(UpdateEvent evt) {}
 		protected abstract void OnUpdate(UpdateEvent evt);
