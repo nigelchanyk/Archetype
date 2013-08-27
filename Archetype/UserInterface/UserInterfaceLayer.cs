@@ -2,32 +2,61 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Miyagi.UI;
-using Archetype.AssetManagers;
-using Miyagi.Common.Data;
+using Mogre;
+using MOIS;
 
 namespace Archetype.UserInterface
 {
-	public class UserInterfaceLayer : GUI
+	public class UserInterfaceLayer : IDisposable
 	{
-		public CursorCollection CursorCollection { get; private set; }
-		public FontCollection FontCollection { get; private set; }
-		public SkinCollection SkinCollection { get; private set; }
-
-		public UserInterfaceLayer(FontCollection fontCollection, SkinCollection skinCollection, CursorCollection cursorCollection)
+		public ushort ZOrder
 		{
-			this.FontCollection = fontCollection;
-			this.SkinCollection = skinCollection;
-			this.CursorCollection = cursorCollection;
-			
+			get { return Overlay.ZOrder; }
+			set { Overlay.ZOrder = value; }
 		}
 
-		public void SetCursor(string cursorName)
+		private List<UserInterfaceComponent> Components = new List<UserInterfaceComponent>();
+		private Overlay Overlay;
+		private Point PreviousCursorPosition = new Point(int.MinValue, int.MinValue);
+
+		public UserInterfaceLayer(ushort zOrder)
 		{
-			if (MiyagiSystem.GUIManager.Cursor != null)
-				MiyagiSystem.GUIManager.Cursor.Visible = false;
-			MiyagiSystem.GUIManager.Cursor = CursorCollection[cursorName];
-			MiyagiSystem.GUIManager.Cursor.Visible = true;
+			Overlay = OverlayManager.Singleton.Create("Overlay" + Guid.NewGuid());
+			Overlay.ZOrder = zOrder;
+			Overlay.Show();
+		}
+
+		public void Add(UserInterfaceComponent component)
+		{
+			component.AddToOverlay(Overlay);
+			Components.Add(component);
+		}
+
+		public void Dispose()
+		{
+			Overlay.Dispose();
+		}
+
+		public void MousePress(MouseEvent evt, MouseButtonID id)
+		{
+			if (id != MouseButtonID.MB_Left)
+				return;
+			PreviousCursorPosition = ConvertToPoint(evt);
+		}
+
+		public void MouseRelease(MouseEvent evt, MouseButtonID id)
+		{
+			if (id != MouseButtonID.MB_Left)
+				return;
+			if (PreviousCursorPosition == ConvertToPoint(evt))
+				Components.ForEach(x => x.Click());
+
+			PreviousCursorPosition = new Point(int.MinValue, int.MinValue);
+		}
+
+		private Point ConvertToPoint(MouseEvent evt)
+		{
+			return new Point((int)evt.state.X.abs, (int)evt.state.Y.abs);
 		}
 	}
 }

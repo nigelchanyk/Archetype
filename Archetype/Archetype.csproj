@@ -49,15 +49,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Miyagi">
-      <HintPath>lib\Miyagi.dll</HintPath>
-    </Reference>
-    <Reference Include="Miyagi.Backend.Mogre">
-      <HintPath>lib\Miyagi.Backend.Mogre.dll</HintPath>
-    </Reference>
-    <Reference Include="Miyagi.Plugin.Input.Mois">
-      <HintPath>lib\Miyagi.Plugin.Input.Mois.dll</HintPath>
-    </Reference>
     <Reference Include="Mogre, Version=1.7.1.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>lib\Mogre.dll</HintPath>
     </Reference>
@@ -66,8 +57,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -77,9 +66,6 @@
   <ItemGroup>
     <Compile Include="Applications\Application.cs" />
     <Compile Include="Applications\Game.cs" />
-    <Compile Include="AssetManagers\CursorCollection.cs" />
-    <Compile Include="AssetManagers\FontCollection.cs" />
-    <Compile Include="AssetManagers\SkinCollection.cs" />
     <Compile Include="Assets\AssetCollections.cs" />
     <Compile Include="BattleSystems\BattleSystem.cs" />
     <Compile Include="BattleSystems\BattlerRecord.cs" />
@@ -114,7 +100,14 @@
     <Compile Include="States\State.cs" />
     <Compile Include="States\WorldState.cs" />
     <Compile Include="StaticInitializer.cs" />
+    <Compile Include="UserInterface\Button.cs" />
+    <Compile Include="UserInterface\CursorOverlay.cs" />
+    <Compile Include="UserInterface\Dimension.cs" />
+    <Compile Include="UserInterface\Point.cs" />
+    <Compile Include="UserInterface\Style.cs" />
+    <Compile Include="UserInterface\UserInterfaceComponent.cs" />
     <Compile Include="UserInterface\UserInterfaceLayer.cs" />
+    <Compile Include="UserInterface\UV.cs" />
     <Compile Include="Utilities\Bijection.cs" />
     <Compile Include="Utilities\BinarySearch.cs" />
     <Compile Include="Utilities\ColliderLoader.cs" />
@@ -124,6 +117,7 @@
     <Compile Include="Utilities\Names.cs" />
     <Compile Include="Utilities\SceneHelper.cs" />
     <Compile Include="Utilities\SceneLoader.cs" />
+    <Compile Include="Utilities\UserInterfaceHelper.cs" />
     <Compile Include="Utilities\XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +168,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Assets\Skeletons\Alpha_LowTorsoGeoMesh.skeleton">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\UserInterface\UserInterface.material">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="plugins.cfg">
@@ -236,6 +233,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Skins\textureA.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\UserInterface\Cursor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="StringResources\Names.txt">

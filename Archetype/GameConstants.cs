@@ -9,5 +9,6 @@ namespace Archetype
 	{
 		public const float DefaultGravityAcceleration = -9.8f;
 		public const float DefaultWalkingSpeed = 3;
+		public const ushort CursorZOrder = ushort.MaxValue;
 	}
 }

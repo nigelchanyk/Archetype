@@ -7,11 +7,7 @@ using System.Text;
 
 using Archetype.States;
 using Archetype.Events;
-using Miyagi.Common;
-using Archetype.AssetManagers;
 using Archetype.UserInterface;
-using Miyagi.Backend.Mogre;
-using Miyagi.Common.Data;
 
 namespace Archetype.Applications
 {
@@ -27,11 +23,8 @@ namespace Archetype.Applications
 
 		public bool Exit { get; set; }
 
-		private FontCollection FontCollection;
-		private MiyagiSystem MiyagiSystem;
+		private CursorOverlay CursorOverlay;
 		private State NewStateScheduled; // Nullable
-		private SkinCollection SkinCollection;
-		private CursorCollection CursorCollection;
 		private Stack<State> StateStack = new Stack<State>();
 		private int PopStateCount = 0;
 
@@ -50,31 +43,15 @@ namespace Archetype.Applications
 			y.abs = WindowCenter.Y;
 		}
 
-		public UserInterfaceLayer CreateUserInterfaceLayer()
-		{
-			UserInterfaceLayer gui = new UserInterfaceLayer(FontCollection, SkinCollection, CursorCollection);
-			MiyagiSystem.GUIManager.GUIs.Add(gui);
-			return gui;
-		}
-
-		public void DestroyUserInterfaceLayer(UserInterfaceLayer gui)
-		{
-			if (MiyagiSystem.GUIManager.Cursor != null)
-				MiyagiSystem.GUIManager.Cursor = null;
-			gui.Dispose();
-		}
-
 		public void Dispose()
 		{
 			while (StateStack.Count > 0)
 				StateStack.Pop().Dispose();
-			MiyagiSystem.Dispose();
 			Input.Dispose();
 			Keyboard.Dispose();
 			Mouse.Dispose();
 			Window.Dispose();
 			Root.Dispose();
-			CursorCollection.Dispose();
 		}
 
 		public void SchedulePopState()
@@ -97,7 +74,8 @@ namespace Archetype.Applications
 			ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 			InitializeInput();
 			// Miyagi can only be initialized after input and resources are initialized.
-			InitializeMiyagi();
+			foreach (var mat in MaterialManager.Singleton.GetResourceIterator())
+				Console.WriteLine(mat.Name);
 			Initialize();
 			Root.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(OnFrameRenderingQueued);
 			Root.StartRendering();
@@ -134,19 +112,11 @@ namespace Archetype.Applications
 			Mouse = (MOIS.Mouse)Input.CreateInputObject(MOIS.Type.OISMouse, true);
 			Keyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(OnKeyPress);
 			Mouse.MouseMoved += new MOIS.MouseListener.MouseMovedHandler(OnMouseMove);
+			Mouse.MousePressed += new MOIS.MouseListener.MousePressedHandler(OnMousePress);
+			Mouse.MouseReleased += new MOIS.MouseListener.MouseReleasedHandler(OnMouseRelease);
 			MOIS.MouseState_NativePtr mouseState = Mouse.MouseState;
 			mouseState.width = (int)Root.AutoCreatedWindow.Width;
 			mouseState.height = (int)Root.AutoCreatedWindow.Height;
-		}
-
-		private void InitializeMiyagi()
-		{
-			MiyagiSystem = new MiyagiSystem();
-			MiyagiSystem.PluginManager.LoadPlugin(@"Miyagi.Plugin.Input.Mois.dll", Keyboard, Mouse);
-			FontCollection = new FontCollection(@"Assets/Fonts/ImageFonts.xml", MiyagiSystem);
-			Miyagi.Common.Resources.Font.Default = FontCollection["BlueHighwayImage"];
-			SkinCollection = new SkinCollection(@"Assets/Skins/Skins.xml", MiyagiSystem);
-			CursorCollection = new CursorCollection(@"Assets/Skins/CursorSkins.xml", MiyagiSystem);
 		}
 
 		private void ManageScheduledStateEvent(UpdateEvent evt)
@@ -167,9 +137,14 @@ namespace Archetype.Applications
 				if (StateStack.Count > 0)
 					StateStack.Peek().Pause(evt);
 				StateStack.Push(NewStateScheduled);
-				NewStateScheduled.ZOrder = StateStack.Count;
+				NewStateScheduled.ZOrder = (ushort)StateStack.Count;
 				NewStateScheduled.Resume(evt);
 				NewStateScheduled = null;
+
+				// CursorOverlay can only be initialized after viewport is ready.
+				// Viewport is created on resume.
+				if (CursorOverlay == null)
+					CursorOverlay = new CursorOverlay(GameConstants.CursorZOrder);
 			}
 		}
 
@@ -196,15 +171,30 @@ namespace Archetype.Applications
 
 		private bool OnMouseMove(MouseEvent evt)
 		{
+			if (CursorOverlay != null)
+				CursorOverlay.MouseMove(evt);
 			if (StateStack.Count > 0)
 				StateStack.Peek().MouseMove(evt);
+			return true;
+		}
+
+		private bool OnMousePress(MouseEvent evt, MouseButtonID id)
+		{
+			if (StateStack.Count > 0)
+				StateStack.Peek().MousePress(evt, id);
+			return true;
+		}
+
+		private bool OnMouseRelease(MouseEvent evt, MouseButtonID id)
+		{
+			if (StateStack.Count > 0)
+				StateStack.Peek().MouseRelease(evt, id);
 			return true;
 		}
 
 		private void Update(UpdateEvent evt)
 		{
 			ManageScheduledStateEvent(evt);
-			MiyagiSystem.Update();
 			if (StateStack.Count > 0)
 				StateStack.Peek().Update(evt);
 		}

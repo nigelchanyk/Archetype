@@ -8,7 +8,7 @@ using Archetype.Events;
 using Archetype.Objects;
 using Archetype.Utilities;
 using Archetype.Objects.Characters;
-using Miyagi.Common.Data;
+using Archetype.UserInterface;
 
 namespace Archetype.Controllers
 {

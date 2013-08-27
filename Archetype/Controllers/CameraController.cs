@@ -6,7 +6,7 @@ using System.Text;
 
 using Archetype.Events;
 using Archetype.Objects;
-using Miyagi.Common.Data;
+using Archetype.UserInterface;
 
 namespace Archetype.Controllers
 {
