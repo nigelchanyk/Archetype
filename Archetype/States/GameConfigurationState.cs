@@ -60,12 +60,22 @@ namespace Archetype.States
 					Material = "Core/StatsBlockCenter"
 				}
 			);
+			StartButton.Clicked += new EventHandler(OnStartClick);
 			UserInterface.Add(StartButton);
 		}
 
 		protected override void OnUserInterfaceDispose()
 		{
 			StartButton.Dispose();
+		}
+
+		private void OnStartClick(object sender, EventArgs e)
+		{
+			TeamBattle battle = new TeamBattle();
+			battle.AddPlayer("Test", TeamBattle.Team.Red);
+			battle.AddBots(3, 4);
+			Application.SchedulePopState();
+			Application.SchedulePushState(new GameConfigurationState(Application));
 		}
 	}
 }

@@ -99,6 +99,11 @@ namespace Archetype.Utilities
 			return value * value;
 		}
 
+		public static int Squared(this int value)
+		{
+			return value * value;
+		}
+
 		public static float SquaredDistance(this Vector2 a, Vector2 b)
 		{
 			return (b - a).SquaredLength;

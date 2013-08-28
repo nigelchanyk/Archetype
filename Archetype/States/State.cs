@@ -57,11 +57,13 @@ namespace Archetype.States
 
 		public void MousePress(MOIS.MouseEvent evt, MOIS.MouseButtonID id)
 		{
+			UserInterface.MousePress(evt, id);
 			OnMousePress(evt, id);
 		}
 
 		public void MouseRelease(MOIS.MouseEvent evt, MOIS.MouseButtonID id)
 		{
+			UserInterface.MouseRelease(evt, id);
 			OnMouseRelease(evt, id);
 		}
 
@@ -99,6 +101,7 @@ namespace Archetype.States
 		{
 			if (IsUserInterfaceInitialized)
 			{
+				UserInterface.Visible = false;
 				OnUserInterfaceDispose();
 				UserInterface.Dispose();
 				IsUserInterfaceInitialized = false;

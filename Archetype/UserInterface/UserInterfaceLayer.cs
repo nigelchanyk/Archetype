@@ -9,6 +9,20 @@ namespace Archetype.UserInterface
 {
 	public class UserInterfaceLayer : IDisposable
 	{
+		public bool Visible
+		{
+			get
+			{
+				return Overlay.IsVisible;
+			}
+			set
+			{
+				if (value)
+					Overlay.Show();
+				else
+					Overlay.Hide();
+			}
+		}
 		public ushort ZOrder
 		{
 			get { return Overlay.ZOrder; }
@@ -48,8 +62,12 @@ namespace Archetype.UserInterface
 		{
 			if (id != MouseButtonID.MB_Left)
 				return;
-			if (PreviousCursorPosition == ConvertToPoint(evt))
-				Components.ForEach(x => x.Click());
+			Point releasePosition = ConvertToPoint(evt);
+			UserInterfaceComponent clickedComponent = Components.FirstOrDefault(
+				x => x.CursorCollided(PreviousCursorPosition) && x.CursorCollided(releasePosition)
+			);
+			if (clickedComponent != null)
+				clickedComponent.Click();
 
 			PreviousCursorPosition = new Point(int.MinValue, int.MinValue);
 		}
