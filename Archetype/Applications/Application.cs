@@ -76,8 +76,6 @@ namespace Archetype.Applications
 			ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 			InitializeInput();
 			// Miyagi can only be initialized after input and resources are initialized.
-			foreach (var mat in MaterialManager.Singleton.GetResourceIterator())
-				Console.WriteLine(mat.Name);
 			Initialize();
 			Root.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(OnFrameRenderingQueued);
 			Root.StartRendering();
@@ -160,7 +158,6 @@ namespace Archetype.Applications
 
 			Keyboard.Capture();
 			Mouse.Capture();
-			Console.WriteLine(Mouse.MouseState.X.abs + " " + Mouse.MouseState.Y.abs);
 			Update(new UpdateEvent(Keyboard, Mouse, evt));
 
 			return !Exit;
