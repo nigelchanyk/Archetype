@@ -27,6 +27,7 @@ namespace Archetype.Applications
 		private State NewStateScheduled; // Nullable
 		private Stack<State> StateStack = new Stack<State>();
 		private int PopStateCount = 0;
+		private WindowExitListener ExitListener = new WindowExitListener();
 
 		public Application(string title)
 		{
@@ -47,6 +48,7 @@ namespace Archetype.Applications
 		{
 			while (StateStack.Count > 0)
 				StateStack.Pop().Dispose();
+			ExitListener.Dispose();
 			Input.Dispose();
 			Keyboard.Dispose();
 			Mouse.Dispose();
@@ -107,6 +109,8 @@ namespace Archetype.Applications
 		{
 			int handle;
 			Window.GetCustomAttribute("WINDOW", out handle);
+			WindowEventUtilities.AddWindowEventListener(Window, ExitListener);
+			ExitListener.WindowClose += new EventHandler(OnWindowClosed);
 			Input = MOIS.InputManager.CreateInputSystem((uint)handle);
 			Keyboard = (MOIS.Keyboard)Input.CreateInputObject(MOIS.Type.OISKeyboard, true);
 			Mouse = (MOIS.Mouse)Input.CreateInputObject(MOIS.Type.OISMouse, true);
@@ -190,6 +194,11 @@ namespace Archetype.Applications
 			if (StateStack.Count > 0)
 				StateStack.Peek().MouseRelease(evt, id);
 			return true;
+		}
+
+		private void OnWindowClosed(object sender, EventArgs e)
+		{
+			Exit = true;
 		}
 
 		private void Update(UpdateEvent evt)

@@ -75,6 +75,7 @@
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\Player.cs" />
     <Compile Include="Events\UpdateEvent.cs" />
+    <Compile Include="Events\WindowExitListener.cs" />
     <Compile Include="GameConstants.cs" />
     <Compile Include="Logic\ActionHandlers\ActionHandler.cs" />
     <Compile Include="Logic\ActionHandlers\JumpHandler.cs" />
