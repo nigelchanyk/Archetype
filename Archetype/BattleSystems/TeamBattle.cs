@@ -6,6 +6,7 @@ using System.Text;
 using Archetype.Objects;
 using Archetype.Utilities;
 using Archetype.Objects.Characters;
+using Archetype.DataLoaders;
 
 namespace Archetype.BattleSystems
 {
@@ -72,14 +73,26 @@ namespace Archetype.BattleSystems
 
 		public override void Start()
 		{
-			foreach (List<BattlerRecord> team in TeamRecordMapper.Values)
+			foreach (Team team in TeamRecordMapper.Keys)
 			{
-				foreach (BattlerRecord record in team)
+				List<BattlerRecord> teamRecord = TeamRecordMapper[team];
+				IEnumerable<SpawnPoint> spawnPoints = GenerateSpawnPoints(
+					WorldConfigurationLoader.GetConfiguration(World.SceneName).TeamBattleConfiguration,
+					team,
+					teamRecord.Count
+				);
+				foreach (var itr in teamRecord.Zip(spawnPoints, (r, p) => new { TeamRecord = r, SpawnPoint = p }))
 				{
-					record.Character = World.CreateCharacter();
-					record.Character.Record = record;
+					itr.TeamRecord.Character = World.CreateCharacter();
+					itr.TeamRecord.Character.Record = itr.TeamRecord;
+					itr.TeamRecord.Character.Position = itr.SpawnPoint.ToVector3();
 				}
 			}
+		}
+
+		private IEnumerable<SpawnPoint> GenerateSpawnPoints(WorldConfigurationLoader.TeamBattleConfiguration configuration, Team team, int count)
+		{
+			return configuration.GetSpawnPoints(team).TakeRandom(count);
 		}
 	}
 }

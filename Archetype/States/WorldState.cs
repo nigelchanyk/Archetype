@@ -13,7 +13,7 @@ namespace Archetype.States
 
 		private bool AddedToViewport = false;
 
-		public WorldState(Application application, string scene = null)
+		public WorldState(Application application, string scene = "")
 			: base(application)
 		{
 			World = new World(Application.Root, scene);

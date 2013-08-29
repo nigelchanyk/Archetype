@@ -26,6 +26,7 @@ namespace Archetype.States
 			BattleSystem.Start();
 			Player.Character = BattleSystem.GetCharacterByName(playerName);
 			Player.Character.Position = new Vector3(10, 0, 10);
+			CursorVisible = false;
 		}
 
 		protected override void OnDispose()

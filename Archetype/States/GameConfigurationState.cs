@@ -18,6 +18,7 @@ namespace Archetype.States
 		public GameConfigurationState(Application application)
 			: base(application)
 		{
+			CursorVisible = true;
 		}
 
 		protected override void OnDispose()
@@ -75,7 +76,7 @@ namespace Archetype.States
 			battle.AddPlayer("Test", TeamBattle.Team.Red);
 			battle.AddBots(3, 4);
 			Application.SchedulePopState();
-			Application.SchedulePushState(new GameConfigurationState(Application));
+			Application.SchedulePushState(new GameState(Application, battle, "Test"));
 		}
 	}
 }

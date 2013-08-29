@@ -14,6 +14,7 @@ namespace Archetype.States
 	public abstract class State : IDisposable
 	{
 		public Application Application { get; private set; }
+		public bool CursorVisible { get; protected set; }
 		public bool DrawWhenInactive { get; protected set; }
 		public ushort ZOrder
 		{
@@ -73,6 +74,7 @@ namespace Archetype.States
 			UserInterface = new UserInterfaceLayer(ZOrder);
 			OnUserInterfaceCreate();
 			IsUserInterfaceInitialized = true;
+			Application.CursorVisible = CursorVisible;
 		}
 
 		public void Pause(UpdateEvent evt)

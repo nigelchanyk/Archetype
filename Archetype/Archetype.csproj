@@ -69,11 +69,13 @@
     <Compile Include="Assets\AssetCollections.cs" />
     <Compile Include="BattleSystems\BattleSystem.cs" />
     <Compile Include="BattleSystems\BattlerRecord.cs" />
+    <Compile Include="BattleSystems\SpawnPoint.cs" />
     <Compile Include="BattleSystems\TeamBattle.cs" />
     <Compile Include="Configurations.cs" />
     <Compile Include="Controllers\CameraController.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\Player.cs" />
+    <Compile Include="DataLoaders\WorldConfigurationLoader.cs" />
     <Compile Include="Events\UpdateEvent.cs" />
     <Compile Include="Events\WindowExitListener.cs" />
     <Compile Include="GameConstants.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Utilities\ColliderLoader.cs" />
     <Compile Include="Utilities\ContainerHelper.cs" />
     <Compile Include="Utilities\IndexedEnumerator.cs" />
+    <Compile Include="Utilities\LoaderHelper.cs" />
     <Compile Include="Utilities\MathHelper.cs" />
     <Compile Include="Utilities\Names.cs" />
     <Compile Include="Utilities\SceneHelper.cs" />
@@ -207,6 +210,9 @@
   <ItemGroup>
     <Content Include="Assets\Colliders\BasicCharacter.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Data\WorldConfigurations.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Fonts\bluehigh.png">

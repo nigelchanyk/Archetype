@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Worlds>
+  <World name="test_scene">
+	<BattleSystem name="TeamBattle">
+	  <Team name="Red">
+		<SpawnPoint x="-10" z="-10" />
+		<SpawnPoint x="-10" z="-8" />
+		<SpawnPoint x="-10" z="-6" />
+		<SpawnPoint x="-10" z="-4" />
+		<SpawnPoint x="-10" z="-2" />
+		<SpawnPoint x="-10" z="0" />
+		<SpawnPoint x="-10" z="2" />
+		<SpawnPoint x="-10" z="4" />
+		<SpawnPoint x="-10" z="6" />
+		<SpawnPoint x="-10" z="8" />
+		<SpawnPoint x="-10" z="10" />
+	  </Team>
+	  <Team name="Blue">
+		<SpawnPoint x="10" z="-10" />
+		<SpawnPoint x="10" z="-8" />
+		<SpawnPoint x="10" z="-6" />
+		<SpawnPoint x="10" z="-4" />
+		<SpawnPoint x="10" z="-2" />
+		<SpawnPoint x="10" z="0" />
+		<SpawnPoint x="10" z="2" />
+		<SpawnPoint x="10" z="4" />
+		<SpawnPoint x="10" z="6" />
+		<SpawnPoint x="10" z="8" />
+		<SpawnPoint x="10" z="10" />
+	  </Team>
+	</BattleSystem>
+  </World>
+</Worlds>

@@ -18,7 +18,7 @@ namespace Archetype.Utilities
 
 		public static IEnumerable<string> Random(int count)
 		{
-			return NameList.OrderBy(x => Randomizer.Next()).Take(count);
+			return NameList.TakeRandom(count);
 		}
 	}
 }

@@ -18,6 +18,7 @@ namespace Archetype.Objects
 	{
 		public BattleSystem BattleSystem { get; set; }
 		public Camera Camera { get; private set; }
+		public string SceneName { get; private set; }
 		public SceneManager Scene { get; private set; }
 		public SceneNode WorldNode { get { return Scene.RootSceneNode; } }
 
@@ -25,10 +26,11 @@ namespace Archetype.Objects
 		private List<Character> Characters = new List<Character>();
 		private List<Light> Lights = new List<Light>();
 
-		public World(Root root, string sceneFile = null)
+		public World(Root root, string sceneFile = "")
 		{
+			SceneName = sceneFile;
 			Scene = root.CreateSceneManager(SceneType.ST_GENERIC);
-			if (sceneFile != null)
+			if (sceneFile != "")
 			{
 				SceneLoader loader = new SceneLoader();
 				loader.ParseDotScene(sceneFile, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, Scene, WorldNode, this);

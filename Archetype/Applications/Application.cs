@@ -13,6 +13,11 @@ namespace Archetype.Applications
 {
 	public abstract class Application : IDisposable
 	{
+		public bool CursorVisible
+		{
+			get { return CursorOverlay.Visible; }
+			set { CursorOverlay.Visible = value; }
+		}
 		public MOIS.InputManager Input { get; private set; }
 		public MOIS.Keyboard Keyboard { get; private set; }
 		public MOIS.Mouse Mouse { get; private set; }
@@ -75,7 +80,8 @@ namespace Archetype.Applications
 			TextureManager.Singleton.DefaultNumMipmaps = 5;
 			ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 			InitializeInput();
-			// Miyagi can only be initialized after input and resources are initialized.
+			if (CursorOverlay == null)
+				CursorOverlay = new CursorOverlay(GameConstants.CursorZOrder);
 			Initialize();
 			Root.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(OnFrameRenderingQueued);
 			Root.StartRendering();
@@ -142,11 +148,6 @@ namespace Archetype.Applications
 				NewStateScheduled.ZOrder = (ushort)StateStack.Count;
 				NewStateScheduled.Resume(evt);
 				NewStateScheduled = null;
-
-				// CursorOverlay can only be initialized after viewport is ready.
-				// Viewport is created on resume.
-				if (CursorOverlay == null)
-					CursorOverlay = new CursorOverlay(GameConstants.CursorZOrder);
 			}
 		}
 

@@ -9,6 +9,11 @@ namespace Archetype.BattleSystems
 {
 	public abstract class BattleSystem
 	{
+		public enum Kind
+		{
+			TeamBattle
+		}
+
 		public World World { get; set; }
 		protected Dictionary<string, BattlerRecord> BattlerNameMapper { get; private set; }
 
