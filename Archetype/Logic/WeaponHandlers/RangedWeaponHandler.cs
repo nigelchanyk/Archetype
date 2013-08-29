@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using Archetype.Objects.Characters;
 using Archetype.Objects.Weapons;
+using Mogre;
 
 namespace Archetype.Logic.WeaponHandlers
 {
-	public abstract class RangedWeaponHandler : WeaponHandler
+	public class RangedWeaponHandler : WeaponHandler
 	{
 		public RangedWeapon Weapon { get; private set; }
 
@@ -17,8 +18,9 @@ namespace Archetype.Logic.WeaponHandlers
 			this.Weapon = weapon;
 		}
 
-		protected override void OnAttack()
+		protected override void OnRegularAttack()
 		{
+			ActionPerformer.Attack(Vector3.ZERO, Weapon.BaseDamage);
 		}
 	}
 }

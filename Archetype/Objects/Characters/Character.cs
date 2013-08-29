@@ -11,6 +11,7 @@ using Archetype.Utilities;
 using Archetype.Logic.ActionHandlers;
 using Archetype.Objects.Primitives;
 using Archetype.BattleSystems;
+using Archetype.Logic.WeaponHandlers;
 
 namespace Archetype.Objects.Characters
 {
@@ -74,6 +75,7 @@ namespace Archetype.Objects.Characters
 			}
 		}
 
+		protected WeaponHandler ActiveWeaponHandler { get; set; } // Nullable
 		protected Entity[] BodyEntities { get; private set; }
 		protected PrimitiveNode[] BodyColliders { get; private set; }
 		protected SceneNode BodyNode { get; private set; }
@@ -119,13 +121,15 @@ namespace Archetype.Objects.Characters
 			camera.Orientation = Quaternion.IDENTITY;
 		}
 
-		public void Attack(Vector3 direction, int baseDamage)
+		public void Attack(Vector3 eyeSpaceDirection, int baseDamage)
 		{
-			Ray ray = new Ray(EyeNode.ConvertLocalToWorldPosition(Vector3.ZERO), direction);
-			Character enemy = World.SelectEnemy(this, ray);
-			enemy.Health -= baseDamage;
+			Ray ray = new Ray(EyeNode.ConvertLocalToWorldPosition(Vector3.ZERO), EyeNode.ConvertLocalToWorldDelta(eyeSpaceDirection));
+			Character enemy = World.FindEnemy(this, ray);
+			if (enemy != null)
+				Console.WriteLine("Hit");
+			else
+				Console.WriteLine("Miss");
 		}
-
 
 		public float? GetIntersectingDistance(Ray ray)
 		{
@@ -152,6 +156,12 @@ namespace Archetype.Objects.Characters
 		public void LookAt(Vector3 position)
 		{
 			BodyNode.LookAt(position, Node.TransformSpace.TS_PARENT);
+		}
+
+		public void RegularAttack()
+		{
+			if (ActiveWeaponHandler != null)
+				ActiveWeaponHandler.RegularAttack();
 		}
 
 		public void Walk(Vector3 direction)

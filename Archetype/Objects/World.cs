@@ -118,7 +118,7 @@ namespace Archetype.Objects
 			return GetFirstIntersectingBuilding(cylinder) != null;
 		}
 
-		public Character SelectEnemy(Character attacker, Ray ray)
+		public Character FindEnemy(Character attacker, Ray ray)
 		{
 			if (BattleSystem == null)
 				return null;

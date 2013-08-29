@@ -38,6 +38,13 @@ namespace Archetype.Controllers
 			Rotate(evt);
 			Walk(evt);
 			Jump(evt);
+			RegularAttack(evt);
+		}
+
+		private void RegularAttack(UpdateEvent evt)
+		{
+			if (evt.Mouse.MouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
+				Character.RegularAttack();
 		}
 
 		private void Jump(UpdateEvent evt)

@@ -44,6 +44,13 @@ namespace Archetype.Utilities
 			return new Vector3(original.x.Clamp(min.x, max.x), original.y.Clamp(min.y, max.y), original.z.Clamp(min.z, max.z));
 		}
 
+		public static Vector3 ConvertLocalToWorldDelta(this Node node, Vector3 delta)
+		{
+			Vector3 origin = node.ConvertLocalToWorldPosition(Vector3.ZERO);
+			Vector3 reference = node.ConvertLocalToWorldPosition(delta);
+			return reference - origin;
+		}
+
 		/// <summary>
 		/// Create an array of vectors that only contains part of the original coordinates.
 		/// </summary>

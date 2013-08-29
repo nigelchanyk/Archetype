@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 
 using Archetype.Logic.ActionHandlers;
+using Archetype.Logic.WeaponHandlers;
+using Archetype.Objects.Weapons;
 
 namespace Archetype.Objects.Characters.Androids
 {
@@ -17,6 +19,7 @@ namespace Archetype.Objects.Characters.Androids
 		{
 			JumpHandler = new JumpHandler(this, 4, GameConstants.DefaultGravityAcceleration);
 			WalkHandler = new WalkHandler(this, GameConstants.DefaultWalkingSpeed);
+			ActiveWeaponHandler = new RangedWeaponHandler(this, new RangedWeapon("asdf", 50, 0.1f, 1));
 		}
 	}
 }

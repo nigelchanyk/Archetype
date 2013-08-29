@@ -17,10 +17,10 @@ namespace Archetype.Logic.WeaponHandlers
 			this.ActionPerformer = actionPerformer;
 		}
 
-		public void Attack()
+		public void RegularAttack()
 		{
 			if (RemainingTime <= 0)
-				OnAttack();
+				OnRegularAttack();
 		}
 
 		public void Update(UpdateEvent evt)
@@ -29,7 +29,7 @@ namespace Archetype.Logic.WeaponHandlers
 			OnUpdate();
 		}
 
-		protected abstract void OnAttack();
+		protected abstract void OnRegularAttack();
 		protected virtual void OnUpdate() {}
 	}
 }

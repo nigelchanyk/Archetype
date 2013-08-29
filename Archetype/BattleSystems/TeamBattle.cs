@@ -37,15 +37,25 @@ namespace Archetype.BattleSystems
 		{
 			string[] names = Names.Random(redBotCount + blueBotCount).ToArray();
 			foreach (string name in names.Slice(0, redBotCount))
-				TeamRecordMapper[Team.Red].Add(new BattlerRecord(name));
+			{
+				BattlerRecord record = new BattlerRecord(name);
+				TeamRecordMapper[Team.Red].Add(record);
+				TeamMapper.Add(record, Team.Red);
+			}
 			foreach (string name in names.Slice(redBotCount, names.Length))
-				TeamRecordMapper[Team.Blue].Add(new BattlerRecord(name));
+			{
+				BattlerRecord record = new BattlerRecord(name);
+				TeamRecordMapper[Team.Blue].Add(record);
+				TeamMapper.Add(record, Team.Blue);
+			}
 
 		}
 
 		public void AddPlayer(string name, Team team)
 		{
-			TeamRecordMapper[team].Add(new BattlerRecord(name));
+			BattlerRecord record = new BattlerRecord(name);
+			TeamRecordMapper[team].Add(record);
+			TeamMapper.Add(record, team);
 		}
 
 		public override Character GetCharacterByName(string name)
