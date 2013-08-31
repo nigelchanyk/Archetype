@@ -144,7 +144,7 @@ namespace Archetype.Utilities
 		public static Ray TransformRay(this Ray ray, Node world)
 		{
 			Vector3 transformedOrigin = world.ConvertWorldToLocalPosition(ray.Origin);
-			Vector3 transformedDirection = world.ConvertWorldToLocalPosition(ray.Direction) - transformedOrigin;
+			Vector3 transformedDirection = world.ConvertWorldToLocalPosition(ray.Direction + ray.Origin) - transformedOrigin;
 			return new Ray(transformedOrigin, transformedDirection);
 		}
 	}

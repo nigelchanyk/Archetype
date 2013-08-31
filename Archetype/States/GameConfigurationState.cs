@@ -74,7 +74,7 @@ namespace Archetype.States
 		{
 			TeamBattle battle = new TeamBattle();
 			battle.AddPlayer("Test", TeamBattle.Team.Red);
-			battle.AddBots(3, 4);
+			battle.AddBots(0, 1);
 			Application.SchedulePopState();
 			Application.SchedulePushState(new GameState(Application, battle, "Test"));
 		}

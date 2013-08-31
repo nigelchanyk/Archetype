@@ -5,6 +5,7 @@ using System.Text;
 using Archetype.Objects.Characters;
 using Archetype.Objects.Weapons;
 using Mogre;
+using Archetype.Utilities;
 
 namespace Archetype.Logic.WeaponHandlers
 {
@@ -20,7 +21,7 @@ namespace Archetype.Logic.WeaponHandlers
 
 		protected override void OnRegularAttack()
 		{
-			ActionPerformer.Attack(Vector3.ZERO, Weapon.BaseDamage);
+			ActionPerformer.Attack(MathHelper.Forward, Weapon.BaseDamage);
 		}
 	}
 }

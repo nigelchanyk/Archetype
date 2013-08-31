@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 
 using Archetype.Assets;
+using Archetype.DataLoaders;
 using Archetype.Events;
 using Archetype.States;
 using Archetype.Utilities;
