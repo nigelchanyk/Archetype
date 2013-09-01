@@ -2,28 +2,28 @@
 <Armatures>
 	<Armature name="Hips">
 	<Armature name="Spine">
-		<Collider type="box">
+		<Collider type="box" damage="1">
 		<Min x="-0.122" y="-0.122" z="-0.122" />
 		<Max x="0.122" y="0.122" z="0.122" />
 		</Collider>
 		<Armature name="Spine1">
-		<Collider type="box">
+		<Collider type="box" damage="1">
 			<Min x="-0.110" y="-0.110" z="-0.110" />
 			<Max x="0.110" y="0.110" z="0.110" />
 		</Collider>
 		<Armature name="Spine2">
-			<Collider type="box">
+			<Collider type="box" damage="1">
 			<Min x="-0.100" y="-0.113" z="-0.100" />
 			<Max x="0.100" y="0.113" z="0.100" />
 			</Collider>
 			<Armature name="Neck">
-			<Collider type="box">
+			<Collider type="box" damage="2">
 				<Min x="-0.052" y="-0.100" z="-0.052" />
 				<Max x="0.052" y="0.100" z="0.052" />
 			</Collider>
 			<Armature name="Neck1">
 				<Armature name="Head">
-				<Collider type="sphere" x="0" y="0.13" z="0" radius="0.13" />
+				<Collider type="sphere" x="0" y="0.13" z="0" radius="0.13" damage="4" />
 				</Armature>
 			</Armature>
 			</Armature>

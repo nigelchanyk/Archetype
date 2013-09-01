@@ -118,15 +118,16 @@ namespace Archetype.Objects
 			return GetFirstIntersectingBuilding(cylinder) != null;
 		}
 
-		public Character FindEnemy(Character attacker, Ray ray)
+		public Character FindEnemy(Character attacker, Ray ray, out BodyCollider collider)
 		{
+			collider = null;
 			if (BattleSystem == null)
 				return null;
 			float? characterIntersection = null;
 			Character closest = null;
 			foreach (Character enemy in BattleSystem.GetEnemiesAlive(attacker))
 			{
-				float? intersection = enemy.GetIntersectingDistance(ray);
+				float? intersection = enemy.GetRayCollisionResult(ray, out collider);
 				if (intersection == null)
 					continue;
 				if (characterIntersection == null || characterIntersection.Value < intersection.Value)

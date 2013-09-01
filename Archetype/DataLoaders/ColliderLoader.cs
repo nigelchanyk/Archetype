@@ -8,6 +8,7 @@ using Mogre;
 
 using Archetype.Objects.Primitives;
 using Archetype.Utilities;
+using Archetype.Objects.Characters;
 
 namespace Archetype.DataLoaders
 {
@@ -22,10 +23,10 @@ namespace Archetype.DataLoaders
 		/// <param name="entity">Entity (model) loaded</param>
 		/// <param name="armaturePrefix">Prefix of the armature name within the model</param>
 		/// <returns>A list of primitive nodes created</returns>
-		public static List<PrimitiveNode> ParseColliders(string colliderConfiguration, Entity entity, string armaturePrefix)
+		public static List<BodyCollider> ParseColliders(string colliderConfiguration, Entity entity, string armaturePrefix)
 		{
 			Armature armature = ColliderCache.GetOrCreate(colliderConfiguration);
-			List<PrimitiveNode> result = new List<PrimitiveNode>();
+			List<BodyCollider> result = new List<BodyCollider>();
 			RecursiveCreate(armature, entity.Skeleton, armaturePrefix, result);
 			return result;
 		}
@@ -41,9 +42,9 @@ namespace Archetype.DataLoaders
 			return rootArmature;
 		}
 
-		private static void RecursiveCreate(Armature armature, Skeleton skeleton, string prefix, List<PrimitiveNode> result)
+		private static void RecursiveCreate(Armature armature, Skeleton skeleton, string prefix, List<BodyCollider> result)
 		{
-			foreach (IColliderTemplate collider in armature.Colliders)
+			foreach (ColliderTemplate collider in armature.Colliders)
 				collider.InsertCollider(skeleton.GetBone(prefix + armature.Name), result);
 			foreach (Armature child in armature.Children)
 				RecursiveCreate(child, skeleton, prefix, result);
@@ -53,7 +54,7 @@ namespace Archetype.DataLoaders
 		private class Armature
 		{
 			public string Name { get; private set; }
-			public IColliderTemplate[] Colliders { get; private set; }
+			public ColliderTemplate[] Colliders { get; private set; }
 			public Armature[] Children { get; private set; }
 			
 			public Armature(XElement element)
@@ -61,7 +62,7 @@ namespace Archetype.DataLoaders
 				element = element.Element("Armature");
 				Name = element.Attribute("name").Value;
 				var collidersEnumerator = element.Elements("Collider");
-				Colliders = new IColliderTemplate[collidersEnumerator.Count()];
+				Colliders = new ColliderTemplate[collidersEnumerator.Count()];
 				int i = 0;
 				foreach (XElement colliderElement in collidersEnumerator)
 					Colliders[i++] = CreateColliderTemplate(colliderElement);
@@ -73,7 +74,7 @@ namespace Archetype.DataLoaders
 					Children[i++] = new Armature(childElement);
 			}
 
-			private static IColliderTemplate CreateColliderTemplate(XElement element)
+			private static ColliderTemplate CreateColliderTemplate(XElement element)
 			{
 				switch (element.Attribute("type").Value)
 				{
@@ -87,44 +88,54 @@ namespace Archetype.DataLoaders
 			}
 		}
 
-		private interface IColliderTemplate
+
+		private abstract class ColliderTemplate
 		{
-			void InsertCollider(Node node, List<PrimitiveNode> result);
+			public float DamageMultipler { get; private set; }
+			public Vector3 Position { get; private set; }
+
+			public ColliderTemplate(XElement element)
+			{
+				Position = element.ParseXYZ(Vector3.ZERO);
+				DamageMultipler = (float)element.Attribute("damage");
+			}
+
+			public abstract void InsertCollider(Node node, List<BodyCollider> result);
 		}
 
-		public class BoxTemplate : IColliderTemplate
+
+		private class BoxTemplate : ColliderTemplate
 		{
-			public Vector3 Position { get; private set; }
 			public Vector3 Max { get; private set; }
 			public Vector3 Min { get; private set; }
 
 			public BoxTemplate(XElement element)
+				: base(element)
 			{
-				Position = element.ParseXYZ(Vector3.ZERO);
 				Min = element.Element("Min").ParseXYZ(Vector3.ZERO);
 				Max = element.Element("Max").ParseXYZ(Vector3.ZERO);
 			}
 
-			public void InsertCollider(Node node, List<PrimitiveNode> result)
+			public override void InsertCollider(Node node, List<BodyCollider> result)
 			{
-				result.Add(new BoxNode(node, Min, Max));
+				result.Add(new BodyCollider(new BoxNode(node, Min, Max), DamageMultipler));
 			}
 		}
 
-		public class SphereTemplate : IColliderTemplate
+
+		private class SphereTemplate : ColliderTemplate
 		{
-			public Vector3 Position { get; private set; }
 			public float Radius { get; private set; }
 
 			public SphereTemplate(XElement element)
+				: base(element)
 			{
-				Position = element.ParseXYZ(Vector3.ZERO);
 				Radius = (float)element.Attribute("radius");
 			}
 
-			public void InsertCollider(Node node, List<PrimitiveNode> result)
+			public override void InsertCollider(Node node, List<BodyCollider> result)
 			{
-				result.Add(new SphereNode(node, Position, Radius));
+				result.Add(new BodyCollider(new SphereNode(node, Position, Radius), DamageMultipler));
 			}
 		}
 	}

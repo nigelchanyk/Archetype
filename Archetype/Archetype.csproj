@@ -86,6 +86,7 @@
     <Compile Include="Logic\WeaponHandlers\WeaponHandler.cs" />
     <Compile Include="Objects\Characters\Androids\Android.cs" />
     <Compile Include="Objects\Characters\Androids\Assaulter.cs" />
+    <Compile Include="Objects\Characters\BodyCollider.cs" />
     <Compile Include="Objects\Characters\Character.cs" />
     <Compile Include="Objects\GeneralObject.cs" />
     <Compile Include="Objects\Primitives\BoxNode.cs" />

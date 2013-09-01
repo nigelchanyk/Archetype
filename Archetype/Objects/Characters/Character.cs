@@ -78,7 +78,7 @@ namespace Archetype.Objects.Characters
 
 		protected WeaponHandler ActiveWeaponHandler { get; set; } // Nullable
 		protected Entity[] BodyEntities { get; private set; }
-		protected PrimitiveNode[] BodyColliders { get; private set; }
+		protected BodyCollider[] BodyColliders { get; private set; }
 		protected SceneNode BodyNode { get; private set; }
 		protected SphereNode BoundingSphere { get; private set; }
 		protected LowerBodyAnimationKind LowerBodyAnimation { get; set; }
@@ -125,23 +125,41 @@ namespace Archetype.Objects.Characters
 		public void Attack(Vector3 eyeSpaceDirection, int baseDamage)
 		{
 			Ray ray = new Ray(EyeNode.ConvertLocalToWorldPosition(Vector3.ZERO), EyeNode.ConvertLocalToWorldDelta(eyeSpaceDirection));
-			Character enemy = World.FindEnemy(this, ray);
+			BodyCollider collider;
+			Character enemy = World.FindEnemy(this, ray, out collider);
 			if (enemy != null)
 				Console.WriteLine("Hit");
 			else
 				Console.WriteLine("Miss");
 		}
 
-		public float? GetIntersectingDistance(Ray ray)
+		public float? GetRayCollisionResult(Ray ray, out BodyCollider collider)
 		{
+			collider = null;
 			// Simple test
 			float? result = BoundingSphere.GetIntersectingDistance(ray);
 			if (result == null)
 				return null;
 
 			// Precise test
+			float? best = null;
+			// Bones consider the scene node itself as world space.
+			// Therefore, the given ray must first be converted to the
+			// bone's world space.
+			ray = ray.TransformRay(BodyNode);
+			foreach (BodyCollider bodyCollider in BodyColliders)
+			{
+				result = bodyCollider.PrimitiveNode.GetIntersectingDistance(ray);
+				if (result == null)
+					continue;
+				if (best == null || result.Value < best.Value)
+				{
+					best = result;
+					collider = bodyCollider;
+				}
+			}
 
-			return result;
+			return best;
 		}
 
 		public void Jump()
