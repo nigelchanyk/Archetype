@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mogre;
+using Archetype.Events;
 
 namespace Archetype.UserInterface
 {
@@ -26,5 +27,12 @@ namespace Archetype.UserInterface
 			if (Clicked != null)
 				Clicked(this, new EventArgs());
 		}
+
+		public void Update(UpdateEvent evt)
+		{
+			OnUpdate(evt);
+		}
+
+		protected virtual void OnUpdate(UpdateEvent evt) {}
 	}
 }

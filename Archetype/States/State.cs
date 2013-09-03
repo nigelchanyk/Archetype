@@ -38,6 +38,7 @@ namespace Archetype.States
 		public State(Application application)
 		{
 			Application = application;
+			UserInterface = new UserInterfaceLayer(ZOrder);
 		}
 
 		public void Dispose()
@@ -71,7 +72,6 @@ namespace Archetype.States
 		public void Resume(UpdateEvent evt)
 		{
 			OnResume(evt);
-			UserInterface = new UserInterfaceLayer(ZOrder);
 			OnUserInterfaceCreate();
 			IsUserInterfaceInitialized = true;
 			Application.CursorVisible = CursorVisible;

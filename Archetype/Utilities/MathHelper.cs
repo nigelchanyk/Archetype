@@ -24,6 +24,9 @@ namespace Archetype.Utilities
 		public static readonly float Pi = Mogre.Math.PI;
 		public static readonly float TwoPi = Mogre.Math.TWO_PI;
 
+		// Special Constants
+		public static readonly float SqrtTwo = (float)System.Math.Sqrt(2);
+
 		public static float Clamp(this float original, float min, float max)
 		{
 			if (original < min)

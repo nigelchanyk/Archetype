@@ -44,6 +44,7 @@ namespace Archetype.States
 
 		protected override void OnUpdate(Events.UpdateEvent evt)
 		{
+			UserInterface.Update(evt);
 			World.Update(evt);
 		}
 	}

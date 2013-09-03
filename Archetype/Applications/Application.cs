@@ -21,6 +21,7 @@ namespace Archetype.Applications
 		public MOIS.InputManager Input { get; private set; }
 		public MOIS.Keyboard Keyboard { get; private set; }
 		public MOIS.Mouse Mouse { get; private set; }
+		public Dimension Resolution { get; private set; }
 		public Root Root { get; private set; }
 		public string Title { get; set; }
 		public RenderWindow Window { get; private set; }
@@ -76,7 +77,8 @@ namespace Archetype.Applications
 		public void ShowApplication()
 		{
 			Window = Root.Initialise(true, Title);
-			WindowCenter = new Point((int)Root.AutoCreatedWindow.Width / 2, (int)Root.AutoCreatedWindow.Height / 2);
+			Resolution = new Dimension((int)Root.AutoCreatedWindow.Width, (int)Root.AutoCreatedWindow.Height);
+			WindowCenter = new Point(Resolution.Width / 2, Resolution.Height / 2);
 			TextureManager.Singleton.DefaultNumMipmaps = 5;
 			ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 			InitializeInput();

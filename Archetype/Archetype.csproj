@@ -105,6 +105,9 @@
     <Compile Include="States\WorldState.cs" />
     <Compile Include="StaticInitializer.cs" />
     <Compile Include="UserInterface\Button.cs" />
+    <Compile Include="UserInterface\Crosshairs\Crosshair.cs" />
+    <Compile Include="UserInterface\Crosshairs\CrosshairStyler.cs" />
+    <Compile Include="UserInterface\Crosshairs\RegularCrosshairStyler.cs" />
     <Compile Include="UserInterface\CursorOverlay.cs" />
     <Compile Include="UserInterface\Dimension.cs" />
     <Compile Include="UserInterface\Point.cs" />
@@ -226,25 +229,10 @@
     <Content Include="Assets\Fonts\TrueTypeFonts.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Skins\Cursor.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Skins\CursorSkins.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Skins\Skins.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Skins\texture.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Skins\texture2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Skins\textureA.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\UserInterface\Cursor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\UserInterface\RegularCrosshair.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="OgreMain.dll">

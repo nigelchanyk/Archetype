@@ -8,12 +8,14 @@ using Archetype.Applications;
 using Archetype.Controllers;
 using Archetype.Events;
 using Archetype.BattleSystems;
+using Archetype.UserInterface.Crosshairs;
 
 namespace Archetype.States
 {
 	public class GameState : WorldState
 	{
 		private BattleSystem BattleSystem;
+		private Crosshair Crosshair;
 		private Player Player;
 
 		public GameState(Application application, BattleSystem battleSystem, string playerName)
@@ -25,7 +27,12 @@ namespace Archetype.States
 			Player = new Player(World, Application.WindowCenter, true);
 			BattleSystem.Start();
 			Player.Character = BattleSystem.GetCharacterByName(playerName);
-			CursorVisible = true;
+			Crosshair = new Crosshair(Application.Resolution, World.Camera)
+			{
+				Character = Player.Character
+			};
+			UserInterface.Add(Crosshair);
+			CursorVisible = false;
 		}
 
 		protected override void OnDispose()

@@ -19,7 +19,7 @@ namespace Archetype.Objects.Characters.Androids
 		{
 			JumpHandler = new JumpHandler(this, 4, GameConstants.DefaultGravityAcceleration);
 			WalkHandler = new WalkHandler(this, GameConstants.DefaultWalkingSpeed);
-			ActiveWeaponHandler = new RangedWeaponHandler(this, new RangedWeapon("asdf", 50, 0.1f, 1));
+			ActiveWeaponHandler = new RangedWeaponHandler(this, new RangedWeapon(Weapon.Kind.Pistol, "asdf", 50, 0.1f, 1));
 		}
 	}
 }

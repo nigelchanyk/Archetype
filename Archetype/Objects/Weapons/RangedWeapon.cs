@@ -9,8 +9,8 @@ namespace Archetype.Objects.Weapons
 	{
 		public float RecoilFactor { get; private set; }
 
-		public RangedWeapon(string modelName, int baseDamage, float attackInterval, float recoilFactor)
-			: base(modelName, baseDamage, attackInterval)
+		public RangedWeapon(Kind kind, string modelName, int baseDamage, float attackInterval, float recoilFactor)
+			: base(kind, modelName, baseDamage, attackInterval)
 		{
 			this.RecoilFactor = recoilFactor;
 		}

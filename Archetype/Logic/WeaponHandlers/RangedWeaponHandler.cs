@@ -11,12 +11,11 @@ namespace Archetype.Logic.WeaponHandlers
 {
 	public class RangedWeaponHandler : WeaponHandler
 	{
-		public RangedWeapon Weapon { get; private set; }
+		public RangedWeapon RangedWeapon { get { return (RangedWeapon)Weapon; } }
 
 		public RangedWeaponHandler(Character actionPerformer, RangedWeapon weapon)
-			: base(actionPerformer)
+			: base(actionPerformer, weapon)
 		{
-			this.Weapon = weapon;
 		}
 
 		protected override void OnRegularAttack()

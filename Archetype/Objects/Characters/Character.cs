@@ -13,6 +13,7 @@ using Archetype.Logic.ActionHandlers;
 using Archetype.Objects.Primitives;
 using Archetype.BattleSystems;
 using Archetype.Logic.WeaponHandlers;
+using Archetype.Objects.Weapons;
 
 namespace Archetype.Objects.Characters
 {
@@ -24,6 +25,7 @@ namespace Archetype.Objects.Characters
 			Walk
 		}
 
+		public WeaponHandler ActiveWeaponHandler { get; protected set; } // Nullable
 		public bool Alive
 		{
 			get { return Health > 0; }
@@ -54,6 +56,7 @@ namespace Archetype.Objects.Characters
 			get { return BodyNode.Position; }
 			set { BodyNode.Position = value; }
 		}
+		public Weapon Weapon { get { return ActiveWeaponHandler == null ? null : ActiveWeaponHandler.Weapon; } } // Nullable
 		public bool Visible
 		{
 			get
@@ -76,7 +79,6 @@ namespace Archetype.Objects.Characters
 			}
 		}
 
-		protected WeaponHandler ActiveWeaponHandler { get; set; } // Nullable
 		protected Entity[] BodyEntities { get; private set; }
 		protected BodyCollider[] BodyColliders { get; private set; }
 		protected SceneNode BodyNode { get; private set; }

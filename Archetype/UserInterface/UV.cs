@@ -7,7 +7,7 @@ namespace Archetype.UserInterface
 {
 	public class UV
 	{
-		public static UV[] CreateFromHorizontalGrid(int division)
+		public static UV[] CreateFromHorizontalGrid(int division, float minV = 0, float height = 1)
 		{
 			if (division <= 0)
 				throw new ArgumentException("Number of division must be greater than zero.");
@@ -15,7 +15,19 @@ namespace Archetype.UserInterface
 			UV[] results = new UV[division];
 			float width = 1f / division;
 			for (int i = 0; i < division; ++i)
-				results[i] = new UV(i * width, 0, width, 1);
+				results[i] = new UV(i * width, minV, width, height);
+			return results;
+		}
+
+		public static UV[][] CreateFromGrid(int verticalDivision, int horizontalDivision)
+		{
+			if (verticalDivision <= 0)
+				throw new ArgumentException("Number of division must be greater than zero.");
+
+			UV[][] results = new UV[verticalDivision][];
+			float height = 1f / verticalDivision;
+			for (int i = 0; i < verticalDivision; ++i)
+				results[i] = CreateFromHorizontalGrid(horizontalDivision, i * height, height);
 			return results;
 		}
 

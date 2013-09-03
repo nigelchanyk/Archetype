@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using MOIS;
+using Archetype.Events;
 
 namespace Archetype.UserInterface
 {
@@ -70,6 +71,12 @@ namespace Archetype.UserInterface
 				clickedComponent.Click();
 
 			PreviousCursorPosition = new Point(int.MinValue, int.MinValue);
+		}
+
+		public void Update(UpdateEvent evt)
+		{
+			foreach (UserInterfaceComponent component in Components)
+				component.Update(evt);
 		}
 
 		private Point ConvertToPoint(MouseEvent evt)
