@@ -215,6 +215,7 @@
     </Content>
     <Content Include="Assets\Data\WorldConfigurations.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Assets\Fonts\bluehigh.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

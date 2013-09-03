@@ -37,7 +37,7 @@ namespace Archetype.DataLoaders
 				return cache[colliderConfiguration];
 
 			XElement root = XElement.Load("Assets/Data/Colliders/" + colliderConfiguration);
-			Armature rootArmature = new Armature(root);
+			Armature rootArmature = Armature.FromRoot(root);
 			cache.Add(colliderConfiguration, rootArmature);
 			return rootArmature;
 		}
@@ -53,13 +53,17 @@ namespace Archetype.DataLoaders
 
 		private class Armature
 		{
+			public static Armature FromRoot(XElement root)
+			{
+				return new Armature(root.Element("Armature"));
+			}
+
 			public string Name { get; private set; }
 			public ColliderTemplate[] Colliders { get; private set; }
 			public Armature[] Children { get; private set; }
 			
-			public Armature(XElement element)
+			private Armature(XElement element)
 			{
-				element = element.Element("Armature");
 				Name = element.Attribute("name").Value;
 				var collidersEnumerator = element.Elements("Collider");
 				Colliders = new ColliderTemplate[collidersEnumerator.Count()];
