@@ -25,7 +25,19 @@ namespace Archetype.Objects.Characters
 			Walk
 		}
 
-		public WeaponHandler ActiveWeaponHandler { get; protected set; } // Nullable
+		public WeaponHandler ActiveWeaponHandler
+		{
+			get
+			{
+				return _activeWeaponHandler;
+			}
+			set
+			{
+				_activeWeaponHandler = value;
+				FirstPersonModel.WeaponHandlerChanged();
+				ThirdPersonModel.WeaponHandlerChanged();
+			}
+		}
 		public bool Alive
 		{
 			get { return Health > 0; }
@@ -40,10 +52,23 @@ namespace Archetype.Objects.Characters
 				EyeNode.Orientation = MathHelper.CreateQuaternionFromYawPitchRoll(0, _eyePitch, 0);
 			}
 		}
+		public bool FirstPerson
+		{
+			get
+			{
+				return _firstPerson;
+			}
+			set
+			{
+				_firstPerson = value;
+				FirstPersonModel.Visible = value;
+				ThirdPersonModel.Visible = !value;
+			}
+		}
 		public int Health { get; set; }
 		public override Quaternion Orientation
 		{
-			get { return BodyNode.Orientation; }
+			get { return CharacterNode.Orientation; }
 			set
 			{
 				Radian x, y, z;
@@ -53,8 +78,8 @@ namespace Archetype.Objects.Characters
 		}
 		public override Vector3 Position
 		{
-			get { return BodyNode.Position; }
-			set { BodyNode.Position = value; }
+			get { return CharacterNode.Position; }
+			set { CharacterNode.Position = value; }
 		}
 		public Weapon Weapon { get { return ActiveWeaponHandler == null ? null : ActiveWeaponHandler.Weapon; } } // Nullable
 		public bool Visible
@@ -66,7 +91,7 @@ namespace Archetype.Objects.Characters
 			set
 			{
 				_visible = value;
-				BodyNode.SetVisible(value, true);
+				CharacterNode.SetVisible(value, true);
 			}
 		}
 		public float Yaw
@@ -75,14 +100,13 @@ namespace Archetype.Objects.Characters
 			set
 			{
 				_yaw = value;
-				BodyNode.Orientation = MathHelper.CreateQuaternionFromYawPitchRoll(_yaw, 0, 0);
+				CharacterNode.Orientation = MathHelper.CreateQuaternionFromYawPitchRoll(_yaw, 0, 0);
 			}
 		}
 
-		protected Entity[] BodyEntities { get; private set; }
 		protected BodyCollider[] BodyColliders { get; private set; }
-		protected SceneNode BodyNode { get; private set; }
 		protected SphereNode BoundingSphere { get; private set; }
+		protected SceneNode CharacterNode { get; private set; }
 		protected LowerBodyAnimationKind LowerBodyAnimation { get; set; }
 		protected UprightCylinderNode SimpleCollider { get; set; }
 
@@ -91,7 +115,11 @@ namespace Archetype.Objects.Characters
 
 		private Dictionary<LowerBodyAnimationKind, AnimationState[]> LowerAnimationMapper = new Dictionary<LowerBodyAnimationKind, AnimationState[]>();
 		private SceneNode EyeNode;
+		private FirstPersonModel FirstPersonModel;
+		private ThirdPersonModel ThirdPersonModel;
+		private WeaponHandler _activeWeaponHandler; // Nullable
 		private float _eyePitch = 0;
+		private bool _firstPerson = false;
 		private bool _visible = true;
 		private float _yaw = 0;
 
@@ -101,18 +129,18 @@ namespace Archetype.Objects.Characters
 			if (bodyEntityNames.Length == 0)
 				throw new ArgumentException("At least one body entity must be provided.");
 
-			BodyEntities = bodyEntityNames.Select(name => World.Scene.CreateEntity(name)).ToArray();
-			BodyNode = World.WorldNode.CreateChildSceneNode();
-			foreach (Entity bodyEntity in BodyEntities)
-				BodyNode.AttachObject(bodyEntity);
+			CharacterNode = World.WorldNode.CreateChildSceneNode();
+			EyeNode = CharacterNode.CreateChildSceneNode(new Vector3(0, 1.7f, 0));
+			FirstPersonModel = new FirstPersonModel(this, EyeNode);
+			FirstPersonModel.Visible = false;
+			ThirdPersonModel = new ThirdPersonModel(this, CharacterNode, bodyEntityNames);
 
-			BodyColliders = ColliderLoader.ParseColliders(colliderName, BodyEntities[0], "Alpha_").ToArray();
+			BodyColliders = ColliderLoader.ParseColliders(colliderName, ThirdPersonModel.BodyEntities[0], "Alpha_").ToArray();
 
 			BuildAnimationMappers();
-			BoundingSphere = new SphereNode(BodyNode, new Vector3(0, 1, 0), 2);
-			SimpleCollider = new UprightCylinderNode(BodyNode, Vector3.ZERO, 1.7f, 0.4f);
+			BoundingSphere = new SphereNode(CharacterNode, new Vector3(0, 1, 0), 2);
+			SimpleCollider = new UprightCylinderNode(CharacterNode, Vector3.ZERO, 1.7f, 0.4f);
 			LowerBodyAnimation = LowerBodyAnimationKind.Idle;
-			EyeNode = BodyNode.CreateChildSceneNode(new Vector3(0, 1.7f, 0));
 			Health = 100;
 		}
 
@@ -148,7 +176,7 @@ namespace Archetype.Objects.Characters
 			// Bones consider the scene node itself as world space.
 			// Therefore, the given ray must first be converted to the
 			// bone's world space.
-			ray = ray.TransformRay(BodyNode);
+			ray = ray.TransformRay(CharacterNode);
 			foreach (BodyCollider bodyCollider in BodyColliders)
 			{
 				result = bodyCollider.PrimitiveNode.GetIntersectingDistance(ray);
@@ -176,7 +204,7 @@ namespace Archetype.Objects.Characters
 
 		public void LookAt(Vector3 position)
 		{
-			BodyNode.LookAt(position, Node.TransformSpace.TS_PARENT);
+			CharacterNode.LookAt(position, Node.TransformSpace.TS_PARENT);
 		}
 
 		public void RegularAttack()
@@ -192,12 +220,12 @@ namespace Archetype.Objects.Characters
 
 		protected override void OnDispose()
 		{
-			BodyNode.DetachAllObjects();
+			CharacterNode.DetachAllObjects();
 			EyeNode.DetachAllObjects();
+			FirstPersonModel.Dispose();
+			ThirdPersonModel.Dispose();
 			EyeNode.Dispose();
-			foreach (Entity bodyEntity in BodyEntities)
-				bodyEntity.Dispose();
-			BodyNode.Dispose();
+			CharacterNode.Dispose();
 		}
 
 		protected override void OnUpdate(UpdateEvent evt)
@@ -207,8 +235,8 @@ namespace Archetype.Objects.Characters
 			if (ActiveWeaponHandler != null)
 				ActiveWeaponHandler.Update(evt);
 
-			if (BodyNode.Position.y < 0)
-				BodyNode.Position = BodyNode.Position.Mask(true, false, true);
+			if (CharacterNode.Position.y < 0)
+				CharacterNode.Position = CharacterNode.Position.Mask(true, false, true);
 			UpdateAnimation(evt);
 		}
 
@@ -216,7 +244,7 @@ namespace Archetype.Objects.Characters
 		{
 			foreach (LowerBodyAnimationKind kind in Enum.GetValues(typeof(LowerBodyAnimationKind)))
 			{
-				AnimationState[] animation = BodyEntities.Select(entity => entity.GetAnimationState(kind.ToString())).ToArray();
+				AnimationState[] animation = ThirdPersonModel.BodyEntities.Select(entity => entity.GetAnimationState(kind.ToString())).ToArray();
 				LowerAnimationMapper.Add(kind, animation);
 			}
 		}
@@ -263,22 +291,22 @@ namespace Archetype.Objects.Characters
 		private void MultiAttemptsTranslate(float elapsedTime)
 		{
 			Vector3 originalPosition = Position;
-			BodyNode.Translate(Velocity * elapsedTime, Node.TransformSpace.TS_PARENT);
-			BodyNode.InvalidateChildrenCache();
+			CharacterNode.Translate(Velocity * elapsedTime, Node.TransformSpace.TS_PARENT);
+			CharacterNode.InvalidateChildrenCache();
 			UprightBoxNode intersectedBuilding = World.GetFirstIntersectingBuilding(SimpleCollider);
 			if (intersectedBuilding == null)
 				return;
 
 			// Collided with something
 			// From here, we work with the building's world to perform smooth partial movements.
-			originalPosition = BodyNode.Parent.ConvertToSpace(intersectedBuilding.ReferenceNode, originalPosition);
-			Vector3 fullTranslation = BodyNode.ConvertToSpace(intersectedBuilding.ReferenceNode, Vector3.ZERO);
+			originalPosition = CharacterNode.Parent.ConvertToSpace(intersectedBuilding.ReferenceNode, originalPosition);
+			Vector3 fullTranslation = CharacterNode.ConvertToSpace(intersectedBuilding.ReferenceNode, Vector3.ZERO);
 			Vector3 bestDelta = Vector3.ZERO;
 			foreach (Vector3 delta in (fullTranslation - originalPosition).CreatePartialVectorCombinations())
 			{
 				Vector3 currentBestDelta = BinarySearch.Iterate(originalPosition, originalPosition + delta, 3, pos =>
 				{
-					BodyNode.Position = intersectedBuilding.ReferenceNode.ConvertToSpace(BodyNode.Parent, pos);
+					CharacterNode.Position = intersectedBuilding.ReferenceNode.ConvertToSpace(CharacterNode.Parent, pos);
 					SimpleCollider.InvalidateCache();
 					return !World.IntersectBuildings(SimpleCollider);
 				}) - originalPosition;
@@ -287,7 +315,7 @@ namespace Archetype.Objects.Characters
 					bestDelta = currentBestDelta;
 			}
 
-			Position = intersectedBuilding.ReferenceNode.ConvertToSpace(BodyNode.Parent, originalPosition + bestDelta);
+			Position = intersectedBuilding.ReferenceNode.ConvertToSpace(CharacterNode.Parent, originalPosition + bestDelta);
 		}
 	}
 }

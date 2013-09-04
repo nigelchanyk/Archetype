@@ -19,8 +19,13 @@ namespace Archetype.Controllers
 			get { return base.Character; }
 			set
 			{
-				value.AttachCamera(World.Camera);
+				// Set previous character to third person
+				if (Character != null)
+					Character.FirstPerson = false;
+
 				base.Character = value;
+				Character.AttachCamera(World.Camera);
+				Character.FirstPerson = true;
 			}
 		}
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mogre;
 
 namespace Archetype.Objects.Weapons
 {
@@ -13,9 +14,9 @@ namespace Archetype.Objects.Weapons
 		public float MinInaccuracy { get; private set; }
 		public float RecoilGrowth { get; private set; }
 
-		public RangedWeapon(Kind kind, string name, string modelName, int baseDamage, float attackInterval,
+		public RangedWeapon(Kind kind, string name, string modelName, int baseDamage, float attackInterval, Vector3 firstPersonPosition,
 			float minInaccuracy, float maxInaccuracy, float inaccuracyGrowth, float maxRecoil, float recoilGrowth)
-			: base(kind, name, modelName, baseDamage, attackInterval)
+			: base(kind, name, modelName, baseDamage, attackInterval, firstPersonPosition)
 		{
 			this.MinInaccuracy = minInaccuracy;
 			this.MaxInaccuracy = maxInaccuracy;

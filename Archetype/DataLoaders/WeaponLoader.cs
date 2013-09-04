@@ -41,6 +41,7 @@ namespace Archetype.DataLoaders
 						attributes.ModelName,
 						attributes.BaseDamage,
 						attributes.AttackInterval,
+						attributes.FirstPersonPosition,
 						attributes.MinInaccuracy,
 						attributes.MaxInaccuracy,
 						attributes.InaccuracyGrowth,
@@ -69,13 +70,15 @@ namespace Archetype.DataLoaders
 		private static WeaponAttributes LoadWeaponAttributes(XElement weaponElement)
 		{
 			XElement attackElement = weaponElement.Element("Attack");
+			XElement firstPersonElement = weaponElement.Element("FirstPerson");
 			return new WeaponAttributes()
 			{
 				Kind = weaponElement.Attribute("kind").Value.ParseAsEnum<Weapon.Kind>(true),
 				Name = weaponElement.Attribute("name").Value,
 				ModelName = weaponElement.Attribute("model").Value,
 				BaseDamage = (int)attackElement.Attribute("damage"),
-				AttackInterval = (float)attackElement.Attribute("interval")
+				AttackInterval = (float)attackElement.Attribute("interval"),
+				FirstPersonPosition = firstPersonElement.ParseXYZ(Vector3.ZERO)
 			};
 		}
 
@@ -83,6 +86,7 @@ namespace Archetype.DataLoaders
 		{
 			public float AttackInterval;
 			public int BaseDamage;
+			public Vector3 FirstPersonPosition;
 			public Weapon.Kind Kind;
 			public float InaccuracyGrowth;
 			public float MaxInaccuracy;

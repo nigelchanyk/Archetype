@@ -89,6 +89,9 @@
     <Compile Include="Objects\Characters\Androids\Assaulter.cs" />
     <Compile Include="Objects\Characters\BodyCollider.cs" />
     <Compile Include="Objects\Characters\Character.cs" />
+    <Compile Include="Objects\Characters\CharacterModel.cs" />
+    <Compile Include="Objects\Characters\FirstPersonModel.cs" />
+    <Compile Include="Objects\Characters\ThirdPersonModel.cs" />
     <Compile Include="Objects\GeneralObject.cs" />
     <Compile Include="Objects\Primitives\BoxNode.cs" />
     <Compile Include="Objects\Primitives\PrimitiveNode.cs" />
@@ -147,6 +150,9 @@
     <None Include="Assets\Materials\Material.material">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Assets\Materials\USP.Material.material">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Assets\Models\Alpha_LowJointsGeoMesh.mesh">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -165,6 +171,9 @@
     <None Include="Assets\Models\Plane.mesh">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Assets\Models\USP.mesh">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Assets\Packages\OgreCore.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -178,6 +187,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Assets\Skeletons\Alpha_LowTorsoGeoMesh.skeleton">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Textures\USP.tga">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Assets\UserInterface\UserInterface.material">
