@@ -55,11 +55,16 @@ namespace Archetype.Applications
 			while (StateStack.Count > 0)
 				StateStack.Pop().Dispose();
 			ExitListener.Dispose();
-			Input.Dispose();
-			Keyboard.Dispose();
-			Mouse.Dispose();
-			Window.Dispose();
-			Root.Dispose();
+			if (Input != null)
+				Input.Dispose();
+			if (Keyboard != null)
+				Keyboard.Dispose();
+			if (Mouse != null)
+				Mouse.Dispose();
+			if (Window != null)
+				Window.Dispose();
+			if (Root != null)
+				Root.Dispose();
 		}
 
 		public void SchedulePopState()
