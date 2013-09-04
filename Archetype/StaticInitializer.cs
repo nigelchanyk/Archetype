@@ -13,6 +13,7 @@ namespace Archetype
 		{
 			Names.Initialize();
 			WorldConfigurationLoader.Initialize();
+			WeaponLoader.Initialize();
 		}
 	}
 }

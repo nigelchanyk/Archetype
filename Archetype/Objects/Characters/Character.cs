@@ -204,6 +204,8 @@ namespace Archetype.Objects.Characters
 		{
 			Velocity = WalkHandler.GetVelocityInfluence(evt) + JumpHandler.GetVelocityInfluence(evt);
 			MultiAttemptsTranslate(evt.ElapsedTime);
+			if (ActiveWeaponHandler != null)
+				ActiveWeaponHandler.Update(evt);
 
 			if (BodyNode.Position.y < 0)
 				BodyNode.Position = BodyNode.Position.Mask(true, false, true);

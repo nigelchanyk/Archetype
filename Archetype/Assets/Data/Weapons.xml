@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Weapons>
+  <RangedWeapons>
+	<Weapon kind="Pistol" model="Pistol" name="Pistol">
+	  <Attack damage="25" interval="0.2" />
+	  <Inaccuracy min="0.5" max="3" growth="1" />
+	  <Recoil max="3" growth="0.25" />
+	</Weapon>
+  </RangedWeapons>
+</Weapons>

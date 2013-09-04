@@ -75,6 +75,7 @@
     <Compile Include="Controllers\CameraController.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\Player.cs" />
+    <Compile Include="DataLoaders\WeaponLoader.cs" />
     <Compile Include="DataLoaders\WorldConfigurationLoader.cs" />
     <Compile Include="Events\UpdateEvent.cs" />
     <Compile Include="Events\WindowExitListener.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Utilities\Names.cs" />
     <Compile Include="Utilities\SceneHelper.cs" />
     <Compile Include="Utilities\SceneLoader.cs" />
+    <Compile Include="Utilities\SphericalCoordinate.cs" />
     <Compile Include="Utilities\UserInterfaceHelper.cs" />
     <Compile Include="Utilities\XmlHelper.cs" />
   </ItemGroup>
@@ -214,6 +216,9 @@
   <ItemGroup>
     <Content Include="Assets\Data\Colliders\BasicCharacter.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Data\Weapons.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Data\WorldConfigurations.xml">

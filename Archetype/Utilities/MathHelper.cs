@@ -8,6 +8,8 @@ namespace Archetype.Utilities
 {
 	public static class MathHelper
 	{
+		public static readonly Random Randomizer = new Random();
+
 		// Directional Constants
 		public static readonly Vector3 Backward = Vector3.UNIT_Z;
 		public static readonly Vector3 Down = Vector3.NEGATIVE_UNIT_Y;
@@ -104,6 +106,16 @@ namespace Archetype.Utilities
 			return new Vector3(x ? original.x : 0, y ? original.y : 0, z ? original.z : 0);
 		}
 
+		public static float NextFloat(this Random randomizer)
+		{
+			return (float)randomizer.NextDouble();
+		}
+
+		public static float NextFloat(this Random randomizer, float lowerBound, float upperBound)
+		{
+			return randomizer.NextFloat() * (upperBound - lowerBound) + lowerBound;
+		}
+
 		public static float Squared(this float value)
 		{
 			return value * value;
@@ -122,6 +134,21 @@ namespace Archetype.Utilities
 		public static float SquaredDistance(this Vector3 a, Vector3 b)
 		{
 			return (b - a).SquaredLength;
+		}
+
+		public static SphericalCoordinate ToSphericalCoordinate(this Vector3 vector)
+		{
+			float radius = vector.Length;
+			if (radius == 0)
+				return new SphericalCoordinate(0, 0, 0);
+
+			float s = new Vector2(vector.x, vector.y).Length;
+			float phi = (float)System.Math.Acos(vector.z / radius);
+			float theta = s == 0 ? 0 : (float)System.Math.Asin(vector.y / s);
+			if (vector.x < 0)
+				theta = MathHelper.Pi - theta;
+
+			return new SphericalCoordinate(radius, phi, theta);
 		}
 
 		public static Vector2 ToVectorXZ(this Vector3 vector)

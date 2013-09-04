@@ -63,7 +63,7 @@ namespace Archetype.UserInterface.Crosshairs
 				else
 				{
 					Styler.Visible = true;
-					Styler.Update(Resolution, Character.ActiveWeaponHandler.CrosshairRadius, Camera.FOVy.ValueRadians);
+					Styler.Update(Resolution, Character.ActiveWeaponHandler.Inaccuracy, Camera.FOVy.ValueRadians);
 				}
 			}
 			else if (Character.ActiveWeaponHandler != null)

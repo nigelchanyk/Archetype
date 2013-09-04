@@ -11,16 +11,31 @@ namespace Archetype.Logic.WeaponHandlers
 {
 	public class RangedWeaponHandler : WeaponHandler
 	{
-		public RangedWeapon RangedWeapon { get { return (RangedWeapon)Weapon; } }
+		private static readonly SphericalCoordinate PreciseAttackDirection = MathHelper.Forward.ToSphericalCoordinate();
+
+		public RangedWeapon RangedWeapon { get; private set; }
 
 		public RangedWeaponHandler(Character actionPerformer, RangedWeapon weapon)
 			: base(actionPerformer, weapon)
 		{
+			RangedWeapon = weapon;
+			MinInaccuracy = RangedWeapon.MinInaccuracy;
 		}
 
 		protected override void OnRegularAttack()
 		{
-			ActionPerformer.Attack(MathHelper.Forward, Weapon.BaseDamage);
+			SphericalCoordinate attackDirection = new SphericalCoordinate(
+				PreciseAttackDirection.Radius,
+				PreciseAttackDirection.Phi + RandomizeInaccuracy(),
+				PreciseAttackDirection.Theta + RandomizeInaccuracy()
+			);
+			ActionPerformer.Attack(attackDirection.ToVector3(), Weapon.BaseDamage);
+			Inaccuracy = System.Math.Min(RangedWeapon.MaxInaccuracy, Inaccuracy + RangedWeapon.InaccuracyGrowth);
+		}
+
+		private float RandomizeInaccuracy()
+		{
+			return MathHelper.Randomizer.NextFloat(-Inaccuracy, Inaccuracy);
 		}
 	}
 }
