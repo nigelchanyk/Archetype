@@ -31,6 +31,7 @@ namespace Archetype.Logic.WeaponHandlers
 			);
 			ActionPerformer.Attack(attackDirection.ToVector3(), Weapon.BaseDamage);
 			Inaccuracy = System.Math.Min(RangedWeapon.MaxInaccuracy, Inaccuracy + RangedWeapon.InaccuracyGrowth);
+			ActionPerformer.World.SoundEngine.Play3D("Assets/Audio/Gunshots/USP.ogg", ActionPerformer.EyeNode.GetWorldPosition());
 		}
 
 		private float RandomizeInaccuracy()

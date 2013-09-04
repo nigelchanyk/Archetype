@@ -43,6 +43,7 @@ namespace Archetype.Objects.Characters
 			get { return Health > 0; }
 		}
 		public BattlerRecord Record { get; set; }
+		public SceneNode EyeNode { get; private set; }
 		public float EyePitch
 		{
 			get { return _eyePitch; }
@@ -114,7 +115,6 @@ namespace Archetype.Objects.Characters
 		protected abstract WalkHandler WalkHandler { get; set; }
 
 		private Dictionary<LowerBodyAnimationKind, AnimationState[]> LowerAnimationMapper = new Dictionary<LowerBodyAnimationKind, AnimationState[]>();
-		private SceneNode EyeNode;
 		private FirstPersonModel FirstPersonModel;
 		private ThirdPersonModel ThirdPersonModel;
 		private WeaponHandler _activeWeaponHandler; // Nullable

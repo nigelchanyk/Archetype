@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using IrrKlang;
 using Mogre;
 
 using Archetype.Objects.Characters;
@@ -20,6 +22,7 @@ namespace Archetype.Objects
 		public Camera Camera { get; private set; }
 		public string SceneName { get; private set; }
 		public SceneManager Scene { get; private set; }
+		public ISoundEngine SoundEngine { get; private set; }
 		public SceneNode WorldNode { get { return Scene.RootSceneNode; } }
 
 		private List<UprightBoxNode> Buildings = new List<UprightBoxNode>();
@@ -39,6 +42,7 @@ namespace Archetype.Objects
 			InitializeCamera(new Vector3(0, 0, -5), Vector3.ZERO);
 			Light dirLight = CreateLight(new Vector3(100, 100, 100));
 			dirLight.Type = Light.LightTypes.LT_DIRECTIONAL;
+			SoundEngine = new ISoundEngine();
 		}
 
 		public void AddBuildingCollisionMesh(UprightBoxNode box)
@@ -85,6 +89,7 @@ namespace Archetype.Objects
 			Scene.DestroyAllMovableObjects();
 			Scene.DestroyAllParticleSystems();
 			Scene.Dispose();
+			SoundEngine.Dispose();
 		}
 
 		public void DestroyLight(Light light)
@@ -148,6 +153,7 @@ namespace Archetype.Objects
 		public void Update(UpdateEvent evt)
 		{
 			Characters.ForEach(character => character.Update(evt));
+			SoundEngine.SetListenerPosition(Camera);
 		}
 
 		private void InitializeCamera(Vector3 position, Vector3 lookAt)

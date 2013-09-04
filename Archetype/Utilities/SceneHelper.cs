@@ -13,6 +13,11 @@ namespace Archetype.Utilities
 			return target.ConvertWorldToLocalPosition(source.ConvertLocalToWorldPosition(position));
 		}
 
+		public static Vector3 GetWorldPosition(this Node node)
+		{
+			return node.ConvertLocalToWorldPosition(Vector3.ZERO);
+		}
+
 		public static void InvalidateCache(this Node node, bool propagate = false)
 		{
 			node.Position = node.Position;
