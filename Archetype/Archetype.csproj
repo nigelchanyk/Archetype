@@ -98,6 +98,10 @@
     <Compile Include="Objects\Characters\FirstPersonModel.cs" />
     <Compile Include="Objects\Characters\ThirdPersonModel.cs" />
     <Compile Include="Objects\GeneralObject.cs" />
+    <Compile Include="Objects\Particles\ParticleEmitterCluster.cs" />
+    <Compile Include="Objects\Particles\ParticleSystemType.cs" />
+    <Compile Include="Objects\Particles\UniqueParticleSystem.cs" />
+    <Compile Include="Objects\Particles\UniqueParticleSystemManager.cs" />
     <Compile Include="Objects\Primitives\BoxNode.cs" />
     <Compile Include="Objects\Primitives\PrimitiveNode.cs" />
     <Compile Include="Objects\Primitives\SphereNode.cs" />
@@ -130,9 +134,10 @@
     <Compile Include="DataLoaders\ColliderLoader.cs" />
     <Compile Include="Utilities\ContainerHelper.cs" />
     <Compile Include="Utilities\IndexedEnumerator.cs" />
-    <Compile Include="Utilities\LoaderHelper.cs" />
+    <Compile Include="Utilities\EnumHelper.cs" />
     <Compile Include="Utilities\MathHelper.cs" />
     <Compile Include="Utilities\Names.cs" />
+    <Compile Include="Utilities\ParticleSystemHelper.cs" />
     <Compile Include="Utilities\SceneHelper.cs" />
     <Compile Include="Utilities\SceneLoader.cs" />
     <Compile Include="Utilities\SphericalCoordinate.cs" />

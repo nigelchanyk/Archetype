@@ -11,6 +11,7 @@ using Archetype.BattleSystems;
 using Archetype.Events;
 using Archetype.Objects.Characters;
 using Archetype.Objects.Characters.Androids;
+using Archetype.Objects.Particles;
 using Archetype.Objects.Primitives;
 using Archetype.States;
 using Archetype.Utilities;
@@ -21,6 +22,18 @@ namespace Archetype.Objects
 	{
 		public BattleSystem BattleSystem { get; set; }
 		public Camera Camera { get; private set; }
+		public bool Paused
+		{
+			get
+			{
+				return _paused;
+			}
+			set
+			{
+				_paused = value;
+				ParticleSystemManager.Paused = _paused;
+			}
+		}
 		public string SceneName { get; private set; }
 		public SceneManager Scene { get; private set; }
 		public SoundEngine SoundEngine { get; private set; }
@@ -28,7 +41,9 @@ namespace Archetype.Objects
 
 		private List<UprightBoxNode> Buildings = new List<UprightBoxNode>();
 		private List<Character> Characters = new List<Character>();
+		private UniqueParticleSystemManager ParticleSystemManager;
 		private List<Light> Lights = new List<Light>();
+		private bool _paused = false;
 
 		public World(Root root, string sceneFile = "")
 		{
@@ -43,6 +58,8 @@ namespace Archetype.Objects
 			InitializeCamera(new Vector3(0, 0, -5), Vector3.ZERO);
 			Light dirLight = CreateLight(new Vector3(100, 100, 100));
 			dirLight.Type = Light.LightTypes.LT_DIRECTIONAL;
+
+			ParticleSystemManager = new UniqueParticleSystemManager(Scene, WorldNode);
 			SoundEngine = new SoundEngine();
 		}
 
@@ -56,6 +73,11 @@ namespace Archetype.Objects
 			Character character = new Assaulter(this);
 			Characters.Add(character);
 			return character;
+		}
+
+		public ParticleEmitterCluster CreateParticleEmitterCluster(ParticleSystemType type, Vector3 position)
+		{
+			return ParticleSystemManager.CreateParticleEmitterCluster(type, position);
 		}
 
 		public void DestroyCharacter(Character character)
@@ -80,6 +102,7 @@ namespace Archetype.Objects
 		public void Dispose()
 		{
 			Characters.ForEach(character => character.Dispose());
+			ParticleSystemManager.Dispose();
 			WorldNode.Dispose();
 			Scene.DestroyAllAnimations();
 			Scene.DestroyAllAnimationStates();
@@ -90,6 +113,7 @@ namespace Archetype.Objects
 			Scene.DestroyAllMovableObjects();
 			Scene.DestroyAllParticleSystems();
 			Scene.Dispose();
+
 			SoundEngine.Dispose();
 		}
 
@@ -154,6 +178,7 @@ namespace Archetype.Objects
 		public void Update(UpdateEvent evt)
 		{
 			Characters.ForEach(character => character.Update(evt));
+			ParticleSystemManager.Update(evt);
 			SoundEngine.SetListenerPosition(Camera.RealPosition, Camera.RealDirection);
 		}
 

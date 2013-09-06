@@ -11,6 +11,7 @@ using Archetype.DataLoaders;
 using Archetype.Events;
 using Archetype.Logic.ActionHandlers;
 using Archetype.Logic.WeaponHandlers;
+using Archetype.Objects.Particles;
 using Archetype.Objects.Primitives;
 using Archetype.Objects.Weapons;
 using Archetype.States;

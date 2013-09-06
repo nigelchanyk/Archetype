@@ -32,6 +32,7 @@ namespace Archetype.States
 			{
 				Application.Window.RemoveViewport(ZOrder);
 				AddedToViewport = false;
+				World.Paused = true;
 			}
 		}
 
@@ -40,6 +41,7 @@ namespace Archetype.States
 			if (!AddedToViewport)
 			{
 				Application.Window.AddViewport(World.Camera, ZOrder);
+				World.Paused = false;
 			}
 		}
 
