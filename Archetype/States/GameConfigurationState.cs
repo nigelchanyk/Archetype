@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Mogre;
+
 using Archetype.Applications;
 using Archetype.BattleSystems;
 using Archetype.Events;
 using Archetype.UserInterface;
-using Mogre;
 
 namespace Archetype.States
 {

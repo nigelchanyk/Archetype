@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Archetype.DataLoaders;
 using Archetype.Logic.ActionHandlers;
 using Archetype.Logic.WeaponHandlers;
 using Archetype.Objects.Weapons;
-using Archetype.DataLoaders;
 
 namespace Archetype.Objects.Characters.Androids
 {

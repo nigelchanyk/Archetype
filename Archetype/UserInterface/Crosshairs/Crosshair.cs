@@ -5,8 +5,8 @@ using System.Text;
 
 using Mogre;
 
-using Archetype.Objects.Characters;
 using Archetype.Events;
+using Archetype.Objects.Characters;
 
 namespace Archetype.UserInterface.Crosshairs
 {

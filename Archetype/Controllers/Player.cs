@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using Mogre;
 
 using Archetype.Events;
 using Archetype.Objects;
-using Archetype.Utilities;
 using Archetype.Objects.Characters;
 using Archetype.UserInterface;
+using Archetype.Utilities;
 
 namespace Archetype.Controllers
 {

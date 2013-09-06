@@ -6,9 +6,9 @@ using System.Xml.Linq;
 
 using Mogre;
 
-using Archetype.Objects.Primitives;
 using Archetype.Utilities;
 using Archetype.Objects.Characters;
+using Archetype.Objects.Primitives;
 
 namespace Archetype.DataLoaders
 {

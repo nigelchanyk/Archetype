@@ -1,12 +1,13 @@
-﻿using MOIS;
-using Mogre;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Archetype.States;
+using MOIS;
+using Mogre;
+
 using Archetype.Events;
+using Archetype.States;
 using Archetype.UserInterface;
 
 namespace Archetype.Applications

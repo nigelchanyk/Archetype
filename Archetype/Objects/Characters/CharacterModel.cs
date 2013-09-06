@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Archetype.Logic.WeaponHandlers;
+
 using Mogre;
+
+using Archetype.Logic.WeaponHandlers;
 
 namespace Archetype.Objects.Characters
 {

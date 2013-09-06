@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Mogre;
+
 using MOIS;
+using Mogre;
+
 using Archetype.Events;
 
 namespace Archetype.UserInterface

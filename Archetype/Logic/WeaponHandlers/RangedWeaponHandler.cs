@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using Mogre;
+
 using Archetype.Objects.Characters;
 using Archetype.Objects.Weapons;
-using Mogre;
 using Archetype.Utilities;
 
 namespace Archetype.Logic.WeaponHandlers

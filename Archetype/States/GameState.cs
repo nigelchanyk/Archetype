@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using Mogre;
 
 using Archetype.Applications;
+using Archetype.BattleSystems;
 using Archetype.Controllers;
 using Archetype.Events;
-using Archetype.BattleSystems;
 using Archetype.UserInterface.Crosshairs;
 
 namespace Archetype.States

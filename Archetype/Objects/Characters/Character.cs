@@ -1,19 +1,20 @@
-﻿using Mogre;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Mogre;
+
 using Archetype.Assets;
+using Archetype.BattleSystems;
 using Archetype.DataLoaders;
 using Archetype.Events;
+using Archetype.Logic.ActionHandlers;
+using Archetype.Logic.WeaponHandlers;
+using Archetype.Objects.Primitives;
+using Archetype.Objects.Weapons;
 using Archetype.States;
 using Archetype.Utilities;
-using Archetype.Logic.ActionHandlers;
-using Archetype.Objects.Primitives;
-using Archetype.BattleSystems;
-using Archetype.Logic.WeaponHandlers;
-using Archetype.Objects.Weapons;
 
 namespace Archetype.Objects.Characters
 {
