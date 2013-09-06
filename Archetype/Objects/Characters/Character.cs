@@ -161,6 +161,7 @@ namespace Archetype.Objects.Characters
 			Character enemy = World.FindEnemy(this, ray, out collider);
 			if (enemy != null)
 			{
+				enemy.ReceiveDamage(baseDamage * collider.DamageMultiplier);
 				Console.WriteLine(enemy.Record.Name + " received " + baseDamage * collider.DamageMultiplier + " damage.");
 			}
 		}
@@ -209,13 +210,13 @@ namespace Archetype.Objects.Characters
 			CharacterNode.LookAt(position, Node.TransformSpace.TS_PARENT);
 		}
 
-		public void ReceiveDamage(int damage)
+		public void ReceiveDamage(float damage)
 		{
-			Health -= damage;
+			Health -= (int)damage;
 			if (!Alive)
 			{
-				Visible = false;
 				Record.DeathCount++;
+				OnDeath();
 			}
 		}
 
@@ -251,6 +252,8 @@ namespace Archetype.Objects.Characters
 				CharacterNode.Position = CharacterNode.Position.Mask(true, false, true);
 			UpdateAnimation(evt);
 		}
+
+		protected virtual void OnDeath() {}
 
 		private void BuildAnimationMappers()
 		{

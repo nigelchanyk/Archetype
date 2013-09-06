@@ -53,6 +53,7 @@ namespace Archetype.Objects
 			{
 				SceneLoader loader = new SceneLoader();
 				loader.ParseDotScene(sceneFile, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, Scene, WorldNode, this);
+				Scene.SetSkyDome(true, "SkyBoxes/CloudySky", 5, 8, 2000);
 			}
 			Scene.AmbientLight = new ColourValue(0.5f, 0.5f, 0.5f);
 			InitializeCamera(new Vector3(0, 0, -5), Vector3.ZERO);
@@ -188,7 +189,7 @@ namespace Archetype.Objects
 			Camera.Position = position;
 			Camera.LookAt(lookAt);
 			Camera.NearClipDistance = 0.1f;
-			Camera.FarClipDistance = 500;
+			Camera.FarClipDistance = 10000;
 		}
 	}
 }

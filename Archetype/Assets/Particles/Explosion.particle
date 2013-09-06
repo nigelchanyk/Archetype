@@ -1,8 +1,8 @@
 particle_system Explosion
 {
 	material Particles/Fireball.000
-	particle_width 0.5
-	particle_height 0.5
+	particle_width 0.8
+	particle_height 0.8
 	quota 50
 	cull_each false
 	sorted false
@@ -23,9 +23,9 @@ particle_system Explosion
 		width 2
 		height 2
 		depth 2
-		emission_rate 172.63
+		emission_rate 50
 		velocity_min 1
-		velocity_max 5
+		velocity_max 3
 		time_to_live_min 0.5
 		time_to_live_max 1
 		duration_min 0.5

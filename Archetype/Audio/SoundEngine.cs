@@ -21,6 +21,9 @@ namespace Archetype.Audio
 
 		public SoundEngine()
 		{
+			ISoundEngine.SetRolloffFactor(0.5f);
+			ISoundEngine.Default3DSoundMinDistance = 5;
+			ISoundEngine.Default3DSoundMaxDistance = 50;
 			Thread = new Thread(new ThreadStart(ExecuteTask));
 			Thread.Start();
 		}

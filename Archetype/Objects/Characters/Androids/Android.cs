@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 
 using Archetype.Assets;
+using Archetype.Objects.Particles;
+using Archetype.Utilities;
 
 namespace Archetype.Objects.Characters.Androids
 {
@@ -20,6 +22,13 @@ namespace Archetype.Objects.Characters.Androids
 			: base(world, MaleBodyEntityNames, AssetCollections.AlphaColliders)
 		{
 
+		}
+
+		protected override void OnDeath()
+		{
+			Visible = false;
+			World.CreateParticleEmitterCluster(ParticleSystemType.Explosion, EyeNode.GetWorldPosition());
+			World.SoundEngine.Play3D("Assets/Audio/Explosions/Android.ogg", Position);
 		}
 	}
 }
