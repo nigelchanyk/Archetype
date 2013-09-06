@@ -1,156 +1,156 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Armatures>
-  <Armature name="Hips">
-	<Armature name="Spine">
-	  <Collider type="box" damage="1">
-		<Min x="-0.122" y="-0.162" z="-0.122" />
-		<Max x="0.122" y="0.122" z="0.122" />
-	  </Collider>
-	  <Armature name="Spine1">
-		<Collider type="box" damage="1">
-		  <Min x="-0.110" y="-0.110" z="-0.110" />
-		  <Max x="0.110" y="0.120" z="0.110" />
-		</Collider>
-		<Armature name="Spine2">
-		  <Collider type="box" damage="1">
-			<Min x="-0.100" y="-0.14" z="-0.100" />
-			<Max x="0.100" y="0.113" z="0.100" />
-		  </Collider>
-		  <Armature name="Neck">
-			<Collider type="box" damage="2">
-			  <Min x="-0.052" y="-0.100" z="-0.052" />
-			  <Max x="0.052" y="0.100" z="0.052" />
-			</Collider>
-			<Armature name="Neck1">
-			  <Armature name="Head">
-				<Collider type="sphere" x="0" y="0.13" z="0" radius="0.13" damage="4" />
-			  </Armature>
-			</Armature>
-		  </Armature>
-		  <Armature name="LeftShoulder">
+	<Armature name="Hips">
+		<Armature name="Spine">
 			<Collider type="box" damage="1">
-			  <Min x="-0.059" y="-0.03" z="-0.059" />
-			  <Max x="0.059" y="0.132" z="0.059" />
+				<Min x="-0.122" y="-0.162" z="-0.122" />
+				<Max x="0.122" y="0.122" z="0.122" />
 			</Collider>
-			<Armature name="LeftArm">
-			  <Collider type="box" damage="0.5">
-				<Min x="-0.041" y="-0.03" z="-0.041" />
-				<Max x="0.041" y="0.144" z="0.041" />
-			  </Collider>
-			  <Collider type="box" damage="0.5">
-				<Min x="-0.033" y="0.140" z="-0.033" />
-				<Max x="0.033" y="0.270" z="0.033" />
-			  </Collider>
-			  <Armature name="LeftForeArm">
-				<Collider type="box" damage="0.5">
-				  <Min x="-0.037" y="-0.03" z="-0.037" />
-				  <Max x="0.037" y="0.144" z="0.037" />
+			<Armature name="Spine1">
+				<Collider type="box" damage="1">
+					<Min x="-0.110" y="-0.110" z="-0.110" />
+					<Max x="0.110" y="0.120" z="0.110" />
 				</Collider>
-				<Collider type="box" damage="0.5">
-				  <Min x="-0.028" y="0.140" z="-0.028" />
-				  <Max x="0.028" y="0.270" z="0.028" />
-				</Collider>
-				<Armature name="LeftHand">
-				  <Collider type="box" damage="0.25">
-					<Min x="-0.014" y="-0.03" z="-0.037" />
-					<Max x="0.014" y="0.14" z="0.037" />
-				  </Collider>
+				<Armature name="Spine2">
+					<Collider type="box" damage="1">
+						<Min x="-0.100" y="-0.14" z="-0.100" />
+						<Max x="0.100" y="0.113" z="0.100" />
+					</Collider>
+					<Armature name="Neck">
+						<Collider type="box" damage="2">
+							<Min x="-0.052" y="-0.100" z="-0.052" />
+							<Max x="0.052" y="0.100" z="0.052" />
+						</Collider>
+						<Armature name="Neck1">
+							<Armature name="Head">
+								<Collider type="sphere" x="0" y="0.13" z="0" radius="0.13" damage="4" />
+							</Armature>
+						</Armature>
+					</Armature>
+					<Armature name="LeftShoulder">
+						<Collider type="box" damage="1">
+							<Min x="-0.059" y="-0.03" z="-0.059" />
+							<Max x="0.059" y="0.132" z="0.059" />
+						</Collider>
+						<Armature name="LeftArm">
+							<Collider type="box" damage="0.5">
+								<Min x="-0.041" y="-0.03" z="-0.041" />
+								<Max x="0.041" y="0.144" z="0.041" />
+							</Collider>
+							<Collider type="box" damage="0.5">
+								<Min x="-0.033" y="0.140" z="-0.033" />
+								<Max x="0.033" y="0.270" z="0.033" />
+							</Collider>
+							<Armature name="LeftForeArm">
+								<Collider type="box" damage="0.5">
+									<Min x="-0.037" y="-0.03" z="-0.037" />
+									<Max x="0.037" y="0.144" z="0.037" />
+								</Collider>
+								<Collider type="box" damage="0.5">
+									<Min x="-0.028" y="0.140" z="-0.028" />
+									<Max x="0.028" y="0.270" z="0.028" />
+								</Collider>
+								<Armature name="LeftHand">
+									<Collider type="box" damage="0.25">
+										<Min x="-0.014" y="-0.03" z="-0.037" />
+										<Max x="0.014" y="0.14" z="0.037" />
+									</Collider>
+								</Armature>
+							</Armature>
+						</Armature>
+					</Armature>
+					<Armature name="RightShoulder">
+						<Collider type="box" damage="1">
+							<Min x="-0.059" y="-0.03" z="-0.059" />
+							<Max x="0.059" y="0.132" z="0.059" />
+						</Collider>
+						<Armature name="RightArm">
+							<Collider type="box" damage="0.5">
+								<Min x="-0.041" y="-0.03" z="-0.041" />
+								<Max x="0.041" y="0.144" z="0.041" />
+							</Collider>
+							<Collider type="box" damage="0.5">
+								<Min x="-0.033" y="0.140" z="-0.033" />
+								<Max x="0.033" y="0.270" z="0.033" />
+							</Collider>
+							<Armature name="RightForeArm">
+								<Collider type="box" damage="0.5">
+									<Min x="-0.037" y="-0.03" z="-0.037" />
+									<Max x="0.037" y="0.144" z="0.037" />
+								</Collider>
+								<Collider type="box" damage="0.5">
+									<Min x="-0.028" y="0.140" z="-0.028" />
+									<Max x="0.028" y="0.270" z="0.028" />
+								</Collider>
+								<Armature name="RightHand">
+									<Collider type="box" damage="0.25">
+										<Min x="-0.014" y="-0.03" z="-0.037" />
+										<Max x="0.014" y="0.14" z="0.037" />
+									</Collider>
+								</Armature>
+							</Armature>
+						</Armature>
+					</Armature>
 				</Armature>
-			  </Armature>
 			</Armature>
-		  </Armature>
-		  <Armature name="RightShoulder">
-			<Collider type="box" damage="1">
-			  <Min x="-0.059" y="-0.03" z="-0.059" />
-			  <Max x="0.059" y="0.132" z="0.059" />
+		</Armature>
+		<Armature name="LeftUpLeg">
+			<Collider type="box" damage="0.5">
+				<Min x="-0.07" y="-0.03" z="-0.11" />
+				<Max x="0.07" y="0.2" z="0.11" />
 			</Collider>
-			<Armature name="RightArm">
-			  <Collider type="box" damage="0.5">
-				<Min x="-0.041" y="-0.03" z="-0.041" />
-				<Max x="0.041" y="0.144" z="0.041" />
-			  </Collider>
-			  <Collider type="box" damage="0.5">
-				<Min x="-0.033" y="0.140" z="-0.033" />
-				<Max x="0.033" y="0.270" z="0.033" />
-			  </Collider>
-			  <Armature name="RightForeArm">
+			<Collider type="box" damage="0.5">
+				<Min x="-0.056" y="0.2" z="-0.072" />
+				<Max x="0.056" y="0.42" z="0.072" />
+			</Collider>
+			<Armature name="LeftLeg">
 				<Collider type="box" damage="0.5">
-				  <Min x="-0.037" y="-0.03" z="-0.037" />
-				  <Max x="0.037" y="0.144" z="0.037" />
+					<Min x="-0.058" y="-0.03" z="-0.045" />
+					<Max x="0.058" y="0.172" z="0.065" />
 				</Collider>
 				<Collider type="box" damage="0.5">
-				  <Min x="-0.028" y="0.140" z="-0.028" />
-				  <Max x="0.028" y="0.270" z="0.028" />
+					<Min x="-0.037" y="0.167" z="-0.02" />
+					<Max x="0.037" y="0.391" z="0.07" />
 				</Collider>
-				<Armature name="RightHand">
-				  <Collider type="box" damage="0.25">
-					<Min x="-0.014" y="-0.03" z="-0.037" />
-					<Max x="0.014" y="0.14" z="0.037" />
-				  </Collider>
+				<Armature name="LeftFoot">
+					<Collider type="box" damage="0.5">
+						<Min x="-0.037" y="-0.03" z="-0.025" />
+						<Max x="0.037" y="0.11" z="0.045" />
+					</Collider>
+					<Armature name="LeftToeBase">
+
+					</Armature>
 				</Armature>
-			  </Armature>
 			</Armature>
-		  </Armature>
 		</Armature>
-	  </Armature>
-	</Armature>
-	<Armature name="LeftUpLeg">
-	  <Collider type="box" damage="0.5">
-		<Min x="-0.07" y="-0.03" z="-0.11" />
-		<Max x="0.07" y="0.2" z="0.11" />
-	  </Collider>
-	  <Collider type="box" damage="0.5">
-		<Min x="-0.056" y="0.2" z="-0.072" />
-		<Max x="0.056" y="0.42" z="0.072" />
-	  </Collider>
-	  <Armature name="LeftLeg">
-		<Collider type="box" damage="0.5">
-		  <Min x="-0.058" y="-0.03" z="-0.045" />
-		  <Max x="0.058" y="0.172" z="0.065" />
-		</Collider>
-		<Collider type="box" damage="0.5">
-		  <Min x="-0.037" y="0.167" z="-0.02" />
-		  <Max x="0.037" y="0.391" z="0.07" />
-		</Collider>
-		<Armature name="LeftFoot">
-		  <Collider type="box" damage="0.5">
-			<Min x="-0.037" y="-0.03" z="-0.025" />
-			<Max x="0.037" y="0.11" z="0.045" />
-		  </Collider>
-		  <Armature name="LeftToeBase">
+		<Armature name="RightUpLeg">
+			<Collider type="box" damage="0.5">
+				<Min x="-0.07" y="-0.03" z="-0.11" />
+				<Max x="0.07" y="0.2" z="0.11" />
+			</Collider>
+			<Collider type="box" damage="0.5">
+				<Min x="-0.056" y="0.2" z="-0.072" />
+				<Max x="0.056" y="0.42" z="0.072" />
+			</Collider>
+			<Armature name="RightLeg">
+				<Collider type="box" damage="0.5">
+					<Min x="-0.058" y="-0.03" z="-0.045" />
+					<Max x="0.058" y="0.172" z="0.065" />
+				</Collider>
+				<Collider type="box" damage="0.5">
+					<Min x="-0.037" y="0.167" z="-0.02" />
+					<Max x="0.037" y="0.391" z="0.07" />
+				</Collider>
+				<Armature name="RightFoot">
+					<Collider type="box" damage="0.2">
+						<Min x="-0.037" y="-0.03" z="-0.025" />
+						<Max x="0.037" y="0.11" z="0.045" />
+					</Collider>
+					<Armature name="RightToeBase">
 
-		  </Armature>
+					</Armature>
+				</Armature>
+			</Armature>
 		</Armature>
-	  </Armature>
 	</Armature>
-	<Armature name="RightUpLeg">
-	  <Collider type="box" damage="0.5">
-		<Min x="-0.07" y="-0.03" z="-0.11" />
-		<Max x="0.07" y="0.2" z="0.11" />
-	  </Collider>
-	  <Collider type="box" damage="0.5">
-		<Min x="-0.056" y="0.2" z="-0.072" />
-		<Max x="0.056" y="0.42" z="0.072" />
-	  </Collider>
-	  <Armature name="RightLeg">
-		<Collider type="box" damage="0.5">
-		  <Min x="-0.058" y="-0.03" z="-0.045" />
-		  <Max x="0.058" y="0.172" z="0.065" />
-		</Collider>
-		<Collider type="box" damage="0.5">
-		  <Min x="-0.037" y="0.167" z="-0.02" />
-		  <Max x="0.037" y="0.391" z="0.07" />
-		</Collider>
-		<Armature name="RightFoot">
-		  <Collider type="box" damage="0.2">
-			<Min x="-0.037" y="-0.03" z="-0.025" />
-			<Max x="0.037" y="0.11" z="0.045" />
-		  </Collider>
-		  <Armature name="RightToeBase">
-
-		  </Armature>
-		</Armature>
-	  </Armature>
-	</Armature>
-  </Armature>
 </Armatures>

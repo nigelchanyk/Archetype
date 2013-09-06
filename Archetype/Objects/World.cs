@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using IrrKlang;
 using Mogre;
 
+using Archetype.Assets;
+using Archetype.Audio;
+using Archetype.BattleSystems;
+using Archetype.Events;
 using Archetype.Objects.Characters;
 using Archetype.Objects.Characters.Androids;
+using Archetype.Objects.Primitives;
 using Archetype.States;
 using Archetype.Utilities;
-using Archetype.Events;
-using Archetype.Objects.Primitives;
-using Archetype.BattleSystems;
-using Archetype.Assets;
 
 namespace Archetype.Objects
 {
@@ -23,7 +23,7 @@ namespace Archetype.Objects
 		public Camera Camera { get; private set; }
 		public string SceneName { get; private set; }
 		public SceneManager Scene { get; private set; }
-		public ISoundEngine SoundEngine { get; private set; }
+		public SoundEngine SoundEngine { get; private set; }
 		public SceneNode WorldNode { get { return Scene.RootSceneNode; } }
 
 		private List<UprightBoxNode> Buildings = new List<UprightBoxNode>();
@@ -43,7 +43,7 @@ namespace Archetype.Objects
 			InitializeCamera(new Vector3(0, 0, -5), Vector3.ZERO);
 			Light dirLight = CreateLight(new Vector3(100, 100, 100));
 			dirLight.Type = Light.LightTypes.LT_DIRECTIONAL;
-			SoundEngine = new ISoundEngine();
+			SoundEngine = new SoundEngine();
 		}
 
 		public void AddBuildingCollisionMesh(UprightBoxNode box)
@@ -154,7 +154,7 @@ namespace Archetype.Objects
 		public void Update(UpdateEvent evt)
 		{
 			Characters.ForEach(character => character.Update(evt));
-			SoundEngine.SetListenerPosition(Camera);
+			SoundEngine.SetListenerPosition(Camera.RealPosition, Camera.RealDirection);
 		}
 
 		private void InitializeCamera(Vector3 position, Vector3 lookAt)

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Archetype.Objects.Characters;
+
 using Archetype.Events;
+using Archetype.Objects.Characters;
 using Archetype.Objects.Weapons;
 using Archetype.Utilities;
 
