@@ -70,6 +70,8 @@
     <Compile Include="Applications\Application.cs" />
     <Compile Include="Applications\Game.cs" />
     <Compile Include="Assets\AssetCollections.cs" />
+    <Compile Include="Audio\Sound.cs" />
+    <Compile Include="Audio\SoundEngine.cs" />
     <Compile Include="BattleSystems\BattleSystem.cs" />
     <Compile Include="BattleSystems\BattlerRecord.cs" />
     <Compile Include="BattleSystems\SpawnPoint.cs" />

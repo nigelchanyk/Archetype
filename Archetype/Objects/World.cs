@@ -13,6 +13,7 @@ using Archetype.Utilities;
 using Archetype.Events;
 using Archetype.Objects.Primitives;
 using Archetype.BattleSystems;
+using Archetype.Assets;
 
 namespace Archetype.Objects
 {

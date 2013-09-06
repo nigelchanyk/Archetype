@@ -15,10 +15,8 @@ namespace Archetype.Utilities
 			return soundEngine.Play3D(soundFileName, position.x, position.y, position.z, loop);
 		}
 
-		public static void SetListenerPosition(this ISoundEngine soundEngine, Camera camera)
+		public static void SetListenerPosition(this ISoundEngine soundEngine, Vector3 position, Vector3 direction)
 		{
-			Vector3 position = camera.RealPosition;
-			Vector3 direction = camera.RealDirection;
 			soundEngine.SetListenerPosition(position.x, position.y, position.z, direction.x, direction.y, direction.z);
 		}
 	}

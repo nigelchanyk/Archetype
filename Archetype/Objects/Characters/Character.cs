@@ -158,9 +158,9 @@ namespace Archetype.Objects.Characters
 			BodyCollider collider;
 			Character enemy = World.FindEnemy(this, ray, out collider);
 			if (enemy != null)
-				Console.WriteLine("Hit");
-			else
-				Console.WriteLine("Miss");
+			{
+				Console.WriteLine(enemy.Record.Name + " received " + baseDamage * collider.DamageMultiplier + " damage.");
+			}
 		}
 
 		public float? GetRayCollisionResult(Ray ray, out BodyCollider collider)
@@ -205,6 +205,16 @@ namespace Archetype.Objects.Characters
 		public void LookAt(Vector3 position)
 		{
 			CharacterNode.LookAt(position, Node.TransformSpace.TS_PARENT);
+		}
+
+		public void ReceiveDamage(int damage)
+		{
+			Health -= damage;
+			if (!Alive)
+			{
+				Visible = false;
+				Record.DeathCount++;
+			}
 		}
 
 		public void RegularAttack()
