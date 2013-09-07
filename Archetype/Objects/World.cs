@@ -15,6 +15,7 @@ using Archetype.Objects.Particles;
 using Archetype.Objects.Primitives;
 using Archetype.States;
 using Archetype.Utilities;
+using Archetype.Objects.Billboards;
 
 namespace Archetype.Objects
 {
@@ -41,6 +42,7 @@ namespace Archetype.Objects
 
 		private List<UprightBoxNode> Buildings = new List<UprightBoxNode>();
 		private List<Character> Characters = new List<Character>();
+		private BillboardSystemManager BillboardSystemManager;
 		private UniqueParticleSystemManager ParticleSystemManager;
 		private List<Light> Lights = new List<Light>();
 		private bool _paused = false;
@@ -60,6 +62,7 @@ namespace Archetype.Objects
 			Light dirLight = CreateLight(new Vector3(100, 100, 100));
 			dirLight.Type = Light.LightTypes.LT_DIRECTIONAL;
 
+			BillboardSystemManager = new Billboards.BillboardSystemManager(Scene, WorldNode);
 			ParticleSystemManager = new UniqueParticleSystemManager(Scene, WorldNode);
 			SoundEngine = new SoundEngine();
 		}
@@ -74,6 +77,16 @@ namespace Archetype.Objects
 			Character character = new Assaulter(this);
 			Characters.Add(character);
 			return character;
+		}
+
+		public DecayableBillboard CreateDecayableBillboard(BillboardSystemType type, Vector3 position)
+		{
+			return BillboardSystemManager.CreateBillboard(type, position);
+		}
+
+		public DecayableBillboard CreateDecayableBillboard(BillboardSystemType type, Vector3 position, Vector2 dimension, float timeToLive)
+		{
+			return BillboardSystemManager.CreateBillboard(type, position, dimension, timeToLive);
 		}
 
 		public ParticleEmitterCluster CreateParticleEmitterCluster(ParticleSystemType type, Vector3 position)
@@ -103,6 +116,7 @@ namespace Archetype.Objects
 		public void Dispose()
 		{
 			Characters.ForEach(character => character.Dispose());
+			BillboardSystemManager.Dispose();
 			ParticleSystemManager.Dispose();
 			WorldNode.Dispose();
 			Scene.DestroyAllAnimations();
@@ -179,6 +193,7 @@ namespace Archetype.Objects
 		public void Update(UpdateEvent evt)
 		{
 			Characters.ForEach(character => character.Update(evt));
+			BillboardSystemManager.Update(evt);
 			ParticleSystemManager.Update(evt);
 			SoundEngine.SetListenerPosition(Camera.RealPosition, Camera.RealDirection);
 		}

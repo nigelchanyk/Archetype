@@ -38,6 +38,8 @@ namespace Archetype.Objects.Characters
 			Visible = Visible;
 		}
 
+		public abstract Vector3 ConvertWeaponToWorldPosition(Vector3 position);
+
 		protected virtual void OnDispose() {}
 		protected virtual void OnWeaponHandlerChanged() {}
 

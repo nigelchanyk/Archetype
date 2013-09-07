@@ -35,6 +35,11 @@ namespace Archetype.Objects.Characters
 				BodyNode.AttachObject(bodyEntity);
 		}
 
+		public override Vector3 ConvertWeaponToWorldPosition(Vector3 position)
+		{
+			throw new NotImplementedException();
+		}
+
 		protected override void OnDispose()
 		{
 			BodyNode.DetachAllObjects();

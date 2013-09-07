@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Weapons>
-  <RangedWeapons>
-	<Weapon kind="Pistol" model="USP.mesh" name="USP">
-	  <Attack damage="25" interval="0.3" />
-	  <Inaccuracy min="0.5" max="3" growth="1" />
-	  <Recoil max="3" growth="0.25" />
-	  <FirstPerson x="0.2" y="-0.2" z="-0.5" />
-	</Weapon>
-  </RangedWeapons>
+	<RangedWeapons>
+		<Weapon kind="Pistol" model="USP.mesh" name="USP">
+			<Attack damage="25" interval="0.3" />
+			<Inaccuracy min="0.5" max="3" growth="1" />
+			<Recoil max="3" growth="0.25" />
+			<FirstPerson x="0.2" y="-0.2" z="-0.5">
+				<MuzzleFlash x="0" y="0.06" z="-0.2" />
+			</FirstPerson>
+		</Weapon>
+	</RangedWeapons>
 </Weapons>

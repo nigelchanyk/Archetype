@@ -116,6 +116,8 @@ namespace Archetype.Objects.Characters
 		protected abstract JumpHandler JumpHandler { get; set; }
 		protected abstract WalkHandler WalkHandler { get; set; }
 
+		private CharacterModel Model { get { return FirstPerson ? (CharacterModel)FirstPersonModel : ThirdPersonModel; } }
+
 		private Dictionary<LowerBodyAnimationKind, AnimationState[]> LowerAnimationMapper = new Dictionary<LowerBodyAnimationKind, AnimationState[]>();
 		private FirstPersonModel FirstPersonModel;
 		private ThirdPersonModel ThirdPersonModel;
@@ -164,6 +166,11 @@ namespace Archetype.Objects.Characters
 				enemy.ReceiveDamage(baseDamage * collider.DamageMultiplier);
 				Console.WriteLine(enemy.Record.Name + " received " + baseDamage * collider.DamageMultiplier + " damage.");
 			}
+		}
+
+		public Vector3 ConvertWeaponToWorldPosition(Vector3 position)
+		{
+			return Model.ConvertWeaponToWorldPosition(position);
 		}
 
 		public float? GetRayCollisionResult(Ray ray, out BodyCollider collider)

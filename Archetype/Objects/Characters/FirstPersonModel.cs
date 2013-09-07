@@ -33,6 +33,11 @@ namespace Archetype.Objects.Characters
 			WeaponSceneNode = EyeNode.CreateChildSceneNode();
 		}
 
+		public override Vector3 ConvertWeaponToWorldPosition(Vector3 position)
+		{
+			return WeaponSceneNode.ConvertLocalToWorldPosition(position);
+		}
+
 		protected override void OnDispose()
 		{
 			base.OnDispose();

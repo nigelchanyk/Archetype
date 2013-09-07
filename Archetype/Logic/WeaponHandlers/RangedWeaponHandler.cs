@@ -8,6 +8,7 @@ using Mogre;
 using Archetype.Objects.Characters;
 using Archetype.Objects.Weapons;
 using Archetype.Utilities;
+using Archetype.Objects.Billboards;
 
 namespace Archetype.Logic.WeaponHandlers
 {
@@ -34,6 +35,10 @@ namespace Archetype.Logic.WeaponHandlers
 			ActionPerformer.Attack(attackDirection.ToVector3(), Weapon.BaseDamage);
 			Inaccuracy = System.Math.Min(RangedWeapon.MaxInaccuracy, Inaccuracy + RangedWeapon.InaccuracyGrowth);
 			ActionPerformer.World.SoundEngine.Play3D("Assets/Audio/Gunshots/USP.ogg", ActionPerformer.EyeNode.GetWorldPosition());
+			ActionPerformer.World.CreateDecayableBillboard(
+				BillboardSystemType.MuzzleFlash,
+				ActionPerformer.ConvertWeaponToWorldPosition(RangedWeapon.FirstPersonMuzzleFlashPosition)
+			);
 		}
 
 		private float RandomizeInaccuracy()

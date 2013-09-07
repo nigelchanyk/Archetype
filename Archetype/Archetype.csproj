@@ -90,6 +90,10 @@
     <Compile Include="Logic\ActionHandlers\WalkHandler.cs" />
     <Compile Include="Logic\WeaponHandlers\RangedWeaponHandler.cs" />
     <Compile Include="Logic\WeaponHandlers\WeaponHandler.cs" />
+    <Compile Include="Objects\Billboards\BillboardSystemManager.cs" />
+    <Compile Include="Objects\Billboards\BillboardSystemType.cs" />
+    <Compile Include="Objects\Billboards\BillboardSystem.cs" />
+    <Compile Include="Objects\Billboards\DecayableBillboard.cs" />
     <Compile Include="Objects\Characters\Androids\Android.cs" />
     <Compile Include="Objects\Characters\Androids\Assaulter.cs" />
     <Compile Include="Objects\Characters\BodyCollider.cs" />
@@ -150,6 +154,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Assets\Audio\Gunshots\USP.ogg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Billboards\MuzzleFlash.material">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Assets\Fonts\bluehigh.ttf">
@@ -277,6 +284,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Textures\Fireball.000.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\MuzzleFlash.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\UserInterface\Cursor.png">
