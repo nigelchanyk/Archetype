@@ -141,7 +141,7 @@ namespace Archetype.Objects.Characters
 
 			BuildAnimationMappers();
 			BoundingSphere = new SphereNode(CharacterNode, new Vector3(0, 1, 0), 2);
-			SimpleCollider = new UprightCylinderNode(CharacterNode, Vector3.ZERO, 1.7f, 0.4f);
+			SimpleCollider = new UprightCylinderNode(CharacterNode, Vector3.ZERO, 1.7f, 0.7f);
 			LowerBodyAnimation = LowerBodyAnimationKind.Idle;
 			Health = 100;
 		}
