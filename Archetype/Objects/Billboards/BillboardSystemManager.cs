@@ -13,7 +13,7 @@ namespace Archetype.Objects.Billboards
 
 		public BillboardSystemManager(SceneManager sceneManager, SceneNode worldNode)
 		{
-			BillboardSystemMapper.Add(BillboardSystemType.MuzzleFlash, new BillboardSystem(sceneManager, worldNode, "Billboards/MuzzleFlash", BillboardType.BBT_POINT, new Vector2(0.3f, 0.3f), 0.05f));
+			BillboardSystemMapper.Add(BillboardSystemType.MuzzleFlash, new BillboardSystem(sceneManager, worldNode, "Billboards/MuzzleFlash", BillboardType.BBT_POINT, new Vector2(0.3f, 0.3f), 0.02f));
 		}
 
 		public DecayableBillboard CreateBillboard(BillboardSystemType type, Vector3 position)

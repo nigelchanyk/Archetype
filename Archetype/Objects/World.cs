@@ -16,6 +16,7 @@ using Archetype.Objects.Primitives;
 using Archetype.States;
 using Archetype.Utilities;
 using Archetype.Objects.Billboards;
+using Archetype.CompoundEffects;
 
 namespace Archetype.Objects
 {
@@ -43,6 +44,7 @@ namespace Archetype.Objects
 		private List<UprightBoxNode> Buildings = new List<UprightBoxNode>();
 		private List<Character> Characters = new List<Character>();
 		private BillboardSystemManager BillboardSystemManager;
+		private CompoundEffectManager CompoundEffectManager;
 		private UniqueParticleSystemManager ParticleSystemManager;
 		private List<Light> Lights = new List<Light>();
 		private bool _paused = false;
@@ -64,6 +66,7 @@ namespace Archetype.Objects
 
 			BillboardSystemManager = new Billboards.BillboardSystemManager(Scene, WorldNode);
 			ParticleSystemManager = new UniqueParticleSystemManager(Scene, WorldNode);
+			CompoundEffectManager = new CompoundEffects.CompoundEffectManager(this);
 			SoundEngine = new SoundEngine();
 		}
 
@@ -87,6 +90,11 @@ namespace Archetype.Objects
 		public DecayableBillboard CreateDecayableBillboard(BillboardSystemType type, Vector3 position, Vector2 dimension, float timeToLive)
 		{
 			return BillboardSystemManager.CreateBillboard(type, position, dimension, timeToLive);
+		}
+
+		public void CreateMuzzleFlashEffect(Character character, Vector3 weaponSpacePosition)
+		{
+			CompoundEffectManager.CreateMuzzleFlashEffect(character, weaponSpacePosition);
 		}
 
 		public ParticleEmitterCluster CreateParticleEmitterCluster(ParticleSystemType type, Vector3 position)
@@ -116,6 +124,7 @@ namespace Archetype.Objects
 		public void Dispose()
 		{
 			Characters.ForEach(character => character.Dispose());
+			CompoundEffectManager.Dispose();
 			BillboardSystemManager.Dispose();
 			ParticleSystemManager.Dispose();
 			WorldNode.Dispose();
@@ -195,6 +204,10 @@ namespace Archetype.Objects
 			Characters.ForEach(character => character.Update(evt));
 			BillboardSystemManager.Update(evt);
 			ParticleSystemManager.Update(evt);
+			// Compound Effect Manager should be updated only after all managers completed their updates.
+			// Some compound effects are dependent on the `Alive` properties of other managers' objects.
+			// Otherwise, it will take two cycles to destroy a compound effect.
+			CompoundEffectManager.Update(evt);
 			SoundEngine.SetListenerPosition(Camera.RealPosition, Camera.RealDirection);
 		}
 

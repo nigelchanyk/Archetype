@@ -76,6 +76,9 @@
     <Compile Include="BattleSystems\BattlerRecord.cs" />
     <Compile Include="BattleSystems\SpawnPoint.cs" />
     <Compile Include="BattleSystems\TeamBattle.cs" />
+    <Compile Include="CompoundEffects\CompoundEffectManager.cs" />
+    <Compile Include="CompoundEffects\CompoundEffectType.cs" />
+    <Compile Include="CompoundEffects\MuzzleFlashEffect.cs" />
     <Compile Include="Configurations.cs" />
     <Compile Include="Controllers\CameraController.cs" />
     <Compile Include="Controllers\Controller.cs" />
