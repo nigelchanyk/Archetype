@@ -39,7 +39,8 @@ namespace Archetype.CompoundEffects
 				Lights[i] = World.CreateLight(character.ConvertWeaponToWorldPosition(weaponWorldPosition + GetScaledOffset(LightOffsets[i])));
 				Lights[i].Type = Light.LightTypes.LT_POINT;
 				Lights[i].SetAttenuation(5, 0, 0, 0.5f);
-				Lights[i].SetDiffuseColour(0.3f, 0.3f, 0.3f);
+				// Soften the flash to 30% (remember, there are four lights)
+				Lights[i].SetDiffuseColour(0.075f, 0.075f, 0.075f);
 			}
 
 			Alive = true;
