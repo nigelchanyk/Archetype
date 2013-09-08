@@ -59,7 +59,7 @@ namespace Archetype.States
 					Position = new Point(20, 20),
 					FontSize = 20,
 					Color = ColourValue.White,
-					Material = "Core/StatsBlockCenter"
+					Font = "BlueHighway"
 				}
 			);
 			StartButton.Clicked += new EventHandler(OnStartClick);
