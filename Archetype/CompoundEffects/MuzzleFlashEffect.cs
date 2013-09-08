@@ -15,19 +15,19 @@ namespace Archetype.CompoundEffects
 {
 	public class MuzzleFlashEffect : IDisposable
 	{
+		// Note that we barely see the effect of bottom light, so let's remove it.
 		private static readonly Vector3[] LightOffsets =
 		{
 			MathHelper.Left,
 			MathHelper.Right,
-			MathHelper.Up,
-			MathHelper.Down
+			MathHelper.Up
 		};
 
 		public bool Alive { get; private set; }
 		public World World { get; private set; }
 
 		private DecayableBillboard Billboard;
-		private Light[] Lights = new Light[4];
+		private Light[] Lights = new Light[3];
 
 		public MuzzleFlashEffect(World world, Character character, Vector3 weaponWorldPosition)
 		{
@@ -40,7 +40,7 @@ namespace Archetype.CompoundEffects
 				Lights[i].Type = Light.LightTypes.LT_POINT;
 				Lights[i].SetAttenuation(5, 0, 0, 0.5f);
 				// Soften the flash to 30% (remember, there are four lights)
-				Lights[i].SetDiffuseColour(0.075f, 0.075f, 0.075f);
+				Lights[i].SetDiffuseColour(0.1f, 0.1f, 0.1f);
 			}
 
 			Alive = true;
