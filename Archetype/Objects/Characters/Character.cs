@@ -17,6 +17,8 @@ using Archetype.Objects.Weapons;
 using Archetype.States;
 using Archetype.Utilities;
 
+using Math = System.Math;
+
 namespace Archetype.Objects.Characters
 {
 	public abstract class Character : GeneralObject
@@ -84,6 +86,18 @@ namespace Archetype.Objects.Characters
 			get { return CharacterNode.Position; }
 			set { CharacterNode.Position = value; }
 		}
+		public float Recoil
+		{
+			get
+			{
+				return _recoil;
+			}
+			set
+			{
+				EyePitch += value - _recoil;
+				_recoil = value;
+			}
+		}
 		public Weapon Weapon { get { return ActiveWeaponHandler == null ? null : ActiveWeaponHandler.Weapon; } } // Nullable
 		public bool Visible
 		{
@@ -124,6 +138,7 @@ namespace Archetype.Objects.Characters
 		private WeaponHandler _activeWeaponHandler; // Nullable
 		private float _eyePitch = 0;
 		private bool _firstPerson = false;
+		private float _recoil = 0;
 		private bool _visible = true;
 		private float _yaw = 0;
 
@@ -202,6 +217,13 @@ namespace Archetype.Objects.Characters
 			return best;
 		}
 
+		public void IncreaseRecoil(float factor, float maxRecoil)
+		{
+			if (Recoil > maxRecoil)
+				return;
+			Recoil = Math.Min(Recoil + factor, maxRecoil);
+		}
+
 		public void Jump()
 		{
 			JumpHandler.Jump();
@@ -250,6 +272,7 @@ namespace Archetype.Objects.Characters
 
 		protected override void OnUpdate(UpdateEvent evt)
 		{
+			Recoil = Math.Max(0, Recoil - evt.ElapsedTime * GameConstants.RecoilReductionFactor);
 			Velocity = WalkHandler.GetVelocityInfluence(evt) + JumpHandler.GetVelocityInfluence(evt);
 			MultiAttemptsTranslate(evt.ElapsedTime);
 			if (ActiveWeaponHandler != null)

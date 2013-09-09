@@ -34,6 +34,7 @@ namespace Archetype.Logic.WeaponHandlers
 			);
 			ActionPerformer.Attack(attackDirection.ToVector3(), Weapon.BaseDamage);
 			Inaccuracy = System.Math.Min(RangedWeapon.MaxInaccuracy, Inaccuracy + RangedWeapon.InaccuracyGrowth);
+			ActionPerformer.IncreaseRecoil(RangedWeapon.RecoilGrowth, RangedWeapon.MaxRecoil);
 			ActionPerformer.World.SoundEngine.Play3D("Assets/Audio/Gunshots/USP.ogg", ActionPerformer.EyeNode.GetWorldPosition());
 			ActionPerformer.World.CreateMuzzleFlashEffect(ActionPerformer, RangedWeapon.FirstPersonMuzzleFlashPosition);
 		}
