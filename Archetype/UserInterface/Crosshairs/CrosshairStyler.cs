@@ -17,6 +17,8 @@ namespace Archetype.UserInterface.Crosshairs
 			{
 				case Weapon.Kind.Pistol:
 					return new RegularCrosshairStyler("RegularCrosshair", parentElement);
+				case Weapon.Kind.Rifle:
+					return new RegularCrosshairStyler("RegularCrosshair", parentElement);
 			}
 
 			throw new NotSupportedException(kind.ToString() + " not implemented.");
