@@ -29,6 +29,8 @@ namespace Archetype.Objects.Characters
 			Walk
 		}
 
+		private static readonly Vector3 AirborneThreshold = new Vector3(0, 0.01f, 0);
+
 		public WeaponHandler ActiveWeaponHandler
 		{
 			get
@@ -42,6 +44,7 @@ namespace Archetype.Objects.Characters
 				ThirdPersonModel.WeaponHandlerChanged();
 			}
 		}
+		public bool Airborne { get; private set; }
 		public bool Alive
 		{
 			get { return Health > 0; }
@@ -280,6 +283,7 @@ namespace Archetype.Objects.Characters
 
 			if (CharacterNode.Position.y < 0)
 				CharacterNode.Position = CharacterNode.Position.Mask(true, false, true);
+			Airborne = IsAirborne();
 			UpdateAnimation(evt);
 		}
 
@@ -333,6 +337,30 @@ namespace Archetype.Objects.Characters
 			}
 		}
 
+		private bool IsAirborne()
+		{
+			Vector3 originalPosition = Position;
+			CharacterNode.Translate(-AirborneThreshold, Node.TransformSpace.TS_WORLD);
+			CharacterNode.InvalidateChildrenCache();
+
+			try
+			{
+				if (Position.y <= 0)
+					return false;
+
+				UprightBoxNode intersectedBuilding = World.GetFirstIntersectingBuilding(SimpleCollider);
+				if (intersectedBuilding == null)
+					return true;
+			}
+			finally
+			{
+				CharacterNode.Position = originalPosition;
+				CharacterNode.InvalidateChildrenCache();
+			}
+
+			return false;
+		}
+
 		private void MultiAttemptsTranslate(float elapsedTime)
 		{
 			Vector3 originalPosition = Position;
@@ -361,6 +389,7 @@ namespace Archetype.Objects.Characters
 			}
 
 			Position = intersectedBuilding.ReferenceNode.ConvertToSpace(CharacterNode.Parent, originalPosition + bestDelta);
+			CharacterNode.InvalidateChildrenCache();
 		}
 	}
 }
