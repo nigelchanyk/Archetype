@@ -8,6 +8,7 @@
 			<FirstPerson x="0.2" y="-0.2" z="-0.5">
 				<MuzzleFlash x="0" y="0.06" z="-0.2" />
 			</FirstPerson>
+			<Sound attack="Gunshots/USP.ogg" />
 		</Weapon>
 		<Weapon kind="Rifle" model="M4.mesh" name="M4">
 			<Attack damage="40" interval="0.1" />
@@ -16,6 +17,7 @@
 			<FirstPerson x="0.2" y="-0.2" z="-0.5">
 				<MuzzleFlash x="0" y="0.01" z="-1.1" />
 			</FirstPerson>
+			<Sound attack="Gunshots/M4.ogg" />
 		</Weapon>
 	</RangedWeapons>
 </Weapons>

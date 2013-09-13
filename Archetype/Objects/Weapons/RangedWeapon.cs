@@ -16,9 +16,9 @@ namespace Archetype.Objects.Weapons
 		public float MinInaccuracy { get; private set; }
 		public float RecoilGrowth { get; private set; }
 
-		public RangedWeapon(Kind kind, string name, string modelName, int baseDamage, float attackInterval, Vector3 firstPersonPosition,
+		public RangedWeapon(Kind kind, string name, string modelName, int baseDamage, float attackInterval, string attackSound, Vector3 firstPersonPosition,
 			float minInaccuracy, float maxInaccuracy, float inaccuracyGrowth, float maxRecoil, float recoilGrowth, Vector3 firstPersonMuzzleFlashPosition)
-			: base(kind, name, modelName, baseDamage, attackInterval, firstPersonPosition)
+			: base(kind, name, modelName, baseDamage, attackInterval, attackSound, firstPersonPosition)
 		{
 			this.MinInaccuracy = minInaccuracy;
 			this.MaxInaccuracy = maxInaccuracy;

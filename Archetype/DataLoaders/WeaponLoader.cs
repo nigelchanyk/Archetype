@@ -41,6 +41,7 @@ namespace Archetype.DataLoaders
 						attributes.ModelName,
 						attributes.BaseDamage,
 						attributes.AttackInterval,
+						attributes.AttackSound,
 						attributes.FirstPersonPosition,
 						attributes.MinInaccuracy,
 						attributes.MaxInaccuracy,
@@ -77,6 +78,7 @@ namespace Archetype.DataLoaders
 		{
 			XElement attackElement = weaponElement.Element("Attack");
 			XElement firstPersonElement = weaponElement.Element("FirstPerson");
+			XElement soundElement = weaponElement.Element("Sound");
 			return new WeaponAttributes()
 			{
 				Kind = weaponElement.Attribute("kind").Value.ParseAsEnum<Weapon.Kind>(true),
@@ -84,6 +86,7 @@ namespace Archetype.DataLoaders
 				ModelName = weaponElement.Attribute("model").Value,
 				BaseDamage = (int)attackElement.Attribute("damage"),
 				AttackInterval = (float)attackElement.Attribute("interval"),
+				AttackSound = soundElement.Attribute("attack").Value,
 				FirstPersonPosition = firstPersonElement.ParseXYZ(Vector3.ZERO)
 			};
 		}
@@ -91,6 +94,7 @@ namespace Archetype.DataLoaders
 		private struct WeaponAttributes
 		{
 			public float AttackInterval;
+			public string AttackSound;
 			public int BaseDamage;
 			public Vector3 FirstPersonMuzzleFlashPosition;
 			public Vector3 FirstPersonPosition;

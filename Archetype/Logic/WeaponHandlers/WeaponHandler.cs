@@ -41,6 +41,11 @@ namespace Archetype.Logic.WeaponHandlers
 			OnUpdate();
 		}
 
+		protected void PlayAttackSound()
+		{
+			ActionPerformer.World.SoundEngine.Play3D("Assets/Audio/" + Weapon.AttackSound, ActionPerformer.EyeNode.GetWorldPosition());
+		}
+
 		protected abstract void OnRegularAttack();
 		protected virtual void OnUpdate() {}
 	}
