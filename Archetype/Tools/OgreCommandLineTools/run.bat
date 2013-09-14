@@ -1,3 +1,3 @@
 @echo off
-for /r C:\Users\User\Desktop\FPS\ %%i in (*.xml) do OgreXMLConverter.exe %%i
+for /r A:\Desktop\output\ %%i in (*.xml) do OgreXMLConverter.exe %%i
 pause
