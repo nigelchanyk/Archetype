@@ -15,6 +15,9 @@ namespace BlenderExporterFix
 		[OptionList('n', "names", Separator = '|', HelpText = "Input XML file names.", Required = true)]
 		public IList<string> Names { get; set; }
 
+		[OptionList('f', "filters", Separator = '|', HelpText = "Filters applied to specified animation.")]
+		public IList<string> Filters { get; set; }
+
 		[Option('o', "output", HelpText = "Output XML directory.", Required = true)]
 		public string Output { get; set; }
 
@@ -28,6 +31,7 @@ namespace BlenderExporterFix
 			sb.AppendLine("This tool merges animations from specified skeleton XMLs to one skeleton XML.");
 			sb.AppendLine("-d    Specify a list of directories of input XMLs delimited by '|'.");
 			sb.AppendLine("-n    Specify a list of names of input XMLs delimited by '|'.");
+			sb.AppendLine("-f    Specify a list of filters delimited by '|'. Each filter is defined by the animation name followed by the filter name separated by ':'.");
 			sb.AppendLine("-o    Specify output directory of output XMLs.");
 			return sb.ToString();
 		}

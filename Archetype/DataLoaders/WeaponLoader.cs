@@ -22,6 +22,11 @@ namespace Archetype.DataLoaders
 			return RangedWeaponMapper[name];
 		}
 
+		public static IEnumerable<string> GetWeaponNames()
+		{
+			return RangedWeaponMapper.Keys;
+		}
+
 		public static void Initialize()
 		{
 			XElement root = XElement.Load("Assets/Data/Weapons.xml");

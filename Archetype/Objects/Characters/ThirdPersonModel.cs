@@ -32,7 +32,13 @@ namespace Archetype.Objects.Characters
 			BodyEntities = bodyEntityNames.Select(name => Character.World.Scene.CreateEntity(name)).ToArray();
 			BodyNode = characterNode.CreateChildSceneNode();
 			foreach (Entity bodyEntity in BodyEntities)
+			{
 				BodyNode.AttachObject(bodyEntity);
+				// To play multiple animations that does not affect each other,
+				// blending mode cannot be average.
+				if (bodyEntity.HasSkeleton)
+					bodyEntity.Skeleton.BlendMode = SkeletonAnimationBlendMode.ANIMBLEND_CUMULATIVE;
+			}
 		}
 
 		public override Vector3 ConvertWeaponToWorldPosition(Vector3 position)

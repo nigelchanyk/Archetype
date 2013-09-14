@@ -1,0 +1,134 @@
+<Filters>
+	<Filter name="AlphaArms">
+		<Bone name="Alpha_LeftShoulder" />
+		<Bone name="Alpha_LeftArm" />
+		<Bone name="Alpha_LeftForeArm" />
+		<Bone name="Alpha_LeftHand" />
+		<Bone name="Alpha_LeftHandThumb1" />
+		<Bone name="Alpha_LeftHandThumb2" />
+		<Bone name="Alpha_LeftHandThumb3" />
+		<Bone name="Alpha_LeftHandThumb4" />
+		<Bone name="Alpha_LeftHandMiddle1" />
+		<Bone name="Alpha_LeftHandMiddle2" />
+		<Bone name="Alpha_LeftHandMiddle3" />
+		<Bone name="Alpha_LeftHandMiddle4" />
+		<Bone name="Alpha_LeftHandIndex1" />
+		<Bone name="Alpha_LeftHandIndex2" />
+		<Bone name="Alpha_LeftHandIndex3" />
+		<Bone name="Alpha_LeftHandIndex4" />
+		<Bone name="Alpha_LeftHandRing1" />
+		<Bone name="Alpha_LeftHandRing2" />
+		<Bone name="Alpha_LeftHandRing3" />
+		<Bone name="Alpha_LeftHandRing4" />
+		<Bone name="Alpha_LeftHandPinky1" />
+		<Bone name="Alpha_LeftHandPinky2" />
+		<Bone name="Alpha_LeftHandPinky3" />
+		<Bone name="Alpha_LeftHandPinky4" />
+		<Bone name="Alpha_RightShoulder" />
+		<Bone name="Alpha_RightArm" />
+		<Bone name="Alpha_RightForeArm" />
+		<Bone name="Alpha_RightHand" />
+		<Bone name="Alpha_RightHandThumb1" />
+		<Bone name="Alpha_RightHandThumb2" />
+		<Bone name="Alpha_RightHandThumb3" />
+		<Bone name="Alpha_RightHandThumb4" />
+		<Bone name="Alpha_RightHandIndex1" />
+		<Bone name="Alpha_RightHandIndex2" />
+		<Bone name="Alpha_RightHandIndex3" />
+		<Bone name="Alpha_RightHandIndex4" />
+		<Bone name="Alpha_RightHandMiddle1" />
+		<Bone name="Alpha_RightHandMiddle2" />
+		<Bone name="Alpha_RightHandMiddle3" />
+		<Bone name="Alpha_RightHandMiddle4" />
+		<Bone name="Alpha_RightHandRing1" />
+		<Bone name="Alpha_RightHandRing2" />
+		<Bone name="Alpha_RightHandRing3" />
+		<Bone name="Alpha_RightHandRing4" />
+		<Bone name="Alpha_RightHandPinky1" />
+		<Bone name="Alpha_RightHandPinky2" />
+		<Bone name="Alpha_RightHandPinky3" />
+		<Bone name="Alpha_RightHandPinky4" />
+	</Filter>
+	<Filter name="AlphaLegs">
+		<Bone name="Alpha_Hips" />
+		<Bone name="Alpha_Spine" />
+		<Bone name="Alpha_LeftUpLeg" />
+		<Bone name="Alpha_LeftLeg" />
+		<Bone name="Alpha_LeftFoot" />
+		<Bone name="Alpha_LeftToeBase" />
+		<Bone name="Alpha_LeftFootToeBase_End" />
+		<Bone name="Alpha_RightUpLeg" />
+		<Bone name="Alpha_RightLeg" />
+		<Bone name="Alpha_RightFoot" />
+		<Bone name="Alpha_RightToeBase" />
+		<Bone name="Alpha_RightFootToeBase_End" />
+	</Filter>
+	<!-- All bones
+		Alpha_Hips
+		Alpha_Spine
+		Alpha_Spine1
+		Alpha_Spine2
+		Alpha_Neck
+		Alpha_Neck1
+		Alpha_Head
+		Alpha_HeadTop_End
+		Alpha_LeftShoulder
+		Alpha_LeftArm
+		Alpha_LeftForeArm
+		Alpha_LeftHand
+		Alpha_LeftHandThumb1
+		Alpha_LeftHandThumb2
+		Alpha_LeftHandThumb3
+		Alpha_LeftHandThumb4
+		Alpha_LeftHandMiddle1
+		Alpha_LeftHandMiddle2
+		Alpha_LeftHandMiddle3
+		Alpha_LeftHandMiddle4
+		Alpha_LeftHandIndex1
+		Alpha_LeftHandIndex2
+		Alpha_LeftHandIndex3
+		Alpha_LeftHandIndex4
+		Alpha_LeftHandRing1
+		Alpha_LeftHandRing2
+		Alpha_LeftHandRing3
+		Alpha_LeftHandRing4
+		Alpha_LeftHandPinky1
+		Alpha_LeftHandPinky2
+		Alpha_LeftHandPinky3
+		Alpha_LeftHandPinky4
+		Alpha_RightShoulder
+		Alpha_RightArm
+		Alpha_RightForeArm
+		Alpha_RightHand
+		Alpha_RightHandThumb1
+		Alpha_RightHandThumb2
+		Alpha_RightHandThumb3
+		Alpha_RightHandThumb4
+		Alpha_RightHandIndex1
+		Alpha_RightHandIndex2
+		Alpha_RightHandIndex3
+		Alpha_RightHandIndex4
+		Alpha_RightHandMiddle1
+		Alpha_RightHandMiddle2
+		Alpha_RightHandMiddle3
+		Alpha_RightHandMiddle4
+		Alpha_RightHandRing1
+		Alpha_RightHandRing2
+		Alpha_RightHandRing3
+		Alpha_RightHandRing4
+		Alpha_RightHandPinky1
+		Alpha_RightHandPinky2
+		Alpha_RightHandPinky3
+		Alpha_RightHandPinky4
+		Alpha_LeftUpLeg
+		Alpha_LeftLeg
+		Alpha_LeftFoot
+		Alpha_LeftToeBase
+		Alpha_LeftFootToeBase_End
+		Alpha_RightUpLeg
+		Alpha_RightLeg
+		Alpha_RightFoot
+		Alpha_RightToeBase
+		Alpha_RightFootToeBase_End
+	-->
+</Filters>

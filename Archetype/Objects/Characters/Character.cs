@@ -18,16 +18,23 @@ using Archetype.States;
 using Archetype.Utilities;
 
 using Math = System.Math;
+using Archetype.Animation;
 
 namespace Archetype.Objects.Characters
 {
 	public abstract class Character : GeneralObject
 	{
-		public enum LowerBodyAnimationKind
+		private enum AnimationKind
 		{
-			Idle,
-			Walk
+			LowerBody,
+			UpperBody
 		}
+
+		public static readonly string[] AllLowerBodyAnimations =
+		{
+			"Idle",
+			"Walk"
+		};
 
 		private static readonly Vector3 AirborneThreshold = new Vector3(0, 0.01f, 0);
 
@@ -127,7 +134,6 @@ namespace Archetype.Objects.Characters
 		protected BodyCollider[] BodyColliders { get; private set; }
 		protected SphereNode BoundingSphere { get; private set; }
 		protected SceneNode CharacterNode { get; private set; }
-		protected LowerBodyAnimationKind LowerBodyAnimation { get; set; }
 		protected UprightCylinderNode SimpleCollider { get; set; }
 
 		protected abstract JumpHandler JumpHandler { get; set; }
@@ -135,7 +141,7 @@ namespace Archetype.Objects.Characters
 
 		private CharacterModel Model { get { return FirstPerson ? (CharacterModel)FirstPersonModel : ThirdPersonModel; } }
 
-		private Dictionary<LowerBodyAnimationKind, AnimationState[]> LowerAnimationMapper = new Dictionary<LowerBodyAnimationKind, AnimationState[]>();
+		private Dictionary<AnimationKind, AnimationManager> AnimationManagerMapper = new Dictionary<AnimationKind, AnimationManager>();
 		private FirstPersonModel FirstPersonModel;
 		private ThirdPersonModel ThirdPersonModel;
 		private WeaponHandler _activeWeaponHandler; // Nullable
@@ -159,11 +165,25 @@ namespace Archetype.Objects.Characters
 
 			BodyColliders = ColliderLoader.ParseColliders(colliderName, ThirdPersonModel.BodyEntities[0], "Alpha_").ToArray();
 
-			BuildAnimationMappers();
 			BoundingSphere = new SphereNode(CharacterNode, new Vector3(0, 1, 0), 2);
 			SimpleCollider = new UprightCylinderNode(CharacterNode, Vector3.ZERO, 1.7f, 0.7f);
-			LowerBodyAnimation = LowerBodyAnimationKind.Idle;
 			Health = 100;
+			AnimationManagerMapper.Add(
+				AnimationKind.LowerBody,
+				new AnimationManager(
+					AllLowerBodyAnimations,
+					ThirdPersonModel.BodyEntities,
+					"Idle"
+				)
+			);
+			AnimationManagerMapper.Add(
+				AnimationKind.UpperBody,
+				new AnimationManager(
+					WeaponLoader.GetWeaponNames().Select(x => "Wield_" + x),
+					ThirdPersonModel.BodyEntities,
+					"Wield_USP"
+				)
+			);
 		}
 
 		public void AttachCamera(Camera camera)
@@ -284,58 +304,12 @@ namespace Archetype.Objects.Characters
 			if (CharacterNode.Position.y < 0)
 				CharacterNode.Position = CharacterNode.Position.Mask(true, false, true);
 			Airborne = IsAirborne();
-			UpdateAnimation(evt);
+
+			foreach (AnimationManager manager in AnimationManagerMapper.Values)
+				manager.Update(evt);
 		}
 
 		protected virtual void OnDeath() {}
-
-		private void BuildAnimationMappers()
-		{
-			foreach (LowerBodyAnimationKind kind in Enum.GetValues(typeof(LowerBodyAnimationKind)))
-			{
-				AnimationState[] animation = ThirdPersonModel.BodyEntities.Select(entity => entity.GetAnimationState(kind.ToString())).ToArray();
-				LowerAnimationMapper.Add(kind, animation);
-			}
-		}
-
-		private void UpdateAnimation(UpdateEvent evt)
-		{
-			foreach (var entry in LowerAnimationMapper)
-			{
-				if (entry.Value.Length == 0)
-					continue;
-
-				if (entry.Key == LowerBodyAnimation)
-				{
-					float weight = MathHelper.Lerp(entry.Value[0].Weight, 1, evt.ElapsedTime * 0.01f);
-					foreach (AnimationState animationState in entry.Value)
-					{
-						animationState.Weight = weight;
-						animationState.AddTime(evt.ElapsedTime);
-					}
-				}
-				else if (entry.Value.Any(animationState => animationState.Enabled))
-				{
-					float weight = MathHelper.Lerp(entry.Value[0].Weight, 0, evt.ElapsedTime * 0.01f);
-					if (weight < 0.05f)
-					{
-						foreach (AnimationState animationState in entry.Value)
-						{
-							animationState.Weight = 0;
-							animationState.Enabled = false;
-						}
-					}
-					else
-					{
-						foreach (AnimationState animationState in entry.Value)
-						{
-							animationState.Weight = weight;
-							animationState.AddTime(evt.ElapsedTime);
-						}
-					}
-				}
-			}
-		}
 
 		private bool IsAirborne()
 		{
