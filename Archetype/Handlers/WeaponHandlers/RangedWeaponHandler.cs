@@ -10,7 +10,7 @@ using Archetype.Objects.Weapons;
 using Archetype.Utilities;
 using Archetype.Objects.Billboards;
 
-namespace Archetype.Logic.WeaponHandlers
+namespace Archetype.Handlers.WeaponHandlers
 {
 	public class RangedWeaponHandler : WeaponHandler
 	{

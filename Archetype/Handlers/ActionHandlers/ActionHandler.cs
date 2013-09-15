@@ -8,7 +8,7 @@ using Mogre;
 using Archetype.Events;
 using Archetype.Objects.Characters;
 
-namespace Archetype.Logic.ActionHandlers
+namespace Archetype.Handlers.ActionHandlers
 {
 	public class ActionHandler
 	{

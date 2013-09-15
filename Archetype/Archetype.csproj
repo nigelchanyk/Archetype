@@ -90,11 +90,11 @@
     <Compile Include="Events\UpdateEvent.cs" />
     <Compile Include="Events\WindowExitListener.cs" />
     <Compile Include="GameConstants.cs" />
-    <Compile Include="Logic\ActionHandlers\ActionHandler.cs" />
-    <Compile Include="Logic\ActionHandlers\JumpHandler.cs" />
-    <Compile Include="Logic\ActionHandlers\WalkHandler.cs" />
-    <Compile Include="Logic\WeaponHandlers\RangedWeaponHandler.cs" />
-    <Compile Include="Logic\WeaponHandlers\WeaponHandler.cs" />
+    <Compile Include="Handlers\ActionHandlers\ActionHandler.cs" />
+    <Compile Include="Handlers\ActionHandlers\JumpHandler.cs" />
+    <Compile Include="Handlers\ActionHandlers\WalkHandler.cs" />
+    <Compile Include="Handlers\WeaponHandlers\RangedWeaponHandler.cs" />
+    <Compile Include="Handlers\WeaponHandlers\WeaponHandler.cs" />
     <Compile Include="Objects\Billboards\BillboardSystemManager.cs" />
     <Compile Include="Objects\Billboards\BillboardSystemType.cs" />
     <Compile Include="Objects\Billboards\BillboardSystem.cs" />

@@ -6,7 +6,7 @@ using System.Text;
 using Mogre;
 
 using Archetype.Events;
-using Archetype.Logic.WeaponHandlers;
+using Archetype.Handlers.WeaponHandlers;
 
 namespace Archetype.Objects.Characters
 {

@@ -9,7 +9,7 @@ using Archetype.Events;
 using Archetype.Objects.Characters;
 using Archetype.Utilities;
 
-namespace Archetype.Logic.ActionHandlers
+namespace Archetype.Handlers.ActionHandlers
 {
 	public class WalkHandler : ActionHandler
 	{

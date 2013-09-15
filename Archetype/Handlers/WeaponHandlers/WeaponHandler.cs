@@ -8,7 +8,7 @@ using Archetype.Objects.Characters;
 using Archetype.Objects.Weapons;
 using Archetype.Utilities;
 
-namespace Archetype.Logic.WeaponHandlers
+namespace Archetype.Handlers.WeaponHandlers
 {
 	public abstract class WeaponHandler
 	{

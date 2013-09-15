@@ -7,7 +7,7 @@ using Mogre;
 
 using Archetype.Objects.Characters;
 
-namespace Archetype.Logic.ActionHandlers
+namespace Archetype.Handlers.ActionHandlers
 {
 	public class JumpHandler : ActionHandler
 	{
