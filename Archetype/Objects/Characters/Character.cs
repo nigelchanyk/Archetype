@@ -67,6 +67,7 @@ namespace Archetype.Objects.Characters
 				EyeNode.Orientation = MathHelper.CreateQuaternionFromYawPitchRoll(0, _eyePitch, 0);
 			}
 		}
+		public CharacterConfiguration Configuration { get; private set; }
 		public bool FirstPerson
 		{
 			get
@@ -151,17 +152,18 @@ namespace Archetype.Objects.Characters
 		private bool _visible = true;
 		private float _yaw = 0;
 
-		public Character(World world, string[] bodyEntityNames, string colliderName)
+		public Character(World world, CharacterConfiguration configuration, string colliderName)
 			: base(world)
 		{
-			if (bodyEntityNames.Length == 0)
+			this.Configuration = configuration;
+			if (Configuration.EntityNames.Length == 0)
 				throw new ArgumentException("At least one body entity must be provided.");
 
 			CharacterNode = World.WorldNode.CreateChildSceneNode();
 			EyeNode = CharacterNode.CreateChildSceneNode(new Vector3(0, 1.7f, 0));
 			FirstPersonModel = new FirstPersonModel(this, EyeNode);
 			FirstPersonModel.Visible = false;
-			ThirdPersonModel = new ThirdPersonModel(this, CharacterNode, bodyEntityNames);
+			ThirdPersonModel = new ThirdPersonModel(this, CharacterNode, Configuration.EntityNames);
 
 			BodyColliders = ColliderLoader.ParseColliders(colliderName, ThirdPersonModel.BodyEntities[0], "Alpha_").ToArray();
 
@@ -307,6 +309,10 @@ namespace Archetype.Objects.Characters
 
 			foreach (AnimationManager manager in AnimationManagerMapper.Values)
 				manager.Update(evt);
+
+			// Performed after animation update so that position of the weapon
+			// matches the animation.
+			Model.Update(evt);
 		}
 
 		protected virtual void OnDeath() {}

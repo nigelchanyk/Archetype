@@ -5,42 +5,75 @@ using System.Text;
 
 using Mogre;
 
+using Archetype.Events;
 using Archetype.Logic.WeaponHandlers;
 
 namespace Archetype.Objects.Characters
 {
 	public abstract class CharacterModel : IDisposable
 	{
-		public abstract bool Visible { get; set; }
+		public virtual bool Visible
+		{
+			get
+			{
+				return _visible;
+			}
+			set
+			{
+				_visible = value;
+				WeaponSceneNode.SetVisible(value);
+			}
+		}
 
 		protected Character Character { get; private set; }
 		protected Entity WeaponEntity { get; private set; } // Nullable
+		protected SceneNode WeaponSceneNode { get; private set; }
+		// For self-centered rotation.
+		protected SceneNode WeaponCenterNode { get; private set; }
 
-		public CharacterModel(Character character)
+		private bool _visible = true;
+
+		public CharacterModel(Character character, SceneNode weaponParentNode)
 		{
 			this.Character = character;
+			WeaponSceneNode = weaponParentNode.CreateChildSceneNode();
+			WeaponCenterNode = WeaponSceneNode.CreateChildSceneNode();
+		}
+
+		public Vector3 ConvertWeaponToWorldPosition(Vector3 position)
+		{
+			return WeaponCenterNode.ConvertLocalToWorldPosition(position);
 		}
 
 		public void Dispose()
 		{
 			OnDispose();
 			DisposeWeaponEntity();
+			WeaponCenterNode.Dispose();
+			WeaponSceneNode.Dispose();
+		}
+
+		public void Update(UpdateEvent evt)
+		{
+			OnUpdate(evt);
 		}
 
 		public void WeaponHandlerChanged()
 		{
 			DisposeWeaponEntity();
 			if (Character.ActiveWeaponHandler != null)
+			{
 				WeaponEntity = Character.World.Scene.CreateEntity(Character.Weapon.ModelName);
+				WeaponCenterNode.AttachObject(WeaponEntity);
+			}
 			OnWeaponHandlerChanged();
 
 			// Trigger visibility update for newly added entities
 			Visible = Visible;
 		}
 
-		public abstract Vector3 ConvertWeaponToWorldPosition(Vector3 position);
-
 		protected virtual void OnDispose() {}
+		protected virtual void OnUpdate(UpdateEvent evt) {}
 		protected virtual void OnWeaponHandlerChanged() {}
 
 		private void DisposeWeaponEntity()

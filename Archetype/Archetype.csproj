@@ -84,6 +84,7 @@
     <Compile Include="Controllers\CameraController.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\Player.cs" />
+    <Compile Include="DataLoaders\CharacterConfigurationLoader.cs" />
     <Compile Include="DataLoaders\WeaponLoader.cs" />
     <Compile Include="DataLoaders\WorldConfigurationLoader.cs" />
     <Compile Include="Events\UpdateEvent.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Objects\Characters\Androids\Assaulter.cs" />
     <Compile Include="Objects\Characters\BodyCollider.cs" />
     <Compile Include="Objects\Characters\Character.cs" />
+    <Compile Include="Objects\Characters\CharacterConfiguration.cs" />
     <Compile Include="Objects\Characters\CharacterModel.cs" />
     <Compile Include="Objects\Characters\FirstPersonModel.cs" />
     <Compile Include="Objects\Characters\ThirdPersonModel.cs" />
@@ -187,7 +189,7 @@
     <None Include="Assets\Materials\Material.material">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Materials\USP.Material.material">
+    <None Include="Assets\Materials\USP.material">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Assets\Models\Alpha_LowJointsGeoMesh.mesh">
@@ -275,6 +277,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Assets\Data\CharacterConfigurations.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Data\Colliders\BasicCharacter.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

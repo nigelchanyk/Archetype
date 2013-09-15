@@ -1,12 +1,12 @@
-// USP.Material genrated by blender2ogre 0.5.8
+// USP genrated by blender2ogre 0.5.8
 
-material USP.Material 
+material USP 
 {
     receive_shadows on 
 
     technique
     {
-        pass USP.Material
+        pass USP
         {
             ambient 0.800000011920929 0.800000011920929 0.800000011920929 1.0
             diffuse 0.6400000190734865 0.6400000190734865 0.6400000190734865 1.0

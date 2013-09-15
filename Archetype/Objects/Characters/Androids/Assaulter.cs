@@ -20,7 +20,7 @@ namespace Archetype.Objects.Characters.Androids
 		{
 			JumpHandler = new JumpHandler(this, 4, GameConstants.DefaultGravityAcceleration);
 			WalkHandler = new WalkHandler(this, GameConstants.DefaultWalkingSpeed);
-			ActiveWeaponHandler = new RangedWeaponHandler(this, WeaponLoader.Get("M4"));
+			ActiveWeaponHandler = new RangedWeaponHandler(this, WeaponLoader.Get("USP"));
 		}
 	}
 }

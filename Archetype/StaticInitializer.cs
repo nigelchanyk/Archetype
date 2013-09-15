@@ -12,6 +12,7 @@ namespace Archetype
 		public static void Initialize()
 		{
 			Names.Initialize();
+			CharacterConfigurationLoader.Initialize();
 			WorldConfigurationLoader.Initialize();
 			WeaponLoader.Initialize();
 		}

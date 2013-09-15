@@ -5,6 +5,9 @@ using System.Text;
 
 using Mogre;
 
+using Archetype.Events;
+using Archetype.Utilities;
+
 namespace Archetype.Objects.Characters
 {
 	public class ThirdPersonModel : CharacterModel
@@ -13,21 +16,22 @@ namespace Archetype.Objects.Characters
 		{
 			get
 			{
-				return _visible;
+				return base.Visible;
 			}
 			set
 			{
-				_visible = value;
+				base.Visible = value;
 				BodyNode.SetVisible(value);
 			}
 		}
 		public Entity[] BodyEntities { get; private set; }
 
 		private SceneNode BodyNode;
-		private bool _visible = true;
+		private Node WeaponPositionReferenceNode;
+		private Vector3 WeaponPositionReferencePosition;
 
 		public ThirdPersonModel(Character character, SceneNode characterNode, string[] bodyEntityNames)
-			: base(character)
+			: base(character, characterNode)
 		{
 			BodyEntities = bodyEntityNames.Select(name => Character.World.Scene.CreateEntity(name)).ToArray();
 			BodyNode = characterNode.CreateChildSceneNode();
@@ -39,19 +43,39 @@ namespace Archetype.Objects.Characters
 				if (bodyEntity.HasSkeleton)
 					bodyEntity.Skeleton.BlendMode = SkeletonAnimationBlendMode.ANIMBLEND_CUMULATIVE;
 			}
-		}
-
-		public override Vector3 ConvertWeaponToWorldPosition(Vector3 position)
-		{
-			throw new NotImplementedException();
+			WeaponCenterNode.Yaw(MathHelper.Pi);
 		}
 
 		protected override void OnDispose()
 		{
+			base.OnDispose();
+
 			BodyNode.DetachAllObjects();
 			BodyNode.Dispose();
 			foreach (Entity bodyEntity in BodyEntities)
 				bodyEntity.Dispose();
+		}
+
+		protected override void OnUpdate(UpdateEvent evt)
+		{
+			base.OnUpdate(evt);
+			if (WeaponPositionReferenceNode != null)
+				WeaponSceneNode.Position = WeaponPositionReferenceNode.ConvertLocalToWorldPosition(WeaponPositionReferencePosition);
+		}
+
+		protected override void OnWeaponHandlerChanged()
+		{
+			base.OnWeaponHandlerChanged();
+			if (WeaponEntity != null)
+			{
+				CharacterConfiguration.LocalSpacePosition position = Character.Configuration.GetThirdPersonWeaponPosition(Character.ActiveWeaponHandler.Weapon.Name);
+				// Note that the world position of a bone is the entity itself,
+				// which is equivalent to the space in character node.
+				WeaponPositionReferenceNode = BodyEntities[0].Skeleton.GetBone(position.World);
+				WeaponPositionReferencePosition = position.Position;
+			}
+			else
+				WeaponPositionReferenceNode = null;
 		}
 	}
 }

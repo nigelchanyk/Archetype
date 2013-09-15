@@ -53,7 +53,7 @@ namespace Archetype.DataLoaders
 						attributes.InaccuracyGrowth,
 						attributes.MaxRecoil,
 						attributes.RecoilGrowth,
-						attributes.FirstPersonMuzzleFlashPosition
+						attributes.MuzzleFlashPosition
 					)
 				);
 			}
@@ -65,7 +65,7 @@ namespace Archetype.DataLoaders
 			XElement inaccuracyElement = weaponElement.Element("Inaccuracy");
 			XElement recoilElement = weaponElement.Element("Recoil");
 			XElement firstPersonElement = weaponElement.Element("FirstPerson");
-			XElement firstPersonMuzzleFlashElement = firstPersonElement.Element("MuzzleFlash");
+			XElement firstPersonMuzzleFlashElement = weaponElement.Element("MuzzleFlash");
 
 			attributes.MinInaccuracy = MogreMath.DegreesToRadians((float)inaccuracyElement.Attribute("min"));
 			attributes.MaxInaccuracy = MogreMath.DegreesToRadians((float)inaccuracyElement.Attribute("max"));
@@ -74,7 +74,7 @@ namespace Archetype.DataLoaders
 			attributes.MaxRecoil = MogreMath.DegreesToRadians((float)recoilElement.Attribute("max"));
 			attributes.RecoilGrowth = MogreMath.DegreesToRadians((float)recoilElement.Attribute("growth"));
 
-			attributes.FirstPersonMuzzleFlashPosition = firstPersonMuzzleFlashElement.ParseXYZ(Vector3.ZERO);
+			attributes.MuzzleFlashPosition = firstPersonMuzzleFlashElement.ParseXYZ(Vector3.ZERO);
 
 			return attributes;
 		}
@@ -101,7 +101,7 @@ namespace Archetype.DataLoaders
 			public float AttackInterval;
 			public string AttackSound;
 			public int BaseDamage;
-			public Vector3 FirstPersonMuzzleFlashPosition;
+			public Vector3 MuzzleFlashPosition;
 			public Vector3 FirstPersonPosition;
 			public Weapon.Kind Kind;
 			public float InaccuracyGrowth;

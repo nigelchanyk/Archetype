@@ -5,18 +5,16 @@
 			<Attack damage="25" interval="0.3" />
 			<Inaccuracy min="0.5" max="3" growth="1" />
 			<Recoil max="5" growth="1" />
-			<FirstPerson x="0.2" y="-0.2" z="-0.5">
-				<MuzzleFlash x="0" y="0.06" z="-0.2" />
-			</FirstPerson>
+			<MuzzleFlash x="0" y="0.06" z="-0.2" />
+			<FirstPerson x="0.2" y="-0.2" z="-0.5" />
 			<Sound attack="Gunshots/USP.ogg" />
 		</Weapon>
 		<Weapon kind="Rifle" model="M4.mesh" name="M4">
 			<Attack damage="40" interval="0.1" />
 			<Inaccuracy min="0.5" max="5" growth="1" />
 			<Recoil max="8" growth="1" />
-			<FirstPerson x="0.2" y="-0.2" z="-0.5">
-				<MuzzleFlash x="0" y="0.01" z="-1.1" />
-			</FirstPerson>
+			<MuzzleFlash x="0" y="0.01" z="-1.1" />
+			<FirstPerson x="0.2" y="-0.2" z="-0.5" />
 			<Sound attack="Gunshots/M4.ogg" />
 		</Weapon>
 	</RangedWeapons>

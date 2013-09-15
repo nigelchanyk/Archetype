@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Characters>
+	<Character name="Alpha">
+		<Entities>
+			<Entity name="Alpha_LowJointsGeoMesh.mesh" />
+			<Entity name="Alpha_LowLimbsGeoMesh.mesh" />
+			<Entity name="Alpha_LowTorsoGeoMesh.mesh" />
+		</Entities>
+		<ThirdPerson>
+			<Weapons>
+				<Weapon name="USP" x="0.2" y="0.15" z="-0.02" world="Alpha_LeftHand" />
+			</Weapons>
+		</ThirdPerson>
+	</Character>
+</Characters>
