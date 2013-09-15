@@ -59,6 +59,7 @@ namespace Archetype.Objects.Characters
 		protected override void OnUpdate(UpdateEvent evt)
 		{
 			base.OnUpdate(evt);
+
 			if (WeaponPositionReferenceNode != null)
 				WeaponSceneNode.Position = WeaponPositionReferenceNode.ConvertLocalToWorldPosition(WeaponPositionReferencePosition);
 		}

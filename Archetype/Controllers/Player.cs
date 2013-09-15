@@ -67,17 +67,22 @@ namespace Archetype.Controllers
 
 		private void Walk(UpdateEvent evt)
 		{
-			Mogre.Vector3 direction = Mogre.Vector3.ZERO;
-			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_W))
-				direction += MathHelper.Forward;
-			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_S))
-				direction += MathHelper.Backward;
-			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_A))
-				direction += MathHelper.Left;
-			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_D))
-				direction += MathHelper.Right;
+			int forwardScalar = 0;
+			int rightScalar = 0;
 
-			Character.Walk(direction);
+			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_W))
+				forwardScalar++;
+			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_S))
+				forwardScalar--;
+			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_A))
+				rightScalar--;
+			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_D))
+				rightScalar++;
+
+			if (forwardScalar != 0 || rightScalar != 0)
+				Character.Walk(MathHelper.Forward * forwardScalar + MathHelper.Right * rightScalar);
+			else
+				Character.Stop();
 		}
 	}
 }

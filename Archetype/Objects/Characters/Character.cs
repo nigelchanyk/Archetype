@@ -280,9 +280,16 @@ namespace Archetype.Objects.Characters
 				ActiveWeaponHandler.RegularAttack();
 		}
 
+		public void Stop()
+		{
+			WalkHandler.Stop();
+			AnimationManagerMapper[AnimationKind.LowerBody].CurrentAnimation = "Idle";
+		}
+
 		public void Walk(Vector3 direction)
 		{
-			WalkHandler.SetNextMoveDirection(direction);
+			WalkHandler.Direction = direction;
+			AnimationManagerMapper[AnimationKind.LowerBody].CurrentAnimation = "Walk";
 		}
 
 		protected override void OnDispose()

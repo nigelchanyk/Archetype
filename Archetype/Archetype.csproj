@@ -279,6 +279,7 @@
   <ItemGroup>
     <Content Include="Assets\Data\CharacterConfigurations.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Assets\Data\Colliders\BasicCharacter.xml">
       <SubType>Designer</SubType>
