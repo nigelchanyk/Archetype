@@ -15,20 +15,6 @@ namespace Archetype.Controllers
 {
 	public class Player : CameraController
 	{
-		public new Character Character
-		{
-			get { return base.Character; }
-			set
-			{
-				// Set previous character to third person
-				if (Character != null)
-					Character.FirstPerson = false;
-
-				base.Character = value;
-				Character.AttachCamera(World.Camera);
-				Character.FirstPerson = true;
-			}
-		}
 
 		public Player(World world, Point windowCenter, bool cameraEnabled)
 			: base(world, windowCenter, cameraEnabled)

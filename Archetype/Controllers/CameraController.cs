@@ -7,6 +7,7 @@ using Mogre;
 
 using Archetype.Events;
 using Archetype.Objects;
+using Archetype.Objects.Characters;
 using Archetype.UserInterface;
 
 namespace Archetype.Controllers
@@ -25,6 +26,24 @@ namespace Archetype.Controllers
 				throw new FieldAccessException("Camera is inaccessible when disabled.");
 			}
 		}
+
+		public new Character Character
+		{
+			get { return base.Character; }
+			set
+			{
+				// Set previous character to third person
+				if (Character != null)
+					Character.FirstPerson = false;
+
+				base.Character = value;
+
+				Character.FirstPerson = CameraEnabled;
+				if (CameraEnabled)
+					Character.AttachCamera(World.Camera);
+			}
+		}
+
 		protected Point WindowCenter { get; private set; }
 
 		public CameraController(World world, Point windowCenter, bool cameraEnabled)

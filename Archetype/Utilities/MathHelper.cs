@@ -84,6 +84,16 @@ namespace Archetype.Utilities
 			return orientation;
 		}
 
+		public static float Distance(this Vector3 a, Vector3 b)
+		{
+			return System.Math.Abs((b - a).Length);
+		}
+
+		public static bool IsApproximately(this Vector3 value, Vector3 compareTo, float squaredTolerance)
+		{
+			return value.SquaredDistance(compareTo) <= squaredTolerance;
+		}
+
 		public static float Lerp(float source, float destination, float amount)
 		{
 			return source + (destination - source) * amount;

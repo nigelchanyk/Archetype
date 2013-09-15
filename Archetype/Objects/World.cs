@@ -9,6 +9,7 @@ using Archetype.Assets;
 using Archetype.Audio;
 using Archetype.BattleSystems;
 using Archetype.Events;
+using Archetype.Logic;
 using Archetype.Objects.Characters;
 using Archetype.Objects.Characters.Androids;
 using Archetype.Objects.Particles;
@@ -45,8 +46,9 @@ namespace Archetype.Objects
 		private List<Character> Characters = new List<Character>();
 		private BillboardSystemManager BillboardSystemManager;
 		private CompoundEffectManager CompoundEffectManager;
-		private UniqueParticleSystemManager ParticleSystemManager;
 		private List<Light> Lights = new List<Light>();
+		private UniqueParticleSystemManager ParticleSystemManager;
+		private SearchGraph SearchGraph;
 		private bool _paused = false;
 
 		public World(Root root, string sceneFile = "")
@@ -68,6 +70,8 @@ namespace Archetype.Objects
 			ParticleSystemManager = new UniqueParticleSystemManager(Scene, WorldNode);
 			CompoundEffectManager = new CompoundEffects.CompoundEffectManager(this);
 			SoundEngine = new SoundEngine();
+
+			SearchGraph = new SearchGraph(this);
 		}
 
 		public void AddBuildingCollisionMesh(UprightBoxNode box)
@@ -199,6 +203,11 @@ namespace Archetype.Objects
 			return closest;
 		}
 
+		public Path FindPath(Vector3 source, Vector3 destination)
+		{
+			return SearchGraph.Search(source, destination);
+		}
+
 		public void Update(UpdateEvent evt)
 		{
 			Characters.ForEach(character => character.Update(evt));
@@ -209,6 +218,12 @@ namespace Archetype.Objects
 			// Otherwise, it will take two cycles to destroy a compound effect.
 			CompoundEffectManager.Update(evt);
 			SoundEngine.SetListenerPosition(Camera.RealPosition, Camera.RealDirection);
+		}
+
+		public bool IsValidPath(Vector3 source, Vector3 dest)
+		{
+			Ray path = new Ray(source, dest - source);
+			return Buildings.All(x => x.GetIntersectingDistance(path) == null);
 		}
 
 		private void InitializeCamera(Vector3 position, Vector3 lookAt)

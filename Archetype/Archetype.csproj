@@ -81,6 +81,9 @@
     <Compile Include="CompoundEffects\CompoundEffectType.cs" />
     <Compile Include="CompoundEffects\MuzzleFlashEffect.cs" />
     <Compile Include="Configurations.cs" />
+    <Compile Include="Controllers\BotControllers\BotController.cs" />
+    <Compile Include="Controllers\BotControllers\Strategies\RoamStrategy.cs" />
+    <Compile Include="Controllers\BotControllers\Strategies\Strategy.cs" />
     <Compile Include="Controllers\CameraController.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\Player.cs" />
@@ -95,6 +98,10 @@
     <Compile Include="Handlers\ActionHandlers\WalkHandler.cs" />
     <Compile Include="Handlers\WeaponHandlers\RangedWeaponHandler.cs" />
     <Compile Include="Handlers\WeaponHandlers\WeaponHandler.cs" />
+    <Compile Include="Logic\MinHeap.cs" />
+    <Compile Include="Logic\Path.cs" />
+    <Compile Include="Logic\PathNode.cs" />
+    <Compile Include="Logic\SearchGraph.cs" />
     <Compile Include="Objects\Billboards\BillboardSystemManager.cs" />
     <Compile Include="Objects\Billboards\BillboardSystemType.cs" />
     <Compile Include="Objects\Billboards\BillboardSystem.cs" />
