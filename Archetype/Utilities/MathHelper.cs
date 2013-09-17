@@ -30,6 +30,28 @@ namespace Archetype.Utilities
 		// Special Constants
 		public static readonly float SqrtTwo = (float)System.Math.Sqrt(2);
 
+		public static float AngleDifference(float angle1, float angle2)
+		{
+			angle1 = angle1.WrapAngle();
+			angle2 = angle2.WrapAngle();
+
+			float difference = Difference(angle1, angle2);
+			return difference > Pi ? TwoPi - difference : difference;
+		}
+
+		public static float ApproachAngle(float value1, float value2, float maxAmount)
+		{
+			value1 = WrapAngle(value1);
+			value2 = WrapAngle(value2);
+
+			if (Difference(value1, value2) > Pi)
+				value2 += value2 > value1 ? -TwoPi : TwoPi;
+
+			if (Difference(value1, value2) < maxAmount)
+				return value2;
+			return value1 + (value1 < value2 ? maxAmount : -maxAmount);
+		}
+
 		public static float Clamp(this float original, float min, float max)
 		{
 			if (original < min)
@@ -84,9 +106,19 @@ namespace Archetype.Utilities
 			return orientation;
 		}
 
+		public static float Difference(float a, float b)
+		{
+			return System.Math.Abs(a - b);
+		}
+
 		public static float Distance(this Vector3 a, Vector3 b)
 		{
 			return System.Math.Abs((b - a).Length);
+		}
+
+		public static float GetYaw(Vector3 position, Vector3 target)
+		{
+			return (target - position).ToYaw();
 		}
 
 		public static bool IsApproximately(this Vector3 value, Vector3 compareTo, float squaredTolerance)
@@ -102,6 +134,17 @@ namespace Archetype.Utilities
 		public static Vector3 Lerp(Vector3 source, Vector3 destination, float amount)
 		{
 			return source + (destination - source) * amount;
+		}
+
+		public static float LerpAngle(float value1, float value2, float amount)
+		{
+			value1 = value1.WrapAngle();
+			value2 = value2.WrapAngle();
+
+			if (Difference(value1, value2) > Pi)
+				value2 += value2 > value1 ? -TwoPi : TwoPi;
+
+			return MathHelper.Lerp(value1, value2, amount).WrapAngle();
 		}
 
 		/// <summary>
@@ -162,6 +205,11 @@ namespace Archetype.Utilities
 			return new SphericalCoordinate(radius, phi, theta);
 		}
 
+		public static float ToYaw(this Vector3 direction)
+		{
+			return (float)System.Math.Atan2(direction.x, direction.z);
+		}
+
 		public static Vector2 ToVectorXZ(this Vector3 vector)
 		{
 			return new Vector2(vector.x, vector.z);
@@ -187,6 +235,11 @@ namespace Archetype.Utilities
 			Vector3 transformedOrigin = world.ConvertWorldToLocalPosition(ray.Origin);
 			Vector3 transformedDirection = world.ConvertWorldToLocalPosition(ray.Direction + ray.Origin) - transformedOrigin;
 			return new Ray(transformedOrigin, transformedDirection);
+		}
+
+		public static float WrapAngle(this float angle)
+		{
+			return ((angle % TwoPi) + TwoPi) % TwoPi;
 		}
 	}
 }

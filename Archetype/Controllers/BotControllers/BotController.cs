@@ -7,6 +7,8 @@ using Archetype.Controllers.BotControllers.Strategies;
 using Archetype.Events;
 using Archetype.Objects;
 using Archetype.UserInterface;
+using Archetype.Utilities;
+using Mogre;
 
 namespace Archetype.Controllers.BotControllers
 {
@@ -22,12 +24,31 @@ namespace Archetype.Controllers.BotControllers
 		public BotController(World world, Point windowCenter)
 			: base(world, windowCenter, false)
 		{
-			this.Strategy = new RoamStrategy(this);
+			this.Strategy = new EmptyStrategy(this);
+		}
+
+		public bool WalkTo(UpdateEvent evt, Vector3 target, float squaredDistanceThreshold)
+		{
+			if (Character.Position.SquaredDistance(target) < squaredDistanceThreshold)
+				return true;
+
+			float targetYaw = MathHelper.GetYaw(Character.Position, target);
+			float angleDifference = MathHelper.AngleDifference(Character.Yaw, targetYaw);
+
+			Character.Yaw = MathHelper.LerpAngle(Character.Yaw, targetYaw, evt.ElapsedTime * GameConstants.BotYawLerpAmount);
+
+			// Only start walking if the angle is approximately in the target's general direction.
+			if (angleDifference < MathHelper.PiOver6)
+				Character.Walk(MathHelper.Forward);
+
+			return false;
 		}
 
 		public override void Update(UpdateEvent evt)
 		{
 			base.Update(evt);
+			Strategy = Strategy.NextStrategy();
+			Strategy.Update(evt);
 		}
 	}
 }

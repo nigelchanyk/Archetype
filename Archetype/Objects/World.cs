@@ -55,11 +55,14 @@ namespace Archetype.Objects
 		{
 			SceneName = sceneFile;
 			Scene = root.CreateSceneManager(SceneType.ST_GENERIC);
+			SearchGraph = new SearchGraph(this);
 			if (sceneFile != "")
 			{
 				SceneLoader loader = new SceneLoader();
-				loader.ParseDotScene(sceneFile, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, Scene, WorldNode, this);
+				List<Vector3> PathNodes = new List<Vector3>();
+				loader.ParseDotScene(sceneFile, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, Scene, WorldNode, PathNodes, this);
 				Scene.SetSkyDome(true, "SkyBoxes/CloudySky", 5, 8, 2000);
+				PathNodes.ForEach(x => SearchGraph.AddVertex(x));
 			}
 			Scene.AmbientLight = new ColourValue(0.5f, 0.5f, 0.5f);
 			InitializeCamera(new Vector3(0, 0, -5), Vector3.ZERO);
@@ -206,6 +209,16 @@ namespace Archetype.Objects
 		public Path FindPath(Vector3 source, Vector3 destination)
 		{
 			return SearchGraph.Search(source, destination);
+		}
+
+		public Vector3[] GetAdjacentVertices(Vector3 source)
+		{
+			return SearchGraph.GetAdjacentVertices(source);
+		}
+
+		public Vector3? GetClosestVertex(Vector3 source)
+		{
+			return SearchGraph.GetClosestVertex(source);
 		}
 
 		public void Update(UpdateEvent evt)

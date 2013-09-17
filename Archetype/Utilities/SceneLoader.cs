@@ -5,6 +5,7 @@ using System.Xml;
 
 using Mogre;
 
+using Archetype.Logic;
 using Archetype.Objects;
 using Archetype.Objects.Primitives;
 
@@ -18,10 +19,11 @@ namespace Archetype.Utilities
 		public List<string> DynamicObjects { get; private set; } //String
 		public List<string> StaticObjects { get; private set; } //String
 
+		protected SceneNode AttachNode { get; private set; }
+		protected String GroupName { get; private set; }
+		protected SceneManager SceneManager { get; private set; }
+		protected List<Vector3> SearchGraphVertices { get; private set; }
 		protected World World { get; private set; }
-		protected SceneNode mAttachNode { get; private set; }
-		protected SceneManager mSceneMgr { get; private set; }
-		protected String m_sGroupName { get; private set; }
 
 		#endregion Fields
 
@@ -29,17 +31,18 @@ namespace Archetype.Utilities
 
 		public void ParseDotScene(String SceneName, String groupName, SceneManager yourSceneMgr, World world)
 		{
-			ParseDotScene(SceneName, groupName, yourSceneMgr, null, world);
+			ParseDotScene(SceneName, groupName, yourSceneMgr, null, null, world);
 		}
 
-		public void ParseDotScene(String SceneName, String groupName, SceneManager yourSceneMgr, SceneNode pAttachNode, World world)
+		public void ParseDotScene(String SceneName, String groupName, SceneManager yourSceneMgr, SceneNode pAttachNode, List<Vector3> searchGraphVertices, World world)
 		{
 			// set up shared object values
-			m_sGroupName = groupName;
-			mSceneMgr = yourSceneMgr;
+			GroupName = groupName;
+			SceneManager = yourSceneMgr;
 			this.StaticObjects = new List<string>();
 			this.DynamicObjects = new List<string>();
 			this.World = world;
+			this.SearchGraphVertices = searchGraphVertices;
 
 			XmlDocument XMLDoc = null;
 			XmlElement XMLRoot;
@@ -63,9 +66,9 @@ namespace Archetype.Utilities
 			}
 
 			// figure out where to attach any nodes we create
-			mAttachNode = pAttachNode;
-			if (mAttachNode == null)
-				mAttachNode = mSceneMgr.RootSceneNode;
+			AttachNode = pAttachNode;
+			if (AttachNode == null)
+				AttachNode = SceneManager.RootSceneNode;
 
 			// Process the scene
 			processScene(XMLRoot);
@@ -169,7 +172,7 @@ namespace Archetype.Utilities
 			String name = getAttrib(XMLNode, "name");
 
 			// Create the light
-			Camera pCamera = mSceneMgr.CreateCamera(name);
+			Camera pCamera = SceneManager.CreateCamera(name);
 			if (pParent != null)
 				pParent.AttachObject(pCamera);
 
@@ -226,9 +229,9 @@ namespace Archetype.Utilities
 
 			// Create the entity
 			Entity pEntity = null;
-			MeshPtr mesh = MeshManager.Singleton.Load(meshFile, m_sGroupName);
+			MeshPtr mesh = MeshManager.Singleton.Load(meshFile, GroupName);
 
-			pEntity = mSceneMgr.CreateEntity(name, meshFile);
+			pEntity = SceneManager.CreateEntity(name, meshFile);
 			pEntity.Visible = bvisible;
 			pEntity.CastShadows = bcastshadows;
 			pEntity.RenderingDistance = brenderingDistance;
@@ -264,7 +267,7 @@ namespace Archetype.Utilities
 			// Process colourAmbient (?)
 			pElement = (XmlElement)XMLNode.SelectSingleNode("colourAmbient");
 			if (pElement != null)
-				mSceneMgr.AmbientLight = parseColour(pElement);
+				SceneManager.AmbientLight = parseColour(pElement);
 
 			// Process colourBackground (?)
 			//! @todo Set the background colour of all viewports (RenderWindow has to be provided then)
@@ -305,7 +308,7 @@ namespace Archetype.Utilities
 				colourDiffuse = parseColour(pElement);
 
 			// Setup the fog
-			mSceneMgr.SetFog(mode, colourDiffuse, 0.001f, linearStart, linearEnd);
+			SceneManager.SetFog(mode, colourDiffuse, 0.001f, linearStart, linearEnd);
 		}
 
 		protected void processLight(XmlElement XMLNode, SceneNode pParent)
@@ -314,7 +317,7 @@ namespace Archetype.Utilities
 			String name = getAttrib(XMLNode, "name");
 
 			// Create the light
-			Light pLight = mSceneMgr.CreateLight(name);
+			Light pLight = SceneManager.CreateLight(name);
 			if (pParent != null)
 				pParent.AttachObject(pLight);
 
@@ -401,6 +404,11 @@ namespace Archetype.Utilities
 				processCollisionPrimitive(XMLNode, pParent, name);
 				return;
 			}
+			if (name.StartsWith("path.node"))
+			{
+				processPathNode(XMLNode);
+				return;
+			}
 
 			// Create the scene node
 			SceneNode pNode;
@@ -410,7 +418,7 @@ namespace Archetype.Utilities
 				if (pParent != null)
 					pNode = pParent.CreateChildSceneNode();
 				else
-					pNode = mAttachNode.CreateChildSceneNode();
+					pNode = AttachNode.CreateChildSceneNode();
 			}
 			else
 			{
@@ -418,7 +426,7 @@ namespace Archetype.Utilities
 				if (pParent != null)
 					pNode = pParent.CreateChildSceneNode(name);
 				else
-					pNode = mAttachNode.CreateChildSceneNode(name);
+					pNode = AttachNode.CreateChildSceneNode(name);
 			}
 
 			// Process other attributes
@@ -535,8 +543,8 @@ namespace Archetype.Utilities
 			Entity pEntity = null;
 			try
 			{
-				MeshPtr ptr = MeshManager.Singleton.CreatePlane(name, m_sGroupName, pPlane, width, height, xSegments, ySegments, normals, (ushort)numTexCoordSets, uTile, vTile, upVector);
-				pEntity = mSceneMgr.CreateEntity(name, name);
+				MeshPtr ptr = MeshManager.Singleton.CreatePlane(name, GroupName, pPlane, width, height, xSegments, ySegments, normals, (ushort)numTexCoordSets, uTile, vTile, upVector);
+				pEntity = SceneManager.CreateEntity(name, name);
 				pParent.AttachObject(pEntity);
 			}
 			catch (Exception e)
@@ -615,6 +623,19 @@ namespace Archetype.Utilities
 				World.AddBuildingCollisionMesh(new UprightBoxNode(pParent, -scale, scale));
 			else
 				throw new ArgumentException("Unknown collision type: " + name);
+		}
+
+		protected void processPathNode(XmlElement XMLNode)
+		{
+			if (SearchGraphVertices == null)
+				return;
+
+			XmlElement pElement = (XmlElement)XMLNode.SelectSingleNode("position");
+			if (pElement == null)
+				throw new ArgumentException("Path node must have a position.");
+
+			// Mask out the y component
+			SearchGraphVertices.Add(parseVector3(pElement).Mask(true, false, true));
 		}
 
 		protected void processUserDataReference(XmlElement XMLNode, SceneNode pNode)

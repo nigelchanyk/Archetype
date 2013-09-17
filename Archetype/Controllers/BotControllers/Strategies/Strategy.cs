@@ -16,6 +16,7 @@ namespace Archetype.Controllers.BotControllers.Strategies
 			this.BotController = botController;
 		}
 
+		public abstract Strategy NextStrategy();
 		public abstract void Update(UpdateEvent evt);
 	}
 }

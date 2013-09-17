@@ -82,6 +82,7 @@
     <Compile Include="CompoundEffects\MuzzleFlashEffect.cs" />
     <Compile Include="Configurations.cs" />
     <Compile Include="Controllers\BotControllers\BotController.cs" />
+    <Compile Include="Controllers\BotControllers\Strategies\EmptyStrategy.cs" />
     <Compile Include="Controllers\BotControllers\Strategies\RoamStrategy.cs" />
     <Compile Include="Controllers\BotControllers\Strategies\Strategy.cs" />
     <Compile Include="Controllers\CameraController.cs" />
