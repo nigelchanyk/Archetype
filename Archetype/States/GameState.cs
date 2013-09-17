@@ -10,12 +10,14 @@ using Archetype.BattleSystems;
 using Archetype.Controllers;
 using Archetype.Events;
 using Archetype.UserInterface.Crosshairs;
+using Archetype.Controllers.BotControllers;
 
 namespace Archetype.States
 {
 	public class GameState : WorldState
 	{
 		private BattleSystem BattleSystem;
+		private BotManager BotManager;
 		private Crosshair Crosshair;
 		private Player Player;
 
@@ -25,9 +27,12 @@ namespace Archetype.States
 			this.BattleSystem = battleSystem;
 			BattleSystem.World = World;
 			World.BattleSystem = BattleSystem;
-			Player = new Player(World, Application.WindowCenter, true);
 			BattleSystem.Start();
+
+			Player = new Player(World, Application.WindowCenter, true);
 			Player.Character = BattleSystem.GetCharacterByName(playerName);
+			BotManager = new BotManager(World, BattleSystem, new string[] { playerName }, Application.WindowCenter);
+
 			Crosshair = new Crosshair(Application.Resolution, World.Camera)
 			{
 				Character = Player.Character
@@ -61,6 +66,7 @@ namespace Archetype.States
 		{
 			base.OnUpdate(evt);
 			Player.Update(evt);
+			BotManager.Update(evt);
 			Application.CenterCursor();
 		}
 	}

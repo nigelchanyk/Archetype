@@ -5,6 +5,7 @@ using System.Text;
 
 using Archetype.Objects;
 using Archetype.Objects.Characters;
+using Archetype.Utilities;
 
 namespace Archetype.BattleSystems
 {
@@ -16,6 +17,7 @@ namespace Archetype.BattleSystems
 		}
 
 		public World World { get; set; }
+
 		protected Dictionary<string, BattlerRecord> BattlerNameMapper { get; private set; }
 
 		public BattleSystem()
@@ -23,7 +25,17 @@ namespace Archetype.BattleSystems
 			BattlerNameMapper = new Dictionary<string, BattlerRecord>();
 		}
 
-		public abstract Character GetCharacterByName(string name);
+		public IEnumerable<BattlerRecord> GetAllRecords()
+		{
+			return BattlerNameMapper.Values;
+		}
+
+		public Character GetCharacterByName(string name)
+		{
+			BattlerRecord record = BattlerNameMapper.Get(name, null);
+			return record == null ? null : record.Character;
+		}
+
 		public abstract IEnumerable<Character> GetEnemiesAlive(Character character);
 		public abstract void Start();
 	}

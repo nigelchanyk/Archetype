@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Archetype.Events;
 using Mogre;
+
+using Archetype.Events;
+using Archetype.Utilities;
 
 namespace Archetype.Controllers.BotControllers.Strategies
 {
 	public class RoamStrategy : Strategy
 	{
+		private static readonly float SquaredDistanceThreshold = 0.4f * 0.4f;
+
 		public Vector3 Destination { get; private set; }
-		public Vector3 Direction { get; private set; }
 
 		public RoamStrategy(BotController botController)
 			: base(botController)
@@ -20,7 +23,6 @@ namespace Archetype.Controllers.BotControllers.Strategies
 			if (!destination.HasValue)
 				throw new InvalidOperationException("Unable to find direct vertex for roaming.");
 			this.Destination = destination.Value;
-			Direction = (this.Destination - BotController.Character.Position).NormalisedCopy;
 		}
 
 		public override Strategy NextStrategy()
@@ -33,6 +35,19 @@ namespace Archetype.Controllers.BotControllers.Strategies
 
 		public override void Update(UpdateEvent evt)
 		{
+			bool approached = BotController.WalkTo(evt, Destination, SquaredDistanceThreshold);
+			if (!approached)
+				return;
+
+			Vector3[] possibleNextNodes = BotController.Character.World.GetAdjacentVertices(Destination);
+			// Avoid walking back to where we come from if possible.
+			if (possibleNextNodes.Length == 1)
+				Destination = possibleNextNodes[0];
+			else
+			{
+				possibleNextNodes.Shuffle();
+				Destination = possibleNextNodes.First(x => !x.IsApproximately(Destination, 0.0001f));
+			}
 		}
 	}
 }

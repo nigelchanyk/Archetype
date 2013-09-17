@@ -27,6 +27,7 @@ namespace Archetype.Controllers.BotControllers.Strategies
 
 		public override void Update(UpdateEvent evt)
 		{
+			BotController.Character.Stop();
 		}
 	}
 }

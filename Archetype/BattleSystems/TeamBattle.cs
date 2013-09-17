@@ -41,12 +41,14 @@ namespace Archetype.BattleSystems
 				BattlerRecord record = new BattlerRecord(name);
 				TeamRecordMapper[Team.Red].Add(record);
 				TeamMapper.Add(record, Team.Red);
+				BattlerNameMapper.Add(name, record);
 			}
 			foreach (string name in names.Slice(redBotCount, names.Length))
 			{
 				BattlerRecord record = new BattlerRecord(name);
 				TeamRecordMapper[Team.Blue].Add(record);
 				TeamMapper.Add(record, Team.Blue);
+				BattlerNameMapper.Add(name, record);
 			}
 
 		}
@@ -56,17 +58,7 @@ namespace Archetype.BattleSystems
 			BattlerRecord record = new BattlerRecord(name);
 			TeamRecordMapper[team].Add(record);
 			TeamMapper.Add(record, team);
-		}
-
-		public override Character GetCharacterByName(string name)
-		{
-			foreach (List<BattlerRecord> team in TeamRecordMapper.Values)
-			{
-				BattlerRecord record = team.FirstOrDefault(x => x.Name == name);
-				if (record.Character != null)
-					return record.Character;
-			}
-			return null;
+			BattlerNameMapper.Add(name, record);
 		}
 
 		public override IEnumerable<Character> GetEnemiesAlive(Character character)

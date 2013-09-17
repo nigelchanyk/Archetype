@@ -12,7 +12,7 @@ using Mogre;
 
 namespace Archetype.Controllers.BotControllers
 {
-	public abstract class BotController : CameraController
+	public class BotController : CameraController
 	{
 		// Tendency of pursuing escaped enemies
 		public float AggressionFactor { get; private set; }
