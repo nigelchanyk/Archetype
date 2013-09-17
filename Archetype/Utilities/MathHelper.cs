@@ -207,7 +207,7 @@ namespace Archetype.Utilities
 
 		public static float ToYaw(this Vector3 direction)
 		{
-			return (float)System.Math.Atan2(direction.x, direction.z);
+			return (float)System.Math.Atan2(-direction.x, -direction.z);
 		}
 
 		public static Vector2 ToVectorXZ(this Vector3 vector)

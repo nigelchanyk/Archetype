@@ -73,8 +73,6 @@ namespace Archetype.Objects
 			ParticleSystemManager = new UniqueParticleSystemManager(Scene, WorldNode);
 			CompoundEffectManager = new CompoundEffects.CompoundEffectManager(this);
 			SoundEngine = new SoundEngine();
-
-			SearchGraph = new SearchGraph(this);
 		}
 
 		public void AddBuildingCollisionMesh(UprightBoxNode box)

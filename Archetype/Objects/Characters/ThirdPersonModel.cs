@@ -31,10 +31,15 @@ namespace Archetype.Objects.Characters
 		private Vector3 WeaponPositionReferencePosition;
 
 		public ThirdPersonModel(Character character, SceneNode characterNode, string[] bodyEntityNames)
-			: base(character, characterNode)
+			: base(character)
 		{
 			BodyEntities = bodyEntityNames.Select(name => Character.World.Scene.CreateEntity(name)).ToArray();
 			BodyNode = characterNode.CreateChildSceneNode();
+			BodyNode.Yaw(MathHelper.Pi);
+
+			WeaponSceneNode = BodyNode.CreateChildSceneNode();
+			WeaponCenterNode = WeaponSceneNode.CreateChildSceneNode();
+			
 			foreach (Entity bodyEntity in BodyEntities)
 			{
 				BodyNode.AttachObject(bodyEntity);

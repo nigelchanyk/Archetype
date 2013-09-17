@@ -15,6 +15,7 @@ namespace Archetype.Controllers.BotControllers.Strategies
 		private static readonly float SquaredDistanceThreshold = 0.4f * 0.4f;
 
 		public Vector3 Destination { get; private set; }
+		public Vector3 PreviousDestination { get; private set; }
 
 		public RoamStrategy(BotController botController)
 			: base(botController)
@@ -23,6 +24,7 @@ namespace Archetype.Controllers.BotControllers.Strategies
 			if (!destination.HasValue)
 				throw new InvalidOperationException("Unable to find direct vertex for roaming.");
 			this.Destination = destination.Value;
+			PreviousDestination = BotController.Character.Position;
 		}
 
 		public override Strategy NextStrategy()
@@ -46,7 +48,9 @@ namespace Archetype.Controllers.BotControllers.Strategies
 			else
 			{
 				possibleNextNodes.Shuffle();
-				Destination = possibleNextNodes.First(x => !x.IsApproximately(Destination, 0.0001f));
+				Vector3 next = possibleNextNodes.First(x => !x.IsApproximately(PreviousDestination, 0.0001f));
+				PreviousDestination = Destination;
+				Destination = next;
 			}
 		}
 	}

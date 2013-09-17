@@ -27,17 +27,15 @@ namespace Archetype.Objects.Characters
 
 		protected Character Character { get; private set; }
 		protected Entity WeaponEntity { get; private set; } // Nullable
-		protected SceneNode WeaponSceneNode { get; private set; }
+		protected SceneNode WeaponSceneNode { get; set; }
 		// For self-centered rotation.
-		protected SceneNode WeaponCenterNode { get; private set; }
+		protected SceneNode WeaponCenterNode { get; set; }
 
 		private bool _visible = true;
 
-		public CharacterModel(Character character, SceneNode weaponParentNode)
+		public CharacterModel(Character character)
 		{
 			this.Character = character;
-			WeaponSceneNode = weaponParentNode.CreateChildSceneNode();
-			WeaponCenterNode = WeaponSceneNode.CreateChildSceneNode();
 		}
 
 		public Vector3 ConvertWeaponToWorldPosition(Vector3 position)

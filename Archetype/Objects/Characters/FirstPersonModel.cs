@@ -14,9 +14,11 @@ namespace Archetype.Objects.Characters
 		private SceneNode EyeNode;
 
 		public FirstPersonModel(Character character, SceneNode eyeNode)
-			: base(character, eyeNode)
+			: base(character)
 		{
 			this.EyeNode = eyeNode;
+			WeaponSceneNode = EyeNode.CreateChildSceneNode();
+			WeaponCenterNode = WeaponSceneNode.CreateChildSceneNode();
 		}
 
 		protected override void OnWeaponHandlerChanged()
