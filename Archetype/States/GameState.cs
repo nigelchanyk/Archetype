@@ -31,6 +31,7 @@ namespace Archetype.States
 
 			Player = new Player(World, CameraManager, Application.WindowCenter, true);
 			Player.Character = BattleSystem.GetCharacterByName(playerName);
+			CameraManager.ActiveCamera = Player.Camera;
 			BotManager = new BotManager(World, CameraManager, BattleSystem, new string[] { playerName }, Application.WindowCenter);
 
 			Crosshair = new Crosshair(Application.Resolution, Player.Camera)

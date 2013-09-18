@@ -8,6 +8,7 @@ using Mogre;
 using Archetype.Assets;
 using Archetype.Audio;
 using Archetype.BattleSystems;
+using Archetype.Cameras;
 using Archetype.Events;
 using Archetype.Logic;
 using Archetype.Objects.Characters;
@@ -24,6 +25,7 @@ namespace Archetype.Objects
 	public class World : IDisposable
 	{
 		public BattleSystem BattleSystem { get; set; }
+		public CameraManager CameraManager { get; private set; }
 		public bool Paused
 		{
 			get
@@ -50,8 +52,9 @@ namespace Archetype.Objects
 		private SearchGraph SearchGraph;
 		private bool _paused = false;
 
-		public World(Root root, string sceneFile = "")
+		public World(Root root, CameraManager cameraManager, string sceneFile = "")
 		{
+			this.CameraManager = cameraManager;
 			SceneName = sceneFile;
 			Scene = root.CreateSceneManager(SceneType.ST_GENERIC);
 			SearchGraph = new SearchGraph(this);
@@ -236,7 +239,7 @@ namespace Archetype.Objects
 			// Some compound effects are dependent on the `Alive` properties of other managers' objects.
 			// Otherwise, it will take two cycles to destroy a compound effect.
 			CompoundEffectManager.Update(evt);
-			SoundEngine.SetListenerPosition(Camera.RealPosition, Camera.RealDirection);
+			SoundEngine.SetListenerPosition(CameraManager.ActiveCamera.RealPosition, CameraManager.ActiveCamera.RealDirection);
 		}
 
 		public bool IsValidPath(Vector3 source, Vector3 dest)

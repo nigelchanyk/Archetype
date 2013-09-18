@@ -19,8 +19,8 @@ namespace Archetype.States
 		public WorldState(Application application, string scene = "")
 			: base(application)
 		{
-			World = new World(Application.Root, scene);
 			CameraManager = new CameraManager();
+			World = new World(Application.Root, CameraManager, scene);
 			CameraManager.CameraChanged += OnActiveCameraChanged;
 		}
 

@@ -14,16 +14,21 @@ namespace Archetype.States
 {
 	public class GameConfigurationState : WorldState
 	{
+		private Camera Camera;
 		private Button StartButton;
 
 		public GameConfigurationState(Application application)
 			: base(application)
 		{
 			CursorVisible = true;
+			Camera = World.CreateCamera(new Vector3(0, 0, -5), Vector3.ZERO);
+			World.WorldNode.AttachObject(Camera);
+			CameraManager.ActiveCamera = Camera;
 		}
 
 		protected override void OnDispose()
 		{
+			Camera.Dispose();
 			base.OnDispose();
 		}
 

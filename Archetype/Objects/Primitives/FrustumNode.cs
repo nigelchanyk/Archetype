@@ -6,12 +6,11 @@ using Mogre;
 
 namespace Archetype.Objects.Primitives
 {
-	public class FrustumNode : PrimitiveNode
+	public class FrustumNode
 	{
 		public Camera Camera { get; private set; }
 
 		public FrustumNode(Camera camera)
-			: base(camera.ParentSceneNode)
 		{
 			this.Camera = camera;
 		}
@@ -24,7 +23,7 @@ namespace Archetype.Objects.Primitives
 
 		public bool Intersects(SphereNode sphere)
 		{
-			return PrimitiveNode.Intersects(this, sphere);
+			return sphere.Intersects(this);
 		}
 	}
 }
