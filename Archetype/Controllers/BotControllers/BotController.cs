@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Mogre;
+
+using Archetype.Cameras;
 using Archetype.Controllers.BotControllers.Strategies;
 using Archetype.Events;
 using Archetype.Objects;
 using Archetype.UserInterface;
 using Archetype.Utilities;
-using Mogre;
 
 namespace Archetype.Controllers.BotControllers
 {
@@ -21,10 +23,15 @@ namespace Archetype.Controllers.BotControllers
 
 		protected Strategy Strategy { get; private set; }
 
-		public BotController(World world, Point windowCenter)
-			: base(world, windowCenter, false)
+		public BotController(World world, CameraManager cameraManager, Point windowCenter)
+			: base(world, cameraManager, windowCenter, false)
 		{
 			this.Strategy = new EmptyStrategy(this);
+		}
+
+		public void AimTowards(UpdateEvent evt, Vector3 target)
+		{
+			float targetYaw = MathHelper.GetYaw(Character.Position, target);
 		}
 
 		public bool WalkTo(UpdateEvent evt, Vector3 target, float squaredDistanceThreshold)

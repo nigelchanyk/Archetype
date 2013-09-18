@@ -5,6 +5,7 @@ using System.Text;
 
 using Mogre;
 
+using Archetype.Cameras;
 using Archetype.Events;
 using Archetype.Objects;
 using Archetype.Objects.Characters;
@@ -16,8 +17,8 @@ namespace Archetype.Controllers
 	public class Player : CameraController
 	{
 
-		public Player(World world, Point windowCenter, bool cameraEnabled)
-			: base(world, windowCenter, cameraEnabled)
+		public Player(World world, CameraManager cameraManager, Point windowCenter, bool cameraEnabled)
+			: base(world, cameraManager, windowCenter, cameraEnabled)
 		{
 		}
 

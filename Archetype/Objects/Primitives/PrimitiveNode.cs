@@ -46,6 +46,20 @@ namespace Archetype.Objects.Primitives
 			return closest.SquaredDistance(bTransformedCenter) < bTransformedSquaredRadius;
 		}
 
+		protected static bool Intersects(FrustumNode a, SphereNode b)
+		{
+			Vector3 bTransformedCenter = b.ReferenceNode.GetWorldPosition();
+			Vector3 bTransformedTop = b.ReferenceNode.ConvertLocalToWorldPosition(MathHelper.Up * b.Radius);
+			float bTransformedRadius = bTransformedCenter.Distance(bTransformedTop);
+			foreach (Plane frustumPlane in a.GetPlanes())
+			{
+				if (frustumPlane.GetDistance(bTransformedCenter) < -bTransformedRadius)
+					return false;
+			}
+
+			return true;
+		}
+
 		protected static bool Intersects(UprightBoxNode a, UprightCylinderNode b)
 		{
 			Vector3 baseTransformed = a.ReferenceNode.ConvertWorldToLocalPosition

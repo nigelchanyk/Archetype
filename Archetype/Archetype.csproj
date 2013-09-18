@@ -77,6 +77,7 @@
     <Compile Include="BattleSystems\BattlerRecord.cs" />
     <Compile Include="BattleSystems\SpawnPoint.cs" />
     <Compile Include="BattleSystems\TeamBattle.cs" />
+    <Compile Include="Cameras\CameraManager.cs" />
     <Compile Include="CompoundEffects\CompoundEffectManager.cs" />
     <Compile Include="CompoundEffects\CompoundEffectType.cs" />
     <Compile Include="CompoundEffects\MuzzleFlashEffect.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Controllers\BotControllers\BotController.cs" />
     <Compile Include="Controllers\BotControllers\BotManager.cs" />
     <Compile Include="Controllers\BotControllers\Strategies\EmptyStrategy.cs" />
+    <Compile Include="Controllers\BotControllers\Strategies\ReactionDelayStrategy.cs" />
     <Compile Include="Controllers\BotControllers\Strategies\RoamStrategy.cs" />
     <Compile Include="Controllers\BotControllers\Strategies\Strategy.cs" />
     <Compile Include="Controllers\CameraController.cs" />
@@ -122,6 +124,7 @@
     <Compile Include="Objects\Particles\UniqueParticleSystem.cs" />
     <Compile Include="Objects\Particles\UniqueParticleSystemManager.cs" />
     <Compile Include="Objects\Primitives\BoxNode.cs" />
+    <Compile Include="Objects\Primitives\FrustumNode.cs" />
     <Compile Include="Objects\Primitives\PrimitiveNode.cs" />
     <Compile Include="Objects\Primitives\SphereNode.cs" />
     <Compile Include="Objects\Primitives\UprightBoxNode.cs" />

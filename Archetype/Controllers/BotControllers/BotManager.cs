@@ -7,6 +7,7 @@ using Archetype.BattleSystems;
 using Archetype.Events;
 using Archetype.Objects;
 using Archetype.UserInterface;
+using Archetype.Cameras;
 
 namespace Archetype.Controllers.BotControllers
 {
@@ -16,7 +17,7 @@ namespace Archetype.Controllers.BotControllers
 
 		private List<BotController> Controllers = new List<BotController>();
 
-		public BotManager(World world, BattleSystem battleSystem, string[] playerNames, Point windowCenter)
+		public BotManager(World world, CameraManager cameraManager, BattleSystem battleSystem, string[] playerNames, Point windowCenter)
 		{
 			this.BattleSystem = battleSystem;
 			foreach (BattlerRecord record in BattleSystem.GetAllRecords())
@@ -26,7 +27,7 @@ namespace Archetype.Controllers.BotControllers
 				if (playerNames.Contains(record.Name))
 					continue;
 
-				BotController controller = new BotController(world, windowCenter);
+				BotController controller = new BotController(world, cameraManager, windowCenter);
 				controller.Character = record.Character;
 				Controllers.Add(controller);
 			}

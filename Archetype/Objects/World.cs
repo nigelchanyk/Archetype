@@ -24,7 +24,6 @@ namespace Archetype.Objects
 	public class World : IDisposable
 	{
 		public BattleSystem BattleSystem { get; set; }
-		public Camera Camera { get; private set; }
 		public bool Paused
 		{
 			get
@@ -65,7 +64,6 @@ namespace Archetype.Objects
 				PathNodes.ForEach(x => SearchGraph.AddVertex(x));
 			}
 			Scene.AmbientLight = new ColourValue(0.5f, 0.5f, 0.5f);
-			InitializeCamera(new Vector3(0, 0, -5), Vector3.ZERO);
 			Light dirLight = CreateLight(new Vector3(100, 100, 100));
 			dirLight.Type = Light.LightTypes.LT_DIRECTIONAL;
 
@@ -78,6 +76,16 @@ namespace Archetype.Objects
 		public void AddBuildingCollisionMesh(UprightBoxNode box)
 		{
 			Buildings.Add(box);
+		}
+
+		public Camera CreateCamera(Vector3 position, Vector3 lookAt)
+		{
+			Camera camera = Scene.CreateCamera("Camera" + Guid.NewGuid().ToString());
+			camera.Position = position;
+			camera.LookAt(lookAt);
+			camera.NearClipDistance = 0.1f;
+			camera.FarClipDistance = 10000;
+			return camera;
 		}
 
 		public Character CreateCharacter()
@@ -235,15 +243,6 @@ namespace Archetype.Objects
 		{
 			Ray path = new Ray(source, dest - source);
 			return Buildings.All(x => x.GetIntersectingDistance(path) == null);
-		}
-
-		private void InitializeCamera(Vector3 position, Vector3 lookAt)
-		{
-			Camera = Scene.CreateCamera("Camera");
-			Camera.Position = position;
-			Camera.LookAt(lookAt);
-			Camera.NearClipDistance = 0.1f;
-			Camera.FarClipDistance = 10000;
 		}
 	}
 }

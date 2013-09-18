@@ -56,6 +56,7 @@ namespace Archetype.Objects.Characters
 		{
 			get { return Health > 0; }
 		}
+		public Camera Camera { get; private set; }
 		public BattlerRecord Record { get; set; }
 		public SceneNode EyeNode { get; private set; }
 		public float EyePitch
@@ -186,14 +187,8 @@ namespace Archetype.Objects.Characters
 					"Wield_USP"
 				)
 			);
-		}
-
-		public void AttachCamera(Camera camera)
-		{
-			camera.DetachFromParent();
-			EyeNode.AttachObject(camera);
-			camera.Position = Vector3.ZERO;
-			camera.Orientation = Quaternion.IDENTITY;
+			Camera = World.CreateCamera(Vector3.ZERO, MathHelper.Forward);
+			EyeNode.AttachObject(Camera);
 		}
 
 		public void Attack(Vector3 eyeSpaceDirection, int baseDamage)
@@ -294,6 +289,7 @@ namespace Archetype.Objects.Characters
 
 		protected override void OnDispose()
 		{
+			Camera.Dispose();
 			CharacterNode.DetachAllObjects();
 			EyeNode.DetachAllObjects();
 			FirstPersonModel.Dispose();

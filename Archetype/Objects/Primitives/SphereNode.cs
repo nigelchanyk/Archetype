@@ -19,14 +19,19 @@ namespace Archetype.Objects.Primitives
 			this.Radius = radius;
 		}
 
+		public override float? GetIntersectingDistance(Ray ray)
+		{
+			return PrimitiveNode.Intersects(this, ray);
+		}
+
 		public bool Intersects(BoxNode box)
 		{
 			return PrimitiveNode.Intersects(box, this);
 		}
 
-		public override float? GetIntersectingDistance(Ray ray)
+		public bool Intersects(FrustumNode frustum)
 		{
-			return PrimitiveNode.Intersects(this, ray);
+			return PrimitiveNode.Intersects(frustum, this);
 		}
 
 		public bool Intersects(SphereNode sphere)

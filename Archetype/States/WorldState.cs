@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 
 using Archetype.Applications;
+using Archetype.Cameras;
 using Archetype.Objects;
 
 namespace Archetype.States
 {
 	public abstract class WorldState : State
 	{
+		public CameraManager CameraManager { get; private set; }
 		public World World { get; private set; }
 
 		private bool AddedToViewport = false;
@@ -18,6 +20,8 @@ namespace Archetype.States
 			: base(application)
 		{
 			World = new World(Application.Root, scene);
+			CameraManager = new CameraManager();
+			CameraManager.CameraChanged += OnActiveCameraChanged;
 		}
 
 		protected override void OnDispose()
@@ -40,7 +44,10 @@ namespace Archetype.States
 		{
 			if (!AddedToViewport)
 			{
-				Application.Window.AddViewport(World.Camera, ZOrder);
+				if (CameraManager.ActiveCamera == null)
+					throw new InvalidOperationException("There should always be an active camera.");
+
+				Application.Window.AddViewport(CameraManager.ActiveCamera, ZOrder);
 				World.Paused = false;
 			}
 		}
@@ -49,6 +56,16 @@ namespace Archetype.States
 		{
 			UserInterface.Update(evt);
 			World.Update(evt);
+		}
+
+		private void OnActiveCameraChanged(object sender, EventArgs args)
+		{
+			if (AddedToViewport)
+			{
+				// Replace existing viewport
+				Application.Window.RemoveViewport(ZOrder);
+				Application.Window.AddViewport(CameraManager.ActiveCamera, ZOrder);
+			}
 		}
 	}
 }

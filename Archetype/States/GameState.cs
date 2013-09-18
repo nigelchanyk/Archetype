@@ -29,11 +29,11 @@ namespace Archetype.States
 			World.BattleSystem = BattleSystem;
 			BattleSystem.Start();
 
-			Player = new Player(World, Application.WindowCenter, true);
+			Player = new Player(World, CameraManager, Application.WindowCenter, true);
 			Player.Character = BattleSystem.GetCharacterByName(playerName);
-			BotManager = new BotManager(World, BattleSystem, new string[] { playerName }, Application.WindowCenter);
+			BotManager = new BotManager(World, CameraManager, BattleSystem, new string[] { playerName }, Application.WindowCenter);
 
-			Crosshair = new Crosshair(Application.Resolution, World.Camera)
+			Crosshair = new Crosshair(Application.Resolution, Player.Camera)
 			{
 				Character = Player.Character
 			};

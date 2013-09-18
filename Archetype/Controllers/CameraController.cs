@@ -5,6 +5,7 @@ using System.Text;
 
 using Mogre;
 
+using Archetype.Cameras;
 using Archetype.Events;
 using Archetype.Objects;
 using Archetype.Objects.Characters;
@@ -14,18 +15,37 @@ namespace Archetype.Controllers
 {
 	public class CameraController : Controller
 	{
-		public bool CameraEnabled { get; set; }
 
-		protected Camera Camera
+		public Camera Camera
 		{
 			get
 			{
-				if (CameraEnabled)
-					return World.Camera;
+				if (Character != null)
+					return Character.Camera;
 
-				throw new FieldAccessException("Camera is inaccessible when disabled.");
+				throw new FieldAccessException("Character is not available. As a result, camera is inaccessible.");
 			}
 		}
+		public bool CameraEnabled
+		{
+			get
+			{
+				return _cameraEnabled;
+			}
+			set
+			{
+				_cameraEnabled = value;
+
+				if (Character != null)
+				{
+					Character.FirstPerson = _cameraEnabled;
+					if (_cameraEnabled)
+						CameraManager.ActiveCamera = Character.Camera;
+				}
+
+			}
+		}
+		public CameraManager CameraManager { get; private set; }
 
 		public new Character Character
 		{
@@ -39,16 +59,17 @@ namespace Archetype.Controllers
 				base.Character = value;
 
 				Character.FirstPerson = CameraEnabled;
-				if (CameraEnabled)
-					Character.AttachCamera(World.Camera);
 			}
 		}
 
 		protected Point WindowCenter { get; private set; }
 
-		public CameraController(World world, Point windowCenter, bool cameraEnabled)
+		private bool _cameraEnabled;
+
+		public CameraController(World world, CameraManager cameraManager, Point windowCenter, bool cameraEnabled)
 			: base(world)
 		{
+			this.CameraManager = cameraManager;
 			this.CameraEnabled = cameraEnabled;
 			this.WindowCenter = windowCenter;
 		}

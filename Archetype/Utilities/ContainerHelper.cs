@@ -22,6 +22,12 @@ namespace Archetype.Utilities
 			return new IndexedEnumerator<T>(enumerable);
 		}
 
+		public static void Initialize<T>(this T[] array, Func<int, T> func)
+		{
+			for (int i = 0; i < array.Length; ++i)
+				array[i] = func(i);
+		}
+
 		public static Nullable<U> MinOrNull<T, U>(this IEnumerable<T> container, Func<T, U?> func) where U : struct, IComparable
 		{
 			U? min = null;
