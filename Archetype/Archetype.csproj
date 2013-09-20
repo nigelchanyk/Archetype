@@ -84,7 +84,9 @@
     <Compile Include="Configurations.cs" />
     <Compile Include="Controllers\BotControllers\BotController.cs" />
     <Compile Include="Controllers\BotControllers\BotManager.cs" />
+    <Compile Include="Controllers\BotControllers\Strategies\AttackStrategy.cs" />
     <Compile Include="Controllers\BotControllers\Strategies\EmptyStrategy.cs" />
+    <Compile Include="Controllers\BotControllers\Strategies\EnemyInteractionStrategy.cs" />
     <Compile Include="Controllers\BotControllers\Strategies\ReactionDelayStrategy.cs" />
     <Compile Include="Controllers\BotControllers\Strategies\RoamStrategy.cs" />
     <Compile Include="Controllers\BotControllers\Strategies\Strategy.cs" />

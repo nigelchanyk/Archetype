@@ -11,6 +11,7 @@ using Archetype.Events;
 using Archetype.Objects;
 using Archetype.UserInterface;
 using Archetype.Utilities;
+using Archetype.Objects.Characters;
 
 namespace Archetype.Controllers.BotControllers
 {
@@ -32,6 +33,32 @@ namespace Archetype.Controllers.BotControllers
 		public void AimTowards(UpdateEvent evt, Vector3 target)
 		{
 			float targetYaw = MathHelper.GetYaw(Character.Position, target);
+			Character.Yaw = MathHelper.LerpAngle(Character.Yaw, targetYaw, evt.ElapsedTime * GameConstants.BotAngleLerpAmount);
+			float targetPitch = MathHelper.GetPitch(Character.EyePitch.ToPitchVector3(), target);
+			Character.EyePitch = MathHelper.LerpAngle(Character.EyePitch, targetPitch, evt.ElapsedTime * GameConstants.BotAngleLerpAmount);
+		}
+
+		public Character GetVisibleEnemyBodyCollider(out BodyCollider collider)
+		{
+			foreach (Character enemy in World.BattleSystem.GetEnemiesAlive(Character))
+			{
+				collider = SelectBestCollider(enemy);
+				if (collider != null)
+					return enemy;
+			}
+
+			collider = null;
+			return null;
+		}
+
+		public BodyCollider SelectBestCollider(Character enemy)
+		{
+			BodyCollider[] visibleColliders = enemy.GetFrustumCollisionResult(Character.ViewFrustum).ToArray();
+
+			if (visibleColliders.Length == 0)
+				return null;
+
+			return visibleColliders.OrderByDescending(x => x.DamageMultiplier).First();
 		}
 
 		public bool WalkTo(UpdateEvent evt, Vector3 target, float squaredDistanceThreshold)
@@ -42,7 +69,7 @@ namespace Archetype.Controllers.BotControllers
 			float targetYaw = MathHelper.GetYaw(Character.Position, target);
 			float angleDifference = MathHelper.AngleDifference(Character.Yaw, targetYaw);
 
-			Character.Yaw = MathHelper.LerpAngle(Character.Yaw, targetYaw, evt.ElapsedTime * GameConstants.BotYawLerpAmount);
+			Character.Yaw = MathHelper.LerpAngle(Character.Yaw, targetYaw, evt.ElapsedTime * GameConstants.BotAngleLerpAmount);
 
 			// Only start walking if the angle is approximately in the target's general direction.
 			if (angleDifference < MathHelper.PiOver6)

@@ -8,16 +8,13 @@ using Archetype.Objects.Characters;
 
 namespace Archetype.Controllers.BotControllers.Strategies
 {
-	public class ReactionDelayStrategy : Strategy
+	public class ReactionDelayStrategy : EnemyInteractionStrategy
 	{
-		public Character Enemy { get; private set; }
-
 		private float ElapsedDelay = 0;
 
-		public ReactionDelayStrategy(BotController controller, Character enemy)
-			: base(controller)
+		public ReactionDelayStrategy(BotController controller, Character enemy, BodyCollider visibleCollider)
+			: base(controller, enemy, visibleCollider)
 		{
-			this.Enemy = enemy;
 		}
 
 		public override Strategy NextStrategy()
@@ -25,6 +22,8 @@ namespace Archetype.Controllers.BotControllers.Strategies
 			if (BotController.Character == null)
 				return new EmptyStrategy(BotController);
 			if (!Enemy.Alive)
+				return new RoamStrategy(BotController);
+			if (!IsEnemyVisible())
 				return new RoamStrategy(BotController);
 
 			return this;

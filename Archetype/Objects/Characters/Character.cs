@@ -123,6 +123,7 @@ namespace Archetype.Objects.Characters
 				CharacterNode.SetVisible(value, true);
 			}
 		}
+		public FrustumNode ViewFrustum { get; private set; }
 		public float Yaw
 		{
 			get { return _yaw; }
@@ -189,6 +190,7 @@ namespace Archetype.Objects.Characters
 			);
 			Camera = World.CreateCamera(Vector3.ZERO, MathHelper.Forward);
 			EyeNode.AttachObject(Camera);
+			ViewFrustum = new FrustumNode(Camera);
 		}
 
 		public void Attack(Vector3 eyeSpaceDirection, int baseDamage)
@@ -235,6 +237,19 @@ namespace Archetype.Objects.Characters
 			}
 
 			return best;
+		}
+
+		public IEnumerable<BodyCollider> GetFrustumCollisionResult(FrustumNode frustum)
+		{
+			if (!frustum.Intersects(BoundingSphere))
+				yield break;
+
+			List<BodyCollider> collidedColliders = new List<BodyCollider>();
+			foreach (BodyCollider collider in BodyColliders)
+			{
+				if (World.IsBodyColliderVisibleFromFrustum(frustum, collider))
+					yield return collider;
+			}
 		}
 
 		public void IncreaseRecoil(float factor, float maxRecoil)

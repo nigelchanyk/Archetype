@@ -188,6 +188,27 @@ namespace Archetype.Objects
 			return GetFirstIntersectingBuilding(cylinder) != null;
 		}
 
+		public bool IsBodyColliderVisibleFromFrustum(FrustumNode frustum, BodyCollider collider)
+		{
+			Vector3 colliderCenter = collider.PrimitiveNode.GetCenter(true);
+			if (!frustum.Contains(colliderCenter))
+				return false;
+
+			Vector3 delta = colliderCenter - frustum.Position;
+			Ray ray = new Ray(frustum.Position, delta);
+			float? buildingDistance = GetShortestIntersectingBuildingDistance(ray);
+			if (!buildingDistance.HasValue || delta.SquaredLength < buildingDistance.Value.Squared())
+				return true;
+
+			return false;
+		}
+
+		public bool IsValidPath(Vector3 source, Vector3 dest)
+		{
+			Ray path = new Ray(source, dest - source);
+			return Buildings.All(x => x.GetIntersectingDistance(path) == null);
+		}
+
 		public Character FindEnemy(Character attacker, Ray ray, out BodyCollider collider)
 		{
 			collider = null;
@@ -240,12 +261,6 @@ namespace Archetype.Objects
 			// Otherwise, it will take two cycles to destroy a compound effect.
 			CompoundEffectManager.Update(evt);
 			SoundEngine.SetListenerPosition(CameraManager.ActiveCamera.RealPosition, CameraManager.ActiveCamera.RealDirection);
-		}
-
-		public bool IsValidPath(Vector3 source, Vector3 dest)
-		{
-			Ray path = new Ray(source, dest - source);
-			return Buildings.All(x => x.GetIntersectingDistance(path) == null);
 		}
 	}
 }

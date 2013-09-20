@@ -106,6 +106,12 @@ namespace Archetype.Objects.Primitives
 			this.ReferenceNode = referenceNode;
 		}
 
+		public virtual Vector3 GetCenter(bool worldSpace)
+		{
+			// To be overridden if origin of local space is not the center of the shape.
+			return worldSpace ? ReferenceNode.GetWorldPosition() : ReferenceNode.Position;
+		}
+
 		public void InvalidateCache()
 		{
 			ReferenceNode.InvalidateCache();

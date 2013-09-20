@@ -116,6 +116,11 @@ namespace Archetype.Utilities
 			return System.Math.Abs((b - a).Length);
 		}
 
+		public static float GetPitch(Vector3 position, Vector3 target)
+		{
+			return (target - position).ToPitch();
+		}
+
 		public static float GetYaw(Vector3 position, Vector3 target)
 		{
 			return (target - position).ToYaw();
@@ -188,6 +193,16 @@ namespace Archetype.Utilities
 		public static float SquaredDistance(this Vector3 a, Vector3 b)
 		{
 			return (b - a).SquaredLength;
+		}
+
+		public static float ToPitch(this Vector3 dir)
+		{
+			return -(float)System.Math.Atan2(dir.y, System.Math.Sqrt(dir.x.Squared() + dir.z.Squared()));
+		}
+
+		public static Vector3 ToPitchVector3(this float pitch)
+		{
+			return new Vector3(pitch, 0, 0);
 		}
 
 		public static SphericalCoordinate ToSphericalCoordinate(this Vector3 vector)
