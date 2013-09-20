@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Archetype.Events;
+using Archetype.Objects.Characters;
 
 namespace Archetype.Controllers.BotControllers.Strategies
 {
@@ -19,8 +20,10 @@ namespace Archetype.Controllers.BotControllers.Strategies
 
 		public override Strategy NextStrategy()
 		{
-			if (BotController.Character != null)
-				return new RoamStrategy(BotController);
+			BodyCollider bc;
+			Character c = BotController.GetVisibleEnemyBodyCollider(out bc);
+			//if (BotController.Character != null)
+			//	return new RoamStrategy(BotController);
 
 			return this;
 		}

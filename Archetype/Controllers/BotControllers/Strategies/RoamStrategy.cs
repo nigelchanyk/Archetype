@@ -7,6 +7,7 @@ using Mogre;
 
 using Archetype.Events;
 using Archetype.Utilities;
+using Archetype.Objects.Characters;
 
 namespace Archetype.Controllers.BotControllers.Strategies
 {
@@ -29,8 +30,14 @@ namespace Archetype.Controllers.BotControllers.Strategies
 
 		public override Strategy NextStrategy()
 		{
-			if (BotController.Character == null)
-				return new RoamStrategy(BotController);
+			Strategy strategy = base.NextStrategy();
+			if (strategy != this)
+				return strategy;
+
+			BodyCollider visibleCollider;
+			Character enemy = BotController.GetVisibleEnemyBodyCollider(out visibleCollider);
+			if (enemy != null)
+				return new ReactionDelayStrategy(BotController, enemy, visibleCollider);
 
 			return this;
 		}

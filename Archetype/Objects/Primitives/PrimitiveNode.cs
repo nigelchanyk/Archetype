@@ -51,13 +51,7 @@ namespace Archetype.Objects.Primitives
 			Vector3 bTransformedCenter = b.ReferenceNode.GetWorldPosition();
 			Vector3 bTransformedTop = b.ReferenceNode.ConvertLocalToWorldPosition(MathHelper.Up * b.Radius);
 			float bTransformedRadius = bTransformedCenter.Distance(bTransformedTop);
-			foreach (Plane frustumPlane in a.GetPlanes())
-			{
-				if (frustumPlane.GetDistance(bTransformedCenter) < -bTransformedRadius)
-					return false;
-			}
-
-			return true;
+			return a.Camera.IsVisible(new Sphere(bTransformedCenter, bTransformedRadius));
 		}
 
 		protected static bool Intersects(UprightBoxNode a, UprightCylinderNode b)

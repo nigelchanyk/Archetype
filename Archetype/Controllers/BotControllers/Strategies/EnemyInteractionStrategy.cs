@@ -14,6 +14,20 @@ namespace Archetype.Controllers.BotControllers.Strategies
 		public EnemyInteractionStrategy(BotController controller, Character enemy, BodyCollider visibleCollider)
 			: base(controller)
 		{
+			this.Enemy = enemy;
+			this.VisibleCollider = visibleCollider;
+		}
+
+		public override Strategy NextStrategy()
+		{
+			Strategy strategy = base.NextStrategy();
+			if (strategy != this)
+				return strategy;
+
+			if (!Enemy.Alive)
+				return new RoamStrategy(BotController);
+
+			return this;
 		}
 
 		protected bool IsEnemyVisible()

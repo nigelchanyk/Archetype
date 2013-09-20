@@ -16,7 +16,14 @@ namespace Archetype.Controllers.BotControllers.Strategies
 			this.BotController = botController;
 		}
 
-		public abstract Strategy NextStrategy();
+		public virtual Strategy NextStrategy()
+		{
+			if (BotController.Character == null)
+				return new EmptyStrategy(BotController);
+
+			return this;
+		}
+
 		public abstract void Update(UpdateEvent evt);
 	}
 }

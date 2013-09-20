@@ -19,10 +19,10 @@ namespace Archetype.Controllers.BotControllers.Strategies
 
 		public override Strategy NextStrategy()
 		{
-			if (BotController.Character == null)
-				return new EmptyStrategy(BotController);
-			if (!Enemy.Alive)
-				return new RoamStrategy(BotController);
+			Strategy strategy = base.NextStrategy();
+			if (strategy != this)
+				return strategy;
+
 			if (!IsEnemyVisible())
 				return new RoamStrategy(BotController);
 
@@ -34,6 +34,7 @@ namespace Archetype.Controllers.BotControllers.Strategies
 			ElapsedDelay += evt.ElapsedTime;
 
 			BotController.Character.Stop();
+			BotController.AimTowards(evt, VisibleCollider.PrimitiveNode.GetCenter(true));
 		}
 	}
 }

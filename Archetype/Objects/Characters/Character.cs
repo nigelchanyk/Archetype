@@ -292,6 +292,9 @@ namespace Archetype.Objects.Characters
 
 		public void Stop()
 		{
+			if (!WalkHandler.Walking)
+				return;
+
 			WalkHandler.Stop();
 			AnimationManagerMapper[AnimationKind.LowerBody].CurrentAnimation = "Idle";
 		}
