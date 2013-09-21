@@ -94,16 +94,23 @@ namespace Archetype.Objects.Primitives
 		}
 
 		public Node ReferenceNode { get; private set; }
+		// World space of nodes in an entity is the space of entity.
+		public Entity ReferenceWorld { get; private set; } // Nullable
 
-		public PrimitiveNode(Node referenceNode)
+		public PrimitiveNode(Node referenceNode, Entity referenceWorld)
 		{
 			this.ReferenceNode = referenceNode;
+			this.ReferenceWorld = referenceWorld;
 		}
 
 		public virtual Vector3 GetCenter(bool worldSpace)
 		{
 			// To be overridden if origin of local space is not the center of the shape.
-			return worldSpace ? ReferenceNode.GetWorldPosition() : ReferenceNode.Position;
+			if (!worldSpace)
+				return ReferenceNode.Position;
+
+			// Double conversion required for nodes within skeletons
+			return ReferenceWorld == null ? ReferenceNode.GetWorldPosition() : ReferenceWorld.ParentSceneNode.ConvertLocalToWorldPosition(ReferenceNode.GetWorldPosition());
 		}
 
 		public void InvalidateCache()

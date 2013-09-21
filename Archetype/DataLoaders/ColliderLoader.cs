@@ -25,19 +25,19 @@ namespace Archetype.DataLoaders
 		/// <returns>A list of primitive nodes created</returns>
 		public static List<BodyCollider> ParseColliders(string colliderConfiguration, Entity entity, string armaturePrefix)
 		{
-			Armature armature = ColliderCache.GetOrCreate(colliderConfiguration);
+			Armature armature = ColliderCache.GetOrCreate(colliderConfiguration, entity);
 			List<BodyCollider> result = new List<BodyCollider>();
 			RecursiveCreate(armature, entity.Skeleton, armaturePrefix, result);
 			return result;
 		}
 
-		private static Armature GetOrCreate(this Dictionary<string, Armature> cache, string colliderConfiguration)
+		private static Armature GetOrCreate(this Dictionary<string, Armature> cache, string colliderConfiguration, Entity referenceWorld)
 		{
 			if (cache.ContainsKey(colliderConfiguration))
 				return cache[colliderConfiguration];
 
 			XElement root = XElement.Load("Assets/Data/Colliders/" + colliderConfiguration);
-			Armature rootArmature = Armature.FromRoot(root);
+			Armature rootArmature = Armature.FromRoot(root, referenceWorld);
 			cache.Add(colliderConfiguration, rootArmature);
 			return rootArmature;
 		}
@@ -53,39 +53,39 @@ namespace Archetype.DataLoaders
 
 		private class Armature
 		{
-			public static Armature FromRoot(XElement root)
+			public static Armature FromRoot(XElement root, Entity referenceWorld)
 			{
-				return new Armature(root.Element("Armature"));
+				return new Armature(root.Element("Armature"), referenceWorld);
 			}
 
 			public string Name { get; private set; }
 			public ColliderTemplate[] Colliders { get; private set; }
 			public Armature[] Children { get; private set; }
 			
-			private Armature(XElement element)
+			private Armature(XElement element, Entity referenceWorld)
 			{
 				Name = element.Attribute("name").Value;
 				var collidersEnumerator = element.Elements("Collider");
 				Colliders = new ColliderTemplate[collidersEnumerator.Count()];
 				int i = 0;
 				foreach (XElement colliderElement in collidersEnumerator)
-					Colliders[i++] = CreateColliderTemplate(colliderElement);
+					Colliders[i++] = CreateColliderTemplate(colliderElement, referenceWorld);
 
 				var childEnumerator = element.Elements("Armature");
 				Children = new Armature[childEnumerator.Count()];
 				i = 0;
 				foreach (XElement childElement in childEnumerator)
-					Children[i++] = new Armature(childElement);
+					Children[i++] = new Armature(childElement, referenceWorld);
 			}
 
-			private static ColliderTemplate CreateColliderTemplate(XElement element)
+			private static ColliderTemplate CreateColliderTemplate(XElement element, Entity referenceWorld)
 			{
 				switch (element.Attribute("type").Value)
 				{
 					case "box":
-						return new BoxTemplate(element);
+						return new BoxTemplate(element, referenceWorld);
 					case "sphere":
-						return new SphereTemplate(element);
+						return new SphereTemplate(element, referenceWorld);
 				}
 
 				throw new ArgumentException("Unknown collider type: " + element.Attribute("type").Value);
@@ -97,11 +97,13 @@ namespace Archetype.DataLoaders
 		{
 			public float DamageMultipler { get; private set; }
 			public Vector3 Position { get; private set; }
+			public Entity ReferenceWorld { get; private set; }
 
-			public ColliderTemplate(XElement element)
+			public ColliderTemplate(XElement element, Entity referenceWorld)
 			{
 				Position = element.ParseXYZ(Vector3.ZERO);
 				DamageMultipler = (float)element.Attribute("damage");
+				this.ReferenceWorld = referenceWorld;
 			}
 
 			public abstract void InsertCollider(Node node, List<BodyCollider> result);
@@ -113,8 +115,8 @@ namespace Archetype.DataLoaders
 			public Vector3 Max { get; private set; }
 			public Vector3 Min { get; private set; }
 
-			public BoxTemplate(XElement element)
-				: base(element)
+			public BoxTemplate(XElement element, Entity referenceWorld)
+				: base(element, referenceWorld)
 			{
 				Min = element.Element("Min").ParseXYZ(Vector3.ZERO);
 				Max = element.Element("Max").ParseXYZ(Vector3.ZERO);
@@ -122,7 +124,7 @@ namespace Archetype.DataLoaders
 
 			public override void InsertCollider(Node node, List<BodyCollider> result)
 			{
-				result.Add(new BodyCollider(new BoxNode(node, Min, Max), DamageMultipler));
+				result.Add(new BodyCollider(new BoxNode(node, ReferenceWorld, Min, Max), DamageMultipler));
 			}
 		}
 
@@ -131,15 +133,15 @@ namespace Archetype.DataLoaders
 		{
 			public float Radius { get; private set; }
 
-			public SphereTemplate(XElement element)
-				: base(element)
+			public SphereTemplate(XElement element, Entity referenceWorld)
+				: base(element, referenceWorld)
 			{
 				Radius = (float)element.Attribute("radius");
 			}
 
 			public override void InsertCollider(Node node, List<BodyCollider> result)
 			{
-				result.Add(new BodyCollider(new SphereNode(node, Position, Radius), DamageMultipler));
+				result.Add(new BodyCollider(new SphereNode(node, ReferenceWorld, Position, Radius), DamageMultipler));
 			}
 		}
 	}

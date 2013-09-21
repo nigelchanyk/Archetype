@@ -20,10 +20,8 @@ namespace Archetype.Controllers.BotControllers.Strategies
 
 		public override Strategy NextStrategy()
 		{
-			BodyCollider bc;
-			Character c = BotController.GetVisibleEnemyBodyCollider(out bc);
-			//if (BotController.Character != null)
-			//	return new RoamStrategy(BotController);
+			if (BotController.Character != null)
+				return new RoamStrategy(BotController);
 
 			return this;
 		}

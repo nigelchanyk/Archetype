@@ -13,7 +13,12 @@ namespace Archetype.Objects.Primitives
 		public float Radius { get; private set; }
 
 		public SphereNode(Node parent, Vector3 position, float radius)
-			: base(parent)
+			: this(parent, null, position, radius)
+		{
+		}
+
+		public SphereNode(Node parent, Entity referenceWorld, Vector3 position, float radius)
+			: base(parent, referenceWorld)
 		{
 			this.Position = position;
 			this.Radius = radius;

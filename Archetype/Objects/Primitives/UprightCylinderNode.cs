@@ -14,7 +14,7 @@ namespace Archetype.Objects.Primitives
 		public float Radius { get; set; }
 
 		public UprightCylinderNode(Node referenceNode, Vector3 baseCenterPosition, float height, float radius)
-			: base(referenceNode)
+			: base(referenceNode, null)
 		{
 			this.BaseCenterPosition = baseCenterPosition;
 			this.Height = height;

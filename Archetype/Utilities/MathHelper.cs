@@ -197,7 +197,7 @@ namespace Archetype.Utilities
 
 		public static float ToPitch(this Vector3 dir)
 		{
-			return -(float)System.Math.Atan2(dir.y, System.Math.Sqrt(dir.x.Squared() + dir.z.Squared()));
+			return (float)System.Math.Atan2(dir.y, System.Math.Sqrt(dir.x.Squared() + dir.z.Squared()));
 		}
 
 		public static Vector3 ToPitchVector3(this float pitch)

@@ -13,7 +13,12 @@ namespace Archetype.Objects.Primitives
 		public Vector3 Min { get; private set; }
 
 		public BoxNode(Node parent, Vector3 min, Vector3 max)
-			: base(parent)
+			: this(parent, null, min, max)
+		{
+		}
+
+		public BoxNode(Node parent, Entity referenceWorld, Vector3 min, Vector3 max)
+			: base(parent, referenceWorld)
 		{
 			if (min.x > max.x || min.y > max.y || min.z > max.z)
 				throw new ArgumentException("`min` contains at least one coordinate greater than `max`.");

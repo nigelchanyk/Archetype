@@ -7,7 +7,7 @@ namespace Archetype
 {
 	public static class GameConstants
 	{
-		public static readonly float BotAngleLerpAmount = 3;
+		public static readonly float BotAngleLerpAmount = 6;
 		public static readonly ushort CursorZOrder = ushort.MaxValue;
 		public static readonly float DefaultGravityAcceleration = -9.8f;
 		public static readonly float DefaultWalkingSpeed = 3;
