@@ -81,6 +81,9 @@ namespace Archetype.Controllers.BotControllers
 		public override void Update(UpdateEvent evt)
 		{
 			base.Update(evt);
+			if (Character == null || !Character.Alive)
+				return;
+
 			Strategy = Strategy.NextStrategy();
 			Strategy.Update(evt);
 		}

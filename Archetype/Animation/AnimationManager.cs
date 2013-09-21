@@ -49,7 +49,7 @@ namespace Archetype.Animation
 
 				if (entry.Key == CurrentAnimation)
 				{
-					float weight = MathHelper.Lerp(entry.Value[0].Weight, 1, evt.ElapsedTime * 0.01f);
+					float weight = MathHelper.Lerp(entry.Value[0].Weight, 1, evt.ElapsedTime * GameConstants.AnimationFadeLerpAmount);
 					foreach (AnimationState animationState in entry.Value)
 					{
 						animationState.Weight = weight;
@@ -59,7 +59,7 @@ namespace Archetype.Animation
 				}
 				else if (entry.Value.Any(animationState => animationState.Enabled))
 				{
-					float weight = MathHelper.Lerp(entry.Value[0].Weight, 0, evt.ElapsedTime * 0.01f);
+					float weight = MathHelper.Lerp(entry.Value[0].Weight, 0, evt.ElapsedTime * GameConstants.AnimationFadeLerpAmount);
 					if (weight < 0.05f && weight > 0)
 					{
 						foreach (AnimationState animationState in entry.Value)
