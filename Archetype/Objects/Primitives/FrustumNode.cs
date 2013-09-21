@@ -20,21 +20,9 @@ namespace Archetype.Objects.Primitives
 			this.Camera = camera;
 		}
 
-		public IEnumerable<Plane> GetPlanes()
-		{
-			for (ushort i = 0; i < 6; ++i)
-				yield return Camera.GetFrustumPlane(i);
-		}
-
 		public bool Contains(Vector3 point)
 		{
-			foreach (Plane plane in GetPlanes())
-			{
-				if (plane.GetDistance(point) < 0)
-					return false;
-			}
-
-			return true;
+			return Camera.IsVisible(point);
 		}
 
 		public bool Intersects(SphereNode sphere)

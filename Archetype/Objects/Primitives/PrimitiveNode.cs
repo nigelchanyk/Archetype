@@ -48,7 +48,7 @@ namespace Archetype.Objects.Primitives
 
 		protected static bool Intersects(FrustumNode a, SphereNode b)
 		{
-			Vector3 bTransformedCenter = b.ReferenceNode.GetWorldPosition();
+			Vector3 bTransformedCenter = b.ReferenceNode.ConvertLocalToWorldPosition(b.Position);
 			Vector3 bTransformedTop = b.ReferenceNode.ConvertLocalToWorldPosition(MathHelper.Up * b.Radius);
 			float bTransformedRadius = bTransformedCenter.Distance(bTransformedTop);
 			return a.Camera.IsVisible(new Sphere(bTransformedCenter, bTransformedRadius));
