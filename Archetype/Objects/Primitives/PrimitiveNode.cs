@@ -56,8 +56,7 @@ namespace Archetype.Objects.Primitives
 
 		protected static bool Intersects(UprightBoxNode a, UprightCylinderNode b)
 		{
-			Vector3 baseTransformed = a.ReferenceNode.ConvertWorldToLocalPosition
-			(
+			Vector3 baseTransformed = a.ReferenceNode.ConvertWorldToLocalPosition(
 				b.ReferenceNode.ConvertLocalToWorldPosition(b.BaseCenterPosition)
 			);
 			// Check if the two objects intersect the same horizontal (xz) plane
@@ -92,6 +91,7 @@ namespace Archetype.Objects.Primitives
 			);
 			transformedSquaredRadius = bTransformedTop.SquaredDistance(transformedCenter);
 		}
+
 
 		public Node ReferenceNode { get; private set; }
 		// World space of nodes in an entity is the space of entity.

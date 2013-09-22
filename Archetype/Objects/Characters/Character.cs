@@ -195,7 +195,7 @@ namespace Archetype.Objects.Characters
 
 		public void Attack(Vector3 eyeSpaceDirection, int baseDamage)
 		{
-			Ray ray = new Ray(EyeNode.ConvertLocalToWorldPosition(Vector3.ZERO), EyeNode.ConvertLocalToWorldDelta(eyeSpaceDirection));
+			Ray ray = new Ray(EyeNode.GetWorldPosition(), EyeNode.ConvertLocalToWorldDelta(eyeSpaceDirection));
 			BodyCollider collider;
 			Character enemy = World.FindEnemy(this, ray, out collider);
 			if (enemy != null)

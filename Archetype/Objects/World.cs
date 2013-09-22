@@ -173,14 +173,9 @@ namespace Archetype.Objects
 		/// </summary>
 		/// <param name="ray">Ray in world space</param>
 		/// <returns></returns>
-		public float? GetShortestIntersectingBuildingDistance(Ray ray)
+		public float? GetNearestIntersectingBuilding(Ray ray)
 		{
 			return Buildings.MinOrNull(building => building.GetIntersectingDistance(ray));
-		}
-
-		public void InflictDamage(Character attacker, Ray ray, int baseDamage)
-		{
-			float? shortestIntersectingBuildingDistance = GetShortestIntersectingBuildingDistance(ray);
 		}
 
 		public bool IntersectBuildings(UprightCylinderNode cylinder)
@@ -196,7 +191,7 @@ namespace Archetype.Objects
 
 			Vector3 delta = colliderCenter - frustum.Position;
 			Ray ray = new Ray(frustum.Position, delta);
-			float? buildingDistance = GetShortestIntersectingBuildingDistance(ray);
+			float? buildingDistance = GetNearestIntersectingBuilding(ray);
 			if (!buildingDistance.HasValue || delta.SquaredLength < buildingDistance.Value.Squared())
 				return true;
 
@@ -221,7 +216,7 @@ namespace Archetype.Objects
 				float? intersection = enemy.GetRayCollisionResult(ray, out collider);
 				if (intersection == null)
 					continue;
-				if (characterIntersection == null || characterIntersection.Value < intersection.Value)
+				if (characterIntersection == null || intersection.Value < characterIntersection.Value)
 				{
 					characterIntersection = intersection;
 					closest = enemy;

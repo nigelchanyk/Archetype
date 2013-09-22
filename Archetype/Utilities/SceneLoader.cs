@@ -609,9 +609,8 @@ namespace Archetype.Utilities
 			if (pElement != null)
 				position = parseVector3(pElement);
 
-			pElement = (XmlElement)XMLNode.SelectSingleNode("rotation");
-			if (pElement != null)
-				orientation = parseRotation(pElement);
+			// Note that rotation is not possible in AABB.
+			// Rotate its parent instead.
 
 			pElement = (XmlElement)XMLNode.SelectSingleNode("scale");
 			if (pElement != null)
@@ -620,7 +619,7 @@ namespace Archetype.Utilities
 			string type = name.Substring(name.IndexOf('.') + 1);
 			// Expect standard box size to be 2 x 2 x 2
 			if (type == "upright.box")
-				World.AddBuildingCollisionMesh(new UprightBoxNode(pParent, -scale, scale));
+				World.AddBuildingCollisionMesh(new UprightBoxNode(pParent, -scale + position, scale + position));
 			else
 				throw new ArgumentException("Unknown collision type: " + name);
 		}
