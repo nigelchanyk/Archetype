@@ -34,7 +34,7 @@ namespace Archetype.Controllers.BotControllers
 		{
 			float targetYaw = MathHelper.GetYaw(Character.Position, target);
 			Character.Yaw = MathHelper.LerpAngle(Character.Yaw, targetYaw, evt.ElapsedTime * GameConstants.BotAngleLerpAmount);
-			float targetPitch = MathHelper.GetPitch(Character.EyePitch.ToPitchVector3(), target);
+			float targetPitch = MathHelper.GetPitch(Character.EyeNode.GetWorldPosition(), target);
 			Character.EyePitch = MathHelper.LerpAngle(Character.EyePitch, targetPitch, evt.ElapsedTime * GameConstants.BotAngleLerpAmount);
 		}
 

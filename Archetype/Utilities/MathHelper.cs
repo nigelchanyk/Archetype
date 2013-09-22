@@ -30,7 +30,7 @@ namespace Archetype.Utilities
 		// Special Constants
 		public static readonly float SqrtTwo = (float)System.Math.Sqrt(2);
 
-		public static float AngleDifference(float angle1, float angle2)
+		public static float AngleDifference(this float angle1, float angle2)
 		{
 			angle1 = angle1.WrapAngle();
 			angle2 = angle2.WrapAngle();
@@ -72,6 +72,20 @@ namespace Archetype.Utilities
 			return new Vector3(original.x.Clamp(min.x, max.x), original.y.Clamp(min.y, max.y), original.z.Clamp(min.z, max.z));
 		}
 
+		public static float ClampAngle(this float original, float min, float max)
+		{
+			original = original.WrapAngle();
+			min = min.WrapAngle();
+			max = max.WrapAngle();
+			float mid = (min + max) / 2;
+			float diff = min.Difference(max);
+
+			if (original.AngleDifference(mid) > diff)
+				return original.AngleDifference(min) < original.AngleDifference(max) ? min : max;
+
+			return original;
+		}
+
 		public static Vector3 ConvertLocalToWorldDelta(this Node node, Vector3 delta)
 		{
 			Vector3 origin = node.ConvertLocalToWorldPosition(Vector3.ZERO);
@@ -106,7 +120,7 @@ namespace Archetype.Utilities
 			return orientation;
 		}
 
-		public static float Difference(float a, float b)
+		public static float Difference(this float a, float b)
 		{
 			return System.Math.Abs(a - b);
 		}

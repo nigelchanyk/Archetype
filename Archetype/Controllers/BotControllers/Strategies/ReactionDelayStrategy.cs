@@ -26,6 +26,9 @@ namespace Archetype.Controllers.BotControllers.Strategies
 			if (!IsEnemyVisible())
 				return new RoamStrategy(BotController);
 
+			if (ElapsedDelay >= BotController.ReactionDelay)
+				return new AttackStrategy(BotController, Enemy, VisibleCollider);
+
 			return this;
 		}
 

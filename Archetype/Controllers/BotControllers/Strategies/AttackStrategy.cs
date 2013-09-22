@@ -31,6 +31,7 @@ namespace Archetype.Controllers.BotControllers.Strategies
 		{
 			BotController.Character.Stop();
 			BotController.AimTowards(evt, VisibleCollider.PrimitiveNode.GetCenter(true));
+			BotController.Character.RegularAttack();
 		}
 	}
 }

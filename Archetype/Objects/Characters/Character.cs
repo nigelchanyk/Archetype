@@ -64,7 +64,7 @@ namespace Archetype.Objects.Characters
 			get { return _eyePitch; }
 			set
 			{
-				_eyePitch = value.Clamp(-MathHelper.PiOver3, MathHelper.PiOver3);
+				_eyePitch = value.ClampAngle(-MathHelper.PiOver3, MathHelper.PiOver3);
 				EyeNode.Orientation = MathHelper.CreateQuaternionFromYawPitchRoll(0, _eyePitch, 0);
 			}
 		}
