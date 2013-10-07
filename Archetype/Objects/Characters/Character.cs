@@ -261,21 +261,29 @@ namespace Archetype.Objects.Characters
 
 		public void Jump()
 		{
+			if (!Alive)
+				return;
 			JumpHandler.Jump();
 		}
 
 		public void LookAt(float x, float y, float z)
 		{
+			if (!Alive)
+				return;
 			LookAt(new Vector3(x, y, z));
 		}
 
 		public void LookAt(Vector3 position)
 		{
+			if (!Alive)
+				return;
 			CharacterNode.LookAt(position, Node.TransformSpace.TS_PARENT);
 		}
 
 		public void ReceiveDamage(float damage)
 		{
+			if (!Alive)
+				return;
 			Health -= (int)damage;
 			if (!Alive)
 			{
@@ -286,6 +294,8 @@ namespace Archetype.Objects.Characters
 
 		public void RegularAttack()
 		{
+			if (!Alive)
+				return;
 			if (ActiveWeaponHandler != null)
 				ActiveWeaponHandler.RegularAttack();
 		}
@@ -301,6 +311,8 @@ namespace Archetype.Objects.Characters
 
 		public void Walk(Vector3 direction)
 		{
+			if (!Alive)
+				return;
 			WalkHandler.Direction = direction;
 			AnimationManagerMapper[AnimationKind.LowerBody].CurrentAnimation = "Walk";
 		}
