@@ -5,11 +5,13 @@ using System.Text;
 
 using Mogre;
 
+using Archetype.Animation;
 using Archetype.Assets;
 using Archetype.BattleSystems;
 using Archetype.DataLoaders;
 using Archetype.Events;
 using Archetype.Handlers.ActionHandlers;
+using Archetype.Handlers.SpecialMoveHandlers;
 using Archetype.Handlers.WeaponHandlers;
 using Archetype.Objects.Particles;
 using Archetype.Objects.Primitives;
@@ -18,7 +20,6 @@ using Archetype.States;
 using Archetype.Utilities;
 
 using Math = System.Math;
-using Archetype.Animation;
 
 namespace Archetype.Objects.Characters
 {
@@ -138,6 +139,7 @@ namespace Archetype.Objects.Characters
 		protected SphereNode BoundingSphere { get; private set; }
 		protected SceneNode CharacterNode { get; private set; }
 		protected UprightCylinderNode SimpleCollider { get; set; }
+		protected SpecialMoveHandler[] SpecialMoveHandlers { get; private set; }
 
 		protected abstract JumpHandler JumpHandler { get; set; }
 		protected abstract WalkHandler WalkHandler { get; set; }
@@ -191,11 +193,13 @@ namespace Archetype.Objects.Characters
 			Camera = World.CreateCamera(Vector3.ZERO, MathHelper.Forward);
 			EyeNode.AttachObject(Camera);
 			ViewFrustum = new FrustumNode(Camera);
+
+			SpecialMoveHandlers = new SpecialMoveHandler[3];
 		}
 
 		public void Attack(Vector3 eyeSpaceDirection, int baseDamage)
 		{
-			Ray ray = new Ray(EyeNode.GetWorldPosition(), EyeNode.ConvertLocalToWorldDelta(eyeSpaceDirection));
+			Ray ray = GetEyeRay(eyeSpaceDirection);
 			BodyCollider collider;
 			Character enemy = World.FindEnemy(this, ray, out collider);
 			if (enemy != null)
@@ -205,9 +209,24 @@ namespace Archetype.Objects.Characters
 			}
 		}
 
+		public Vector3 ConvertLocalToWorldPosition(Vector3 position)
+		{
+			return CharacterNode.ConvertLocalToWorldPosition(position);
+		}
+
 		public Vector3 ConvertWeaponToWorldPosition(Vector3 position)
 		{
 			return Model.ConvertWeaponToWorldPosition(position);
+		}
+
+		public Vector3 GetDirection()
+		{
+			return CharacterNode.ConvertLocalToWorldDelta(MathHelper.Forward);
+		}
+
+		public Ray GetEyeRay(Vector3 eyeSpaceDirection)
+		{
+			return new Ray(EyeNode.GetWorldPosition(), EyeNode.ConvertLocalToWorldDelta(eyeSpaceDirection));
 		}
 
 		public float? GetRayCollisionResult(Ray ray, out BodyCollider collider)
@@ -300,6 +319,14 @@ namespace Archetype.Objects.Characters
 				ActiveWeaponHandler.RegularAttack();
 		}
 
+		public void SpecialMove(int slot)
+		{
+			if (SpecialMoveHandlers[slot] == null)
+				return;
+
+			SpecialMoveHandlers[slot].Trigger();
+		}
+
 		public void Stop()
 		{
 			if (!WalkHandler.Walking)
@@ -335,6 +362,11 @@ namespace Archetype.Objects.Characters
 			MultiAttemptsTranslate(evt.ElapsedTime);
 			if (ActiveWeaponHandler != null)
 				ActiveWeaponHandler.Update(evt);
+			foreach (SpecialMoveHandler handler in SpecialMoveHandlers)
+			{
+				if (handler != null)
+					handler.Update(evt);
+			}
 
 			if (CharacterNode.Position.y < 0)
 				CharacterNode.Position = CharacterNode.Position.Mask(true, false, true);

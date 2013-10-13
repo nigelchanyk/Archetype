@@ -1,3 +1,7 @@
 USP - Normal Gunshot
 By Stephen Saldanha
 Licensed under CC BY 3.0
+
+Plasma Beam Sound Effect
+By TheHadnot
+Licensed under CC0 1.0

@@ -18,6 +18,10 @@ namespace Archetype.Objects.Particles
 		{
 			get { return TimeToLive > 0; }
 		}
+		/// <summary>
+		/// If true, emitters will not stop until stop() is called.
+		/// </summary>
+		public bool Eternal { get; private set; }
 		public Vector3 Position
 		{
 			get
@@ -42,10 +46,11 @@ namespace Archetype.Objects.Particles
 		private float TimeToLive;
 		private Vector3 _position;
 
-		public ParticleEmitterCluster(ParticleSystem particleSystem, ParticleEmitter[] referenceEmitters, Vector3 position, uint particleQuotaPerEmitter)
+		public ParticleEmitterCluster(ParticleSystem particleSystem, ParticleEmitter[] referenceEmitters, Vector3 position, uint particleQuotaPerEmitter, bool eternal)
 		{
 			this.ParticleSystem = particleSystem;
 			this.ParticleQuotaPerEmitter = particleQuotaPerEmitter;
+			this.Eternal = eternal;
 
 			Emitters = new ParticleEmitter[referenceEmitters.Length];
 			for (int i = 0; i < referenceEmitters.Length; ++i)
@@ -59,9 +64,21 @@ namespace Archetype.Objects.Particles
 			ParticleSystem.ParticleQuota += ParticleQuotaPerEmitter;
 		}
 
+		public void Stop()
+		{
+			TimeToLive = 0;
+			Dispose();
+		}
+
 		public void Update(UpdateEvent evt)
 		{
-			TimeToLive = Math.Max(0, TimeToLive - evt.ElapsedTime);
+			if (!Eternal)
+				TimeToLive = Math.Max(0, TimeToLive - evt.ElapsedTime);
+			Dispose();
+		}
+
+		private void Dispose()
+		{
 			if (!Alive && !Disposed)
 			{
 				// A very unfortunate O(n^2) approach because the person who wrote
@@ -72,7 +89,6 @@ namespace Archetype.Objects.Particles
 				ParticleSystem.ParticleQuota -= ParticleQuotaPerEmitter;
 				Disposed = true;
 			}
-
 		}
 	}
 }

@@ -44,9 +44,9 @@ namespace Archetype.Objects.Particles
 			SceneNode.AttachObject(ParticleSystem);
 		}
 
-		public ParticleEmitterCluster CreateParticleEmitterCluster(Vector3 position)
+		public ParticleEmitterCluster CreateParticleEmitterCluster(Vector3 position, bool eternal)
 		{
-			ParticleEmitterCluster cluster = new ParticleEmitterCluster(ParticleSystem, ReferenceEmitters, position, ParticleQuotaPerEmitter);
+			ParticleEmitterCluster cluster = new ParticleEmitterCluster(ParticleSystem, ReferenceEmitters, position, ParticleQuotaPerEmitter, eternal);
 			ClusterSet.Add(cluster);
 			return cluster;
 		}

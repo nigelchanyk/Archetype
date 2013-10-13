@@ -32,9 +32,9 @@ namespace Archetype.Objects.Particles
 				ParticleSystemMapper.Add(type, new UniqueParticleSystem(sceneManager, worldNode, type.ToString()));
 		}
 
-		public ParticleEmitterCluster CreateParticleEmitterCluster(ParticleSystemType type, Vector3 position)
+		public ParticleEmitterCluster CreateParticleEmitterCluster(ParticleSystemType type, Vector3 position, bool eternal)
 		{
-			return ParticleSystemMapper[type].CreateParticleEmitterCluster(position);
+			return ParticleSystemMapper[type].CreateParticleEmitterCluster(position, eternal);
 		}
 
 		public void Dispose()

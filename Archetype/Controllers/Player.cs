@@ -16,7 +16,6 @@ namespace Archetype.Controllers
 {
 	public class Player : CameraController
 	{
-
 		public Player(World world, CameraManager cameraManager, Point windowCenter, bool cameraEnabled)
 			: base(world, cameraManager, windowCenter, cameraEnabled)
 		{
@@ -32,6 +31,7 @@ namespace Archetype.Controllers
 			Walk(evt);
 			Jump(evt);
 			RegularAttack(evt);
+			SpecialMove(evt);
 		}
 
 		private void RegularAttack(UpdateEvent evt)
@@ -50,6 +50,16 @@ namespace Archetype.Controllers
 		{
 			Character.Yaw -= (evt.Mouse.MouseState.X.abs - WindowCenter.X) * Configurations.Instance.Sensitivity * evt.ElapsedTime;
 			Character.EyePitch -= (evt.Mouse.MouseState.Y.abs - WindowCenter.Y) * Configurations.Instance.Sensitivity * evt.ElapsedTime;
+		}
+
+		private void SpecialMove(UpdateEvent evt)
+		{
+			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_Z))
+				Character.SpecialMove(0);
+			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_X))
+				Character.SpecialMove(1);
+			if (evt.Keyboard.IsKeyDown(MOIS.KeyCode.KC_C))
+				Character.SpecialMove(2);
 		}
 
 		private void Walk(UpdateEvent evt)

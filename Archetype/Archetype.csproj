@@ -102,6 +102,8 @@
     <Compile Include="Handlers\ActionHandlers\ActionHandler.cs" />
     <Compile Include="Handlers\ActionHandlers\JumpHandler.cs" />
     <Compile Include="Handlers\ActionHandlers\WalkHandler.cs" />
+    <Compile Include="Handlers\SpecialMoveHandlers\PlasmaBeamHandler.cs" />
+    <Compile Include="Handlers\SpecialMoveHandlers\SpecialMoveHandler.cs" />
     <Compile Include="Handlers\WeaponHandlers\RangedWeaponHandler.cs" />
     <Compile Include="Handlers\WeaponHandlers\WeaponHandler.cs" />
     <Compile Include="Logic\MinHeap.cs" />
@@ -131,6 +133,8 @@
     <Compile Include="Objects\Primitives\SphereNode.cs" />
     <Compile Include="Objects\Primitives\UprightBoxNode.cs" />
     <Compile Include="Objects\Primitives\UprightCylinderNode.cs" />
+    <Compile Include="Objects\Projectiles\PlasmaBeam.cs" />
+    <Compile Include="Objects\Projectiles\Projectile.cs" />
     <Compile Include="Objects\Weapons\RangedWeapon.cs" />
     <Compile Include="Objects\Weapons\Weapon.cs" />
     <Compile Include="Objects\World.cs" />
@@ -194,6 +198,9 @@
     <None Include="Assets\Materials\Fireball.000.material">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Assets\Materials\Flare.000.material">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Assets\Materials\M4.material">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -234,6 +241,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Assets\Particles\Explosion.particle">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Particles\PlasmaBeam.particle">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Assets\Scenes\test_scene.scene">
@@ -291,6 +301,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Assets\Audio\SpecialMoves\PlasmaBeam.ogg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Data\CharacterConfigurations.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -320,6 +333,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Textures\Fireball.000.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Flare.000.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Textures\MuzzleFlash.png">

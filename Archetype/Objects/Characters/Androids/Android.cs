@@ -21,7 +21,7 @@ namespace Archetype.Objects.Characters.Androids
 		protected override void OnDeath()
 		{
 			Visible = false;
-			World.CreateParticleEmitterCluster(ParticleSystemType.Explosion, EyeNode.GetWorldPosition());
+			World.CreateParticleEmitterCluster(ParticleSystemType.Explosion, EyeNode.GetWorldPosition(), false);
 			World.SoundEngine.Play3D("Assets/Audio/Explosions/Android.ogg", Position);
 		}
 	}

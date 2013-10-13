@@ -15,6 +15,7 @@ using Archetype.Objects.Characters;
 using Archetype.Objects.Characters.Androids;
 using Archetype.Objects.Particles;
 using Archetype.Objects.Primitives;
+using Archetype.Objects.Projectiles;
 using Archetype.States;
 using Archetype.Utilities;
 using Archetype.Objects.Billboards;
@@ -49,6 +50,7 @@ namespace Archetype.Objects
 		private CompoundEffectManager CompoundEffectManager;
 		private List<Light> Lights = new List<Light>();
 		private UniqueParticleSystemManager ParticleSystemManager;
+		private List<Projectile> Projectiles = new List<Projectile>();
 		private SearchGraph SearchGraph;
 		private bool _paused = false;
 
@@ -79,6 +81,11 @@ namespace Archetype.Objects
 		public void AddBuildingCollisionMesh(UprightBoxNode box)
 		{
 			Buildings.Add(box);
+		}
+
+		public void AddProjectile(Projectile projectile)
+		{
+			Projectiles.Add(projectile);
 		}
 
 		public Camera CreateCamera(Vector3 position, Vector3 lookAt)
@@ -113,9 +120,9 @@ namespace Archetype.Objects
 			CompoundEffectManager.CreateMuzzleFlashEffect(character, weaponSpacePosition);
 		}
 
-		public ParticleEmitterCluster CreateParticleEmitterCluster(ParticleSystemType type, Vector3 position)
+		public ParticleEmitterCluster CreateParticleEmitterCluster(ParticleSystemType type, Vector3 position, bool eternal)
 		{
-			return ParticleSystemManager.CreateParticleEmitterCluster(type, position);
+			return ParticleSystemManager.CreateParticleEmitterCluster(type, position, eternal);
 		}
 
 		public void DestroyCharacter(Character character)
@@ -206,27 +213,42 @@ namespace Archetype.Objects
 
 		public Character FindEnemy(Character attacker, Ray ray, out BodyCollider collider)
 		{
+			float? intersection;
+			return FindEnemy(attacker, ray, out collider, out intersection);
+		}
+
+		public Character FindEnemy(Character attacker, Ray ray, out BodyCollider collider, out float? intersection)
+		{
 			collider = null;
 			if (BattleSystem == null)
+			{
+				intersection = Buildings.MinOrNull(x => x.GetIntersectingDistance(ray));
 				return null;
+			}
 			float? characterIntersection = null;
 			Character closest = null;
 			foreach (Character enemy in BattleSystem.GetEnemiesAlive(attacker))
 			{
-				float? intersection = enemy.GetRayCollisionResult(ray, out collider);
-				if (intersection == null)
+				float? tempIntersection = enemy.GetRayCollisionResult(ray, out collider);
+				if (tempIntersection == null)
 					continue;
-				if (characterIntersection == null || intersection.Value < characterIntersection.Value)
+				if (characterIntersection == null || tempIntersection.Value < characterIntersection.Value)
 				{
-					characterIntersection = intersection;
+					characterIntersection = tempIntersection;
 					closest = enemy;
 				}
 			}
+			intersection = characterIntersection;
 			if (characterIntersection == null)
 				return null;
+
+			// Determine if any buildings block the ray
 			float? buildingIntersection = Buildings.MinOrNull(x => x.GetIntersectingDistance(ray));
 			if (buildingIntersection != null && buildingIntersection.Value < characterIntersection.Value)
+			{
+				intersection = buildingIntersection;
 				return null;
+			}
 
 			return closest;
 		}
@@ -249,6 +271,13 @@ namespace Archetype.Objects
 		public void Update(UpdateEvent evt)
 		{
 			Characters.ForEach(character => character.Update(evt));
+			Projectiles.ForEach(projectile => projectile.Update(evt));
+			Projectiles.RemoveAll(projectile => 
+			{
+				if (!projectile.Alive)
+					projectile.Dispose();
+				return !projectile.Alive;
+			});
 			BillboardSystemManager.Update(evt);
 			ParticleSystemManager.Update(evt);
 			// Compound Effect Manager should be updated only after all managers completed their updates.
