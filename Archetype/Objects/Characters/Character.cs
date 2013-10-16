@@ -84,6 +84,7 @@ namespace Archetype.Objects.Characters
 			}
 		}
 		public int Health { get; set; }
+		public bool Movable { get { return MovementLock > 0; } }
 		public override Quaternion Orientation
 		{
 			get { return CharacterNode.Orientation; }
@@ -148,6 +149,7 @@ namespace Archetype.Objects.Characters
 
 		private Dictionary<AnimationKind, AnimationManager> AnimationManagerMapper = new Dictionary<AnimationKind, AnimationManager>();
 		private FirstPersonModel FirstPersonModel;
+		private int MovementLock = 1;
 		private ThirdPersonModel ThirdPersonModel;
 		private WeaponHandler _activeWeaponHandler; // Nullable
 		private float _eyePitch = 0;
@@ -285,6 +287,12 @@ namespace Archetype.Objects.Characters
 			JumpHandler.Jump();
 		}
 
+		public void LockMovement()
+		{
+			MovementLock--;
+			Stop();
+		}
+
 		public void LookAt(float x, float y, float z)
 		{
 			if (!Alive)
@@ -336,9 +344,17 @@ namespace Archetype.Objects.Characters
 			AnimationManagerMapper[AnimationKind.LowerBody].CurrentAnimation = "Idle";
 		}
 
+		public void UnlockMovement()
+		{
+			MovementLock++;
+
+			if (MovementLock > 1)
+				throw new InvalidOperationException("Unlock more than necessary.");
+		}
+
 		public void Walk(Vector3 direction)
 		{
-			if (!Alive)
+			if (!Alive || !Movable)
 				return;
 			WalkHandler.Direction = direction;
 			AnimationManagerMapper[AnimationKind.LowerBody].CurrentAnimation = "Walk";

@@ -23,6 +23,7 @@ namespace Archetype.Objects.Characters.Androids
 			WalkHandler = new WalkHandler(this, GameConstants.DefaultWalkingSpeed);
 			ActiveWeaponHandler = new RangedWeaponHandler(this, WeaponLoader.Get("USP"));
 			SpecialMoveHandlers[0] = new PlasmaBeamHandler(this);
+			SpecialMoveHandlers[1] = new TeleportHandler(this);
 		}
 	}
 }

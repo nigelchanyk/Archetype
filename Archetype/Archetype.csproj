@@ -104,6 +104,7 @@
     <Compile Include="Handlers\ActionHandlers\WalkHandler.cs" />
     <Compile Include="Handlers\SpecialMoveHandlers\PlasmaBeamHandler.cs" />
     <Compile Include="Handlers\SpecialMoveHandlers\SpecialMoveHandler.cs" />
+    <Compile Include="Handlers\SpecialMoveHandlers\TeleportHandler.cs" />
     <Compile Include="Handlers\WeaponHandlers\RangedWeaponHandler.cs" />
     <Compile Include="Handlers\WeaponHandlers\WeaponHandler.cs" />
     <Compile Include="Logic\MinHeap.cs" />
@@ -210,6 +211,9 @@
     <None Include="Assets\Materials\Material.material">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Assets\Materials\Special.001.material">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Assets\Materials\USP.material">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -244,6 +248,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Assets\Particles\PlasmaBeam.particle">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Particles\Teleport.particle">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Assets\Scenes\test_scene.scene">
@@ -339,6 +346,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Textures\MuzzleFlash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Special.001.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\UserInterface\Cursor.png">

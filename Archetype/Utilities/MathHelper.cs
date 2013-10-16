@@ -140,6 +140,12 @@ namespace Archetype.Utilities
 			return (target - position).ToYaw();
 		}
 
+		public static float? IntersectsPlane(this Ray ray, Plane plane)
+		{
+			Pair<bool, float> result = ray.Intersects(plane);
+			return result.first ? (float?)result.second : null;
+		}
+
 		public static bool IsApproximately(this Vector3 value, Vector3 compareTo, float squaredTolerance)
 		{
 			return value.SquaredDistance(compareTo) <= squaredTolerance;

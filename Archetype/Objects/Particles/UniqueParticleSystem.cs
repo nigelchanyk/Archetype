@@ -60,6 +60,9 @@ namespace Archetype.Objects.Particles
 
 		public void Update(UpdateEvent evt)
 		{
+			// There is a bug where when an emitter is removed, reference emitters are once again enabled
+			foreach (ParticleEmitter emitter in ReferenceEmitters)
+				emitter.Enabled = false;
 			foreach (ParticleEmitterCluster cluster in ClusterSet)
 				cluster.Update(evt);
 			ClusterSet.RemoveWhere(x => !x.Alive);

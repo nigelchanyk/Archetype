@@ -9,6 +9,7 @@ namespace Archetype.Objects.Particles
 	public enum ParticleSystemType
 	{
 		Explosion,
-		PlasmaBeam
+		PlasmaBeam,
+		Teleport
 	}
 }

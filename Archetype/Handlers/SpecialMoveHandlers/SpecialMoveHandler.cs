@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Archetype.Objects.Characters;
+
 using Archetype.Events;
+using Archetype.Objects.Characters;
 
 namespace Archetype.Handlers.SpecialMoveHandlers
 {
@@ -31,8 +32,10 @@ namespace Archetype.Handlers.SpecialMoveHandlers
 		public void Update(UpdateEvent evt)
 		{
 			RemainingTime = Math.Max(0, RemainingTime - evt.ElapsedTime);
+			OnUpdate(evt);
 		}
 
 		protected abstract void OnTrigger();
+		protected virtual void OnUpdate(UpdateEvent evt) {}
 	}
 }
