@@ -21,6 +21,8 @@ namespace Archetype.Controllers.BotControllers
 		public float AggressionFactor { get; private set; }
 		public float Inaccuracy { get; private set; }
 		public float ReactionDelay { get; private set; }
+		// Dictates how long to wait for disappeared enemy
+		public float WaitDelay { get; private set; }
 
 		protected Strategy Strategy { get; private set; }
 

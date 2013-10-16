@@ -309,14 +309,14 @@ namespace Archetype.Objects.Characters
 
 		public void ReceiveDamage(float damage)
 		{
-			if (!Alive)
-				return;
-			Health -= (int)damage;
-			if (!Alive)
-			{
-				Record.DeathCount++;
-				OnDeath();
-			}
+			//if (!Alive)
+			//    return;
+			//Health -= (int)damage;
+			//if (!Alive)
+			//{
+			//    Record.DeathCount++;
+			//    OnDeath();
+			//}
 		}
 
 		public void RegularAttack()
