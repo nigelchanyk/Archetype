@@ -329,6 +329,8 @@ namespace Archetype.Objects.Characters
 
 		public void SpecialMove(int slot)
 		{
+			if (!Alive)
+				return;
 			if (SpecialMoveHandlers[slot] == null)
 				return;
 
