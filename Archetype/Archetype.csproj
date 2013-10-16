@@ -90,6 +90,7 @@
     <Compile Include="Controllers\BotControllers\Strategies\ReactionDelayStrategy.cs" />
     <Compile Include="Controllers\BotControllers\Strategies\RoamStrategy.cs" />
     <Compile Include="Controllers\BotControllers\Strategies\Strategy.cs" />
+    <Compile Include="Controllers\BotControllers\Strategies\WaitStrategy.cs" />
     <Compile Include="Controllers\CameraController.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\Player.cs" />
