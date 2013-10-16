@@ -5,6 +5,7 @@ using System.Text;
 
 using Archetype.Events;
 using Archetype.Objects.Characters;
+using Mogre;
 
 namespace Archetype.Controllers.BotControllers.Strategies
 {
@@ -20,9 +21,14 @@ namespace Archetype.Controllers.BotControllers.Strategies
 			Strategy strategy = base.NextStrategy();
 			if (strategy != this)
 				return strategy;
-
+			if (!Enemy.Alive)
+			{
+				BodyCollider visibleCollider;
+				Enemy = BotController.GetVisibleEnemyBodyCollider(out visibleCollider);
+				return Enemy == null ? (Strategy)new RoamStrategy(BotController) : this;
+			}
 			if (!IsEnemyVisible())
-				return new RoamStrategy(BotController);
+				return new WaitStrategy(BotController, Enemy.Position);
 
 			return this;
 		}

@@ -5,6 +5,7 @@ using System.Text;
 using Archetype.Objects.Characters;
 using Mogre;
 using Archetype.Events;
+using Archetype.Utilities;
 
 namespace Archetype.Controllers.BotControllers.Strategies
 {
@@ -26,7 +27,7 @@ namespace Archetype.Controllers.BotControllers.Strategies
 		public override Strategy NextStrategy()
 		{
 			Strategy next = base.NextStrategy();
-			if (next != null)
+			if (next != this)
 				return next;
 
 			BodyCollider visibleCollider;
@@ -35,8 +36,10 @@ namespace Archetype.Controllers.BotControllers.Strategies
 				return new AttackStrategy(BotController, enemy, visibleCollider);
 			if (ElapsedTime < BotController.WaitDelay)
 				return this;
+			if (MathHelper.Randomizer.NextFloat() <= BotController.AggressionFactor)
+				return new PursueStrategy(BotController, LastSeen);
 
-			return this;
+			return new RoamStrategy(BotController);
 		}
 
 		public override void Update(UpdateEvent evt)

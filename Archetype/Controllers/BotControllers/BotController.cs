@@ -30,6 +30,9 @@ namespace Archetype.Controllers.BotControllers
 			: base(world, cameraManager, windowCenter, false)
 		{
 			this.Strategy = new EmptyStrategy(this);
+			// TODO: Remove this
+			AggressionFactor = 1;
+			WaitDelay = 3;
 		}
 
 		public void AimTowards(UpdateEvent evt, Vector3 target)
@@ -63,9 +66,11 @@ namespace Archetype.Controllers.BotControllers
 			return visibleColliders.OrderByDescending(x => x.DamageMultiplier).First();
 		}
 
-		public bool WalkTo(UpdateEvent evt, Vector3 target, float squaredDistanceThreshold)
+		public bool WalkTo(UpdateEvent evt, Vector3 target)
 		{
-			if (Character.Position.SquaredDistance(target) < squaredDistanceThreshold)
+			Console.WriteLine(target.SquaredDistance(Character.Position.Mask(true, false, true)) + " " + (Character.Velocity.Mask(true, false, true) * evt.ElapsedTime).SquaredLength);
+			if (target.SquaredDistance(Character.Position.Mask(true, false, true))
+				< (Character.Velocity.Mask(true, false, true) * evt.ElapsedTime).SquaredLength)
 				return true;
 
 			float targetYaw = MathHelper.GetYaw(Character.Position, target);
@@ -87,6 +92,7 @@ namespace Archetype.Controllers.BotControllers
 				return;
 
 			Strategy = Strategy.NextStrategy();
+			Console.WriteLine(Strategy.GetType().Name);
 			Strategy.Update(evt);
 		}
 	}

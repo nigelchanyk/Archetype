@@ -42,10 +42,6 @@ namespace Archetype.States
 			base.OnResume(evt);
 		}
 
-		protected override void OnUpdate(UpdateEvent evt)
-		{
-		}
-
 		protected override void OnUserInterfaceCreate()
 		{
 			base.OnUserInterfaceCreate();

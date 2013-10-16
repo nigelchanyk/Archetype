@@ -13,8 +13,6 @@ namespace Archetype.Controllers.BotControllers.Strategies
 {
 	public class RoamStrategy : Strategy
 	{
-		private static readonly float SquaredDistanceThreshold = 0.4f * 0.4f;
-
 		public Vector3 Destination { get; private set; }
 		public Vector3 PreviousDestination { get; private set; }
 
@@ -44,7 +42,7 @@ namespace Archetype.Controllers.BotControllers.Strategies
 
 		public override void Update(UpdateEvent evt)
 		{
-			bool approached = BotController.WalkTo(evt, Destination, SquaredDistanceThreshold);
+			bool approached = BotController.WalkTo(evt, Destination);
 			if (!approached)
 				return;
 
