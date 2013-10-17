@@ -11,13 +11,20 @@ namespace Archetype.Objects.Characters
 {
 	public class BodyCollisionTree
 	{
+		private List<MogreAnimation> Animations = new List<MogreAnimation>();
+		private List<AnimationState> AnimationStates = new List<AnimationState>();
 		private MirrorNode Root;
 		private SceneNode Parent;
 
-		public BodyCollisionTree(Entity bodyEntity)
+		public BodyCollisionTree(Entity bodyEntity, IEnumerable<string> animationNames)
 		{
 			Parent = bodyEntity.ParentSceneNode;
 			Root = new MirrorNode(Parent, bodyEntity.Skeleton.GetBoneIterator().First(x => x.Parent == null));
+			foreach (string name in animationNames.Where(x => bodyEntity.Skeleton.HasAnimation(x)))
+			{
+				Animations.Add(bodyEntity.Skeleton.GetAnimation(name));
+				AnimationStates.Add(bodyEntity.GetAnimationState(name));
+			}
 		}
 
 		private class MirrorNode
@@ -37,10 +44,10 @@ namespace Archetype.Objects.Characters
 					Children.Add(new MirrorNode(Node, bone));
 			}
 
-			public void ApplyAnimation(MogreAnimation animation, AnimationState animationState)
+			public void AddAnimation(MogreAnimation animation, AnimationState animationState)
 			{
-				Node.Position = ReferenceBone.InitialPosition;
-				Node.Orientation = ReferenceBone.InitialOrientation;
+				Children.ForEach(x => x.AddAnimation(animation, animationState));
+
 				if (!animation.HasNodeTrack(ReferenceBone.Handle))
 					return;
 
@@ -49,6 +56,13 @@ namespace Archetype.Objects.Characters
 				animation.GetNodeTrack(ReferenceBone.Handle).GetInterpolatedKeyFrame(index, keyFrame);
 				Node.Position += keyFrame.Translate * animationState.Weight;
 				Node.Orientation *= Quaternion.Slerp(animationState.Weight, Quaternion.IDENTITY, keyFrame.Rotation);
+			}
+
+			public void ResetAnimation()
+			{
+				Node.Position = ReferenceBone.InitialPosition;
+				Node.Orientation = ReferenceBone.InitialOrientation;
+				Children.ForEach(x => x.ResetAnimation());
 			}
 		}
 	}
