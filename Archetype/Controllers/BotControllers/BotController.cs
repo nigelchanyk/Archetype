@@ -69,6 +69,8 @@ namespace Archetype.Controllers.BotControllers
 		public bool WalkTo(UpdateEvent evt, Vector3 target)
 		{
 			Console.WriteLine(target.SquaredDistance(Character.Position.Mask(true, false, true)) + " " + (Character.Velocity.Mask(true, false, true) * evt.ElapsedTime).SquaredLength);
+			if (target.SquaredDistance(Character.Position) < 0.0009f)
+				return true;
 			if (target.SquaredDistance(Character.Position.Mask(true, false, true))
 				< (Character.Velocity.Mask(true, false, true) * evt.ElapsedTime).SquaredLength)
 				return true;
