@@ -25,23 +25,21 @@ namespace Archetype.UserInterface.Game
 			TextArea.MetricsMode = GuiMetricsMode.GMM_PIXELS;
 			TextArea.CharHeight = 36;
 			TextArea.FontName = "BlueHighway";
-			TextArea.Colour = ColourValue.White;
+			TextArea.Colour = ColourValue.Black;
 
+			Panel.MetricsMode = GuiMetricsMode.GMM_PIXELS;
 			Panel.Top = Resolution.Height / 6;
 			Panel.Left = 0;
 			Panel.Width = Resolution.Width;
 			Panel.Height = 50;
 
 			TextArea.Top = 0;
-			TextArea.Left = 0;
+			TextArea.Left = Resolution.Width / 2;
 			TextArea.Width = Resolution.Width;
 			TextArea.Height = 50;
 			TextArea.SetAlignment(TextAreaOverlayElement.Alignment.Center);
 
 			Panel.AddChild(TextArea);
-
-			Panel.SetEnabled(false);
-			TextArea.SetEnabled(false);
 		}
 
 		public override void AddToOverlay(Overlay overlay)
@@ -62,28 +60,30 @@ namespace Archetype.UserInterface.Game
 
 		public void DisplayText(string text, float elapsedTime, Action callback)
 		{
+			if (text == "")
+				return;
+
 			// Previous text replaced
 			if (this.Callback != null)
 				this.Callback();
 
 			RemainingTime = elapsedTime;
 			TextArea.Caption = text;
-			TextArea.Colour = ColourValue.White;
+			TextArea.Colour = ColourValue.Black;
 			TextArea.SetEnabled(true);
 			Panel.SetEnabled(true);
 			this.Callback = callback;
 		}
 
-		public void Update(UpdateEvent evt)
+		protected override void OnUpdate(UpdateEvent evt)
 		{
-			if (!TextArea.IsEnabled)
+			if (TextArea.Caption == "")
 				return;
 
 			RemainingTime -= evt.ElapsedTime;
 			if (RemainingTime <= 0)
 			{
-				TextArea.SetEnabled(false);
-				Panel.SetEnabled(false);
+				TextArea.Caption = "";
 				Callback();
 				Callback = null;
 				return;

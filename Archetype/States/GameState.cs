@@ -76,7 +76,6 @@ namespace Archetype.States
 			Player.Update(evt);
 			BotManager.Update(evt);
 			Application.CenterCursor();
-			Notification.Update(evt);
 		}
 
 		private void OnBattleEnded(object sender, EventArgs e)
