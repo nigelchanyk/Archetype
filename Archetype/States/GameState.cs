@@ -11,6 +11,7 @@ using Archetype.Controllers;
 using Archetype.Events;
 using Archetype.UserInterface.Crosshairs;
 using Archetype.Controllers.BotControllers;
+using Archetype.UserInterface.Game;
 
 namespace Archetype.States
 {
@@ -19,6 +20,7 @@ namespace Archetype.States
 		private BattleSystem BattleSystem;
 		private BotManager BotManager;
 		private Crosshair Crosshair;
+		private Notification Notification;
 		private Player Player;
 
 		public GameState(Application application, BattleSystem battleSystem, string playerName)
@@ -26,6 +28,7 @@ namespace Archetype.States
 		{
 			this.BattleSystem = battleSystem;
 			BattleSystem.World = World;
+			BattleSystem.BattleEnded += OnBattleEnded;
 			World.BattleSystem = BattleSystem;
 			BattleSystem.Start();
 
@@ -39,12 +42,16 @@ namespace Archetype.States
 				Character = Player.Character
 			};
 			UserInterface.Add(Crosshair);
+			Notification = new Notification(Application.Resolution);
+			UserInterface.Add(Notification);
 			CursorVisible = false;
 		}
 
 		protected override void OnDispose()
 		{
 			base.OnDispose();
+			Crosshair.Dispose();
+			Notification.Dispose();
 		}
 
 		protected override void OnKeyPress(MOIS.KeyEvent evt)
@@ -69,6 +76,12 @@ namespace Archetype.States
 			Player.Update(evt);
 			BotManager.Update(evt);
 			Application.CenterCursor();
+			Notification.Update(evt);
+		}
+
+		private void OnBattleEnded(object sender, EventArgs e)
+		{
+			Notification.DisplayText(BattleSystem.Message, 3, BattleSystem.Start);
 		}
 	}
 }

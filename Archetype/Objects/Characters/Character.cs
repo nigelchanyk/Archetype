@@ -179,7 +179,7 @@ namespace Archetype.Objects.Characters
 
 			BoundingSphere = new SphereNode(CharacterNode, new Vector3(0, 1, 0), 2);
 			SimpleCollider = new UprightCylinderNode(CharacterNode, Vector3.ZERO, 1.7f, 0.7f);
-			Health = 100;
+			ResetHealth();
 			AnimationManagerMapper.Add(
 				AnimationKind.LowerBody,
 				new AnimationManager(
@@ -309,14 +309,19 @@ namespace Archetype.Objects.Characters
 
 		public void ReceiveDamage(float damage)
 		{
-			//if (!Alive)
-			//    return;
-			//Health -= (int)damage;
-			//if (!Alive)
-			//{
-			//    Record.DeathCount++;
-			//    OnDeath();
-			//}
+			if (!Alive)
+				return;
+			Health -= (int)damage;
+			if (!Alive)
+			{
+				Record.NotifyDead();
+				OnDeath();
+			}
+		}
+
+		public virtual void ResetHealth()
+		{
+			Health = 100;
 		}
 
 		public void RegularAttack()

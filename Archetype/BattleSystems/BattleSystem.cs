@@ -6,6 +6,7 @@ using System.Text;
 using Archetype.Objects;
 using Archetype.Objects.Characters;
 using Archetype.Utilities;
+using Archetype.Events;
 
 namespace Archetype.BattleSystems
 {
@@ -16,6 +17,9 @@ namespace Archetype.BattleSystems
 			TeamBattle
 		}
 
+		public event EventHandler BattleEnded;
+
+		public string Message { get; private set; }
 		public World World { get; set; }
 
 		protected Dictionary<string, BattlerRecord> BattlerNameMapper { get; private set; }
@@ -38,5 +42,14 @@ namespace Archetype.BattleSystems
 
 		public abstract IEnumerable<Character> GetEnemiesAlive(Character character);
 		public abstract void Start();
+
+		protected void NotifyBattleEnded(string message)
+		{
+			this.Message = message;
+			if (BattleEnded != null)
+				BattleEnded(this, new EventArgs());
+		}
+
+		protected abstract void OnBattlerDead(object sender, EventArgs e);
 	}
 }

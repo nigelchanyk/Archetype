@@ -155,6 +155,7 @@
     <Compile Include="UserInterface\Crosshairs\RegularCrosshairStyler.cs" />
     <Compile Include="UserInterface\CursorOverlay.cs" />
     <Compile Include="UserInterface\Dimension.cs" />
+    <Compile Include="UserInterface\Game\Notification.cs" />
     <Compile Include="UserInterface\Point.cs" />
     <Compile Include="UserInterface\Style.cs" />
     <Compile Include="UserInterface\UserInterfaceComponent.cs" />
