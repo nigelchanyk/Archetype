@@ -37,6 +37,8 @@ namespace Archetype.Objects.Characters
 			"Walk"
 		};
 
+		public static readonly IEnumerable<string> AllUpperBodyAnimations = WeaponLoader.GetWeaponNames().Select(x => "Wield_" + x);
+
 		private static readonly Vector3 AirborneThreshold = new Vector3(0, 0.01f, 0);
 
 		public WeaponHandler ActiveWeaponHandler
@@ -148,6 +150,7 @@ namespace Archetype.Objects.Characters
 		private CharacterModel Model { get { return FirstPerson ? (CharacterModel)FirstPersonModel : ThirdPersonModel; } }
 
 		private Dictionary<AnimationKind, AnimationManager> AnimationManagerMapper = new Dictionary<AnimationKind, AnimationManager>();
+		private BodyCollisionTree BodyCollisionTree;
 		private FirstPersonModel FirstPersonModel;
 		private int MovementLock = 1;
 		private ThirdPersonModel ThirdPersonModel;
@@ -171,7 +174,8 @@ namespace Archetype.Objects.Characters
 			FirstPersonModel.Visible = false;
 			ThirdPersonModel = new ThirdPersonModel(this, CharacterNode, Configuration.EntityNames);
 
-			BodyColliders = ColliderLoader.ParseColliders(colliderName, ThirdPersonModel.BodyEntities[0], "Alpha_").ToArray();
+			BodyCollisionTree = new BodyCollisionTree(ThirdPersonModel.BodyEntities[0], AllLowerBodyAnimations.Concat(AllUpperBodyAnimations));
+			BodyColliders = ColliderLoader.ParseColliders(colliderName, BodyCollisionTree, "Alpha_").ToArray();
 
 			BoundingSphere = new SphereNode(CharacterNode, new Vector3(0, 1, 0), 2);
 			SimpleCollider = new UprightCylinderNode(CharacterNode, Vector3.ZERO, 1.7f, 0.7f);
@@ -187,7 +191,7 @@ namespace Archetype.Objects.Characters
 			AnimationManagerMapper.Add(
 				AnimationKind.UpperBody,
 				new AnimationManager(
-					WeaponLoader.GetWeaponNames().Select(x => "Wield_" + x),
+					AllUpperBodyAnimations,
 					ThirdPersonModel.BodyEntities,
 					"Wield_USP"
 				)
@@ -241,10 +245,6 @@ namespace Archetype.Objects.Characters
 
 			// Precise test
 			float? best = null;
-			// Bones consider the scene node itself as world space.
-			// Therefore, the given ray must first be converted to the
-			// bone's world space.
-			ray = ray.TransformRay(CharacterNode);
 			foreach (BodyCollider bodyCollider in BodyColliders)
 			{
 				result = bodyCollider.PrimitiveNode.GetIntersectingDistance(ray);
@@ -392,6 +392,7 @@ namespace Archetype.Objects.Characters
 
 			foreach (AnimationManager manager in AnimationManagerMapper.Values)
 				manager.Update(evt);
+			BodyCollisionTree.Update(evt);
 
 			// Performed after animation update so that position of the weapon
 			// matches the animation.

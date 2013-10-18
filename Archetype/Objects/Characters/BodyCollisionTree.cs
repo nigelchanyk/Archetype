@@ -6,6 +6,7 @@ using System.Text;
 using Mogre;
 
 using MogreAnimation = Mogre.Animation;
+using Archetype.Events;
 
 namespace Archetype.Objects.Characters
 {
@@ -13,6 +14,7 @@ namespace Archetype.Objects.Characters
 	{
 		private List<MogreAnimation> Animations = new List<MogreAnimation>();
 		private List<AnimationState> AnimationStates = new List<AnimationState>();
+		private Dictionary<string, MirrorNode> MirrorMapper = new Dictionary<string, MirrorNode>();
 		private MirrorNode Root;
 		private SceneNode Parent;
 
@@ -24,6 +26,25 @@ namespace Archetype.Objects.Characters
 			{
 				Animations.Add(bodyEntity.Skeleton.GetAnimation(name));
 				AnimationStates.Add(bodyEntity.GetAnimationState(name));
+			}
+
+			foreach (MirrorNode node in Root.GetEnumerable())
+				MirrorMapper.Add(node.Name, node);
+		}
+
+		public Node GetNode(string boneName)
+		{
+			return MirrorMapper[boneName].Node;
+		}
+
+		public void Update(UpdateEvent evt)
+		{
+			Root.ResetAnimation();
+			for (int i = 0; i < Animations.Count; ++i)
+			{
+				if (!AnimationStates[i].Enabled)
+					continue;
+				Root.AddAnimation(Animations[i], AnimationStates[i]);
 			}
 		}
 
@@ -56,6 +77,16 @@ namespace Archetype.Objects.Characters
 				animation.GetNodeTrack(ReferenceBone.Handle).GetInterpolatedKeyFrame(index, keyFrame);
 				Node.Position += keyFrame.Translate * animationState.Weight;
 				Node.Orientation *= Quaternion.Slerp(animationState.Weight, Quaternion.IDENTITY, keyFrame.Rotation);
+			}
+
+			public IEnumerable<MirrorNode> GetEnumerable()
+			{
+				yield return this;
+				foreach (IEnumerable<MirrorNode> childEnumerable in Children.Select(x => x.GetEnumerable()))
+				{
+					foreach (MirrorNode child in childEnumerable)
+						yield return child;
+				}
 			}
 
 			public void ResetAnimation()
