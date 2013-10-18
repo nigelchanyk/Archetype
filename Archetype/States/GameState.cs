@@ -80,7 +80,13 @@ namespace Archetype.States
 
 		private void OnBattleEnded(object sender, EventArgs e)
 		{
-			Notification.DisplayText(BattleSystem.Message, 3, BattleSystem.Start);
+			Notification.DisplayText(BattleSystem.Message, 3, Reset);
+		}
+
+		private void Reset()
+		{
+			BotManager.Reset();
+			BattleSystem.Start();
 		}
 	}
 }

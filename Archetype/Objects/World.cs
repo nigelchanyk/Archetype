@@ -268,6 +268,12 @@ namespace Archetype.Objects
 			return SearchGraph.GetClosestVertex(source);
 		}
 
+		public void Reset()
+		{
+			Projectiles.ForEach(x => x.Dispose());
+			Projectiles.Clear();
+		}
+
 		public void Update(UpdateEvent evt)
 		{
 			Characters.ForEach(character => character.Update(evt));

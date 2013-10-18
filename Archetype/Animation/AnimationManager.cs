@@ -23,6 +23,7 @@ namespace Archetype.Animation
 				_currentAnimation = value;
 			}
 		}
+		public string DefaultAnimation { get; private set; }
 
 		private Dictionary<string, AnimationState[]> AnimationMapper = new Dictionary<string, AnimationState[]>();
 		private Entity[] Entities;
@@ -33,6 +34,7 @@ namespace Archetype.Animation
 			this.Entities = entities;
 			BuildAnimationMapper(animationNames);
 			CurrentAnimation = defaultAnimation;
+			this.DefaultAnimation = defaultAnimation;
 		}
 
 		public bool HasAnimation(string animation)

@@ -58,6 +58,8 @@ namespace Archetype.BattleSystems
 
 		public override void Start()
 		{
+			World.Reset();
+
 			foreach (Team team in TeamRecordMapper.Keys)
 			{
 				List<BattlerRecord> teamRecord = TeamRecordMapper[team];
@@ -74,7 +76,7 @@ namespace Archetype.BattleSystems
 						itr.TeamRecord.Character.Record = itr.TeamRecord;
 					}
 					itr.TeamRecord.Character.Position = itr.SpawnPoint.ToVector3();
-					itr.TeamRecord.Character.ResetHealth();
+					itr.TeamRecord.Character.Reset();
 				}
 			}
 		}

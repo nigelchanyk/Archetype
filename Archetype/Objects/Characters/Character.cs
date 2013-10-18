@@ -179,7 +179,6 @@ namespace Archetype.Objects.Characters
 
 			BoundingSphere = new SphereNode(CharacterNode, new Vector3(0, 1, 0), 2);
 			SimpleCollider = new UprightCylinderNode(CharacterNode, Vector3.ZERO, 1.7f, 0.7f);
-			ResetHealth();
 			AnimationManagerMapper.Add(
 				AnimationKind.LowerBody,
 				new AnimationManager(
@@ -201,6 +200,7 @@ namespace Archetype.Objects.Characters
 			ViewFrustum = new FrustumNode(Camera);
 
 			SpecialMoveHandlers = new SpecialMoveHandler[3];
+			Reset();
 		}
 
 		public void Attack(Vector3 eyeSpaceDirection, int baseDamage)
@@ -315,13 +315,18 @@ namespace Archetype.Objects.Characters
 			if (!Alive)
 			{
 				Record.NotifyDead();
+				Visible = false;
 				OnDeath();
 			}
 		}
 
-		public virtual void ResetHealth()
+		public void Reset()
 		{
+			Visible = true;
 			Health = 100;
+			foreach (AnimationManager manager in AnimationManagerMapper.Values)
+				manager.CurrentAnimation = manager.DefaultAnimation;
+			OnReset();
 		}
 
 		public void RegularAttack()
@@ -405,6 +410,7 @@ namespace Archetype.Objects.Characters
 		}
 
 		protected virtual void OnDeath() {}
+		protected virtual void OnReset() {}
 
 		private bool IsAirborne()
 		{

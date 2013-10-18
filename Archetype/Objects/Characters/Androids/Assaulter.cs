@@ -19,6 +19,12 @@ namespace Archetype.Objects.Characters.Androids
 		public Assaulter(World world)
 			: base(world)
 		{
+		}
+
+		protected override void OnReset()
+		{
+			base.OnReset();
+
 			JumpHandler = new JumpHandler(this, 4, GameConstants.DefaultGravityAcceleration);
 			WalkHandler = new WalkHandler(this, GameConstants.DefaultWalkingSpeed);
 			ActiveWeaponHandler = new RangedWeaponHandler(this, WeaponLoader.Get("USP"));
