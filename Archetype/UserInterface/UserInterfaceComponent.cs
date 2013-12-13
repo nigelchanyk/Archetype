@@ -30,6 +30,11 @@ namespace Archetype.UserInterface
 				Clicked(this, new EventArgs());
 		}
 
+		public virtual IEnumerable<UserInterfaceComponent> GetAllComponents()
+		{
+			yield return this;
+		}
+
 		public void Update(UpdateEvent evt)
 		{
 			OnUpdate(evt);

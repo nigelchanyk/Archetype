@@ -25,7 +25,7 @@ namespace Archetype.UserInterface
 			TextAreaStyle.Apply(TextArea);
 
 			TextArea.Caption = text;
-			TextArea.SetAlignment(TextAreaOverlayElement.Alignment.Center);
+			TextArea.SetAlignment(TextAreaOverlayElement.Alignment.Left);
 		}
 
 		public override void AddToOverlay(Overlay overlay)

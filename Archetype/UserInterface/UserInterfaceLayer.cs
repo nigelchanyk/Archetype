@@ -46,7 +46,7 @@ namespace Archetype.UserInterface
 		public void Add(UserInterfaceComponent component)
 		{
 			component.AddToOverlay(Overlay);
-			Components.Add(component);
+			Components.AddRange(component.GetAllComponents());
 		}
 
 		public void Dispose()
